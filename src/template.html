@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FAF6F0" />
+  <title>Asesoria coche EV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="src/css/styles.css" />
+</head>
+<body>
+  <a href="#hero" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- Cabecera Superior Estática (No fija al hacer scroll) -->
+  <header class="site-header no-print">
+    <div class="header-inner">
+      <a href="#hero" class="brand-block">
+        <div class="brand-mark">EV</div>
+        <div>
+          <div class="brand-title">Asesoria coche EV</div>
+          <span class="brand-sub">Termodinámica · Electroquímica LFP/NMC · Fiscalidad IRPF y Plan Cambia 360</span>
+        </div>
+      </a>
+      <div class="header-meta">
+        <span class="tag lfp tabular">Perfil: 5.000 km/año · Sustitución Opel Astra G (2000)</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <!-- Índice Lateral Vertical Sticky (Columna Izquierda) -->
+    <aside class="side-index no-print" aria-label="Índice de secciones">
+      <div class="side-index-card">
+        <div class="side-index-title">ÍNDICE DEL DICTAMEN</div>
+        <nav class="side-nav-list" aria-label="Navegación por módulos del informe">
+          <a href="#hero" class="side-nav-link is-active" data-section="hero">
+            <span class="side-nav-step">0</span>
+            <span>Resumen Ejecutivo</span>
+          </a>
+          <a href="#mod-termodinamica" class="side-nav-link" data-section="mod-termodinamica">
+            <span class="side-nav-step">1</span>
+            <span>Termodinámica BEV/PHEV</span>
+          </a>
+          <a href="#mod-quimica" class="side-nav-link" data-section="mod-quimica">
+            <span class="side-nav-step">2</span>
+            <span>Química LFP vs NMC</span>
+          </a>
+          <a href="#mod-catalogo" class="side-nav-link" data-section="mod-catalogo">
+            <span class="side-nav-step">3</span>
+            <span>Póker y Cara a Cara</span>
+          </a>
+          <a href="#mod-dimensiones" class="side-nav-link" data-section="mod-dimensiones">
+            <span class="side-nav-step">4</span>
+            <span>Tamaño vs Opel Astra</span>
+          </a>
+          <a href="#mod-patrimonio" class="side-nav-link" data-section="mod-patrimonio">
+            <span class="side-nav-step">5</span>
+            <span>Patrimonio e IRPF</span>
+          </a>
+          <a href="#mod-logistica" class="side-nav-link" data-section="mod-logistica">
+            <span class="side-nav-step">6</span>
+            <span>Viaje 300 km y LPH</span>
+          </a>
+        </nav>
+        <a href="#mod-patrimonio" class="btn-apple primary side-index-cta">Ir al Simulador Patrimonial →</a>
+      </div>
+    </aside>
+
+    <!-- Columna Principal de Contenido -->
+    <main class="main-content">
+      <!-- HERO EJECUTIVO -->
+      <section id="hero" class="hero-section no-print">
+        <div class="wrap">
+          <div class="hero-grid">
+            <div>
+              <span class="eyebrow">Dictamen Personalizado · Análisis Técnico y Financiero</span>
+              <h1 class="hero-title">De un Opel Astra (2000) a la Movilidad Eléctrica: Análisis Termodinámico, Electroquímico y Patrimonial</h1>
+              <p class="section-lead">
+                Estudio de ingeniería y finanzas diseñado para un perfil de <strong>5.000 km anuales</strong> en Madrid
+                (recorridos urbanos cortos + <strong>1 viaje interurbano anual de 300 km</strong>), con achatarramiento de un
+                <strong>Opel Astra G (año 2000, sin distintivo ambiental DGT)</strong> y techo presupuestario de <strong>35.000 €</strong>.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.4rem;">
+                <a href="#mod-catalogo" class="btn-apple primary">Explorar Póker de Candidatos</a>
+                <a href="#mod-quimica" class="btn-apple">Laboratorio LFP vs NMC</a>
+                <a href="#mod-dimensiones" class="btn-apple">Comparar Tamaño vs Opel Astra</a>
+              </div>
+            </div>
+
+            <div class="hero-thesis-box">
+              <div class="eyebrow amber" style="margin-bottom: 0.6rem;">Síntesis del Dictamen Catedrático</div>
+              <h3 style="margin-bottom: 0.6rem;">Tres conclusiones físicas y fiscales irrefutables</h3>
+              <ol style="margin: 0; padding-left: 1.2rem; color: var(--ink-secondary); font-size: 0.91rem; display: grid; gap: 0.55rem;">
+                <li>
+                  <strong>Descarte termodinámico del PHEV:</strong> A 5.000 km/año en trayectos cortos, el aceite del motor térmico sufre condensación acuosa y dilución ácida sin superar los 90 °C de evaporación.
+                </li>
+                <li>
+                  <strong>Superioridad cinética del cátodo LFP (LiFePO<sub>4</sub>):</strong> Su enlace covalente P–O en estructura olivino minimiza el envejecimiento por calendario (<i>k</i> ∝ <i>e</i><sup>−E<sub>a</sub>/RT</sup>) cuando el vehículo pasa el 96% del tiempo estacionado en garaje.
+                </li>
+                <li>
+                  <strong>El "Mordisco Fiscal" en el IRPF:</strong> Los 5.500 € del Plan Cambia 360 tributan como ganancia patrimonial al tipo marginal (37%), reduciendo la ayuda neta y haciendo muy competitivo el mercado de ocasión reciente (Tesla Model 3 RWD / MG4).
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="grid-4">
+            <div class="kpi-card">
+              <div class="kpi-label">Uso Anual Modelizado</div>
+              <div class="kpi-value tabular">5.000 km/año</div>
+              <div class="kpi-sub">~4.700 km Madrid urbano + 1 viaje de 300 km</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Vehículo saliente (Achatarramiento)</div>
+              <div class="kpi-value amber tabular">+5.500 € Brutos</div>
+              <div class="kpi-sub">Opel Astra (2000) Categoría A → Plan Cambia 360</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Techo Presupuestario</div>
+              <div class="kpi-value tabular">&lt; 35.000 €</div>
+              <div class="kpi-sub">Objetivo neto real: 13.500 € – 25.500 € tras incentivos</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Coste Energético en Garaje</div>
+              <div class="kpi-value sage tabular">~51 € / año</div>
+              <div class="kpi-sub">Tarifa valle EV (0,068 €/kWh · ~750 kWh anuales)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 1: TERMODINÁMICA Y MECÁNICA (BEV vs PHEV) -->
+      <section id="mod-termodinamica" class="section-block no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 1 · Termodinámica Aplicada y Tribología</span>
+            <h2 class="section-title">Por qué el Híbrido Enchufable (PHEV) fracasa a 5.000 km/año</h2>
+            <p class="section-lead">
+              Para quien recorre apenas 10–15 km diarios por Madrid y realiza un único viaje largo al año, el híbrido enchufable (PHEV) reúne las penalizaciones de ambos mundos: degradación química del aceite de cárter por baja temperatura e inercia parasitaria de un doble tren motriz.
+            </p>
+          </div>
+
+          <div class="split-asymmetric">
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+                <div class="segmented-control" role="tablist" aria-label="Selector de arquitectura motriz">
+                  <div id="tech-pill" class="spring-pill-indicator"></div>
+                  <button type="button" id="tab-bev" class="segmented-btn active" role="tab" aria-selected="true" aria-controls="tech-detail-panel" data-tech="bev">
+                    BEV 100% Eléctrico
+                  </button>
+                  <button type="button" id="tab-phev" class="segmented-btn" role="tab" aria-selected="false" aria-controls="tech-detail-panel" data-tech="phev">
+                    PHEV Híbrido Enchufable
+                  </button>
+                </div>
+                <span class="tag lfp">Diagnóstico Químico-Mecánico</span>
+              </div>
+
+              <div id="tech-detail-panel" role="tabpanel" aria-labelledby="tab-bev">
+                <h3>Arquitectura BEV: Simplicidad Termodinámica (η ≈ 88–92%)</h3>
+                <p>
+                  Un vehículo eléctrico puro elimina más de 2.000 piezas móviles sujetas a fricción, fatiga térmica y tribología crítica (turbocompresor, inyectores, embrague, correa de distribución, filtro de partículas GPF y catalizador de tres vías).
+                </p>
+                <ul style="color: var(--ink-secondary); font-size: 0.92rem; padding-left: 1.2rem; display: grid; gap: 0.5rem;">
+                  <li><strong>Sin degradación por trayectos cortos:</strong> El motor síncrono de imanes permanentes opera con eficiencia máxima desde <i>t</i> = 0 s, sin requerir calentamiento de fluidos.</li>
+                  <li><strong>Frenada regenerativa:</strong> En tráfico denso de Madrid (M-30 / almendra central), recupera entre el 25% y el 35% de la energía cinética, preservando discos y pastillas por más de 100.000 km.</li>
+                  <li><strong>Mantenimiento anual testimonial (~95 €/año):</strong> Limitado a filtro de habitáculo (carbón activo), revisión de neumáticos y líquido de frenos cada 2–3 años.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="control-label" style="margin-bottom: 0.85rem;">
+                <span>Coste Operativo Acumulado (Taller + Energía · 5.000 km/año)</span>
+                <select id="tco-mode-select" aria-label="Horizonte de cálculo TCO">
+                  <option value="5years" selected>Acumulado 5 años (25.000 km)</option>
+                  <option value="8years">Acumulado 8 años (40.000 km)</option>
+                  <option value="annual">Promedio Anual (5.000 km/año)</option>
+                </select>
+              </div>
+              <div class="canvas-wrapper">
+                <canvas id="tco-canvas" width="620" height="300" role="img" aria-label="Gráfico de barras comparativo de coste operativo acumulado entre eléctrico puro BEV, híbrido enchufable PHEV y combustión ICE"></canvas>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--ink-muted); margin-top: 0.75rem; margin-bottom: 0;">
+                Nota tribológica: En el PHEV, el subproducto de combustión (C<sub>n</sub>H<sub>m</sub> + O<sub>2</sub> → CO<sub>2</sub> + H<sub>2</sub>O) condensa en las paredes frías del cilindro en arranques esporádicos (&lt;90 °C), formando ácidos orgánicos y lodos que obligan a cambiar el aceite cada 12 meses aunque el motor térmico haya rodado menos de 800 km.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 2: LABORATORIO ELECTROQUÍMICO LFP vs NMC -->
+      <section id="mod-quimica" class="section-block alt-surface no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 2 · Electroquímica de Estado Sólido y Cinética de Arrhenius</span>
+            <h2 class="section-title">Cátodo Olivino LiFePO<sub>4</sub> (LFP) frente a Óxido Laminar LiNi<sub>x</sub>Mn<sub>y</sub>Co<sub>z</sub>O<sub>2</sub> (NMC)</h2>
+            <p class="section-lead">
+              Con solo 5.000 km anuales (~12 a 15 ciclos completos equivalentes al año), la degradación por ciclado es despreciable. El factor determinante de la longevidad de tu batería a 10 años es el <strong>envejecimiento por calendario</strong> (<em>Calendar Aging</em>), gobernado por la ecuación de Arrhenius y el potencial electroquímico en reposo.
+            </p>
+          </div>
+
+          <div class="grid-2" style="margin-bottom: 1.5rem;">
+            <article id="card-lfp" class="chem-card lfp-card" tabindex="0" role="button" aria-pressed="true">
+              <div class="badge-row" style="margin-bottom: 0.6rem;">
+                <span class="tag lfp">Química Recomendada · Estructura Olivino (Pnma)</span>
+                <span class="tag tabular">3,20 – 3,29 V nominal</span>
+              </div>
+              <h3>Fosfato de Hierro y Litio (LiFePO<sub>4</sub> · LFP)</h3>
+              <div class="chem-formula">LiFePO₄ ⇄ FePO₄ + Li⁺ + e⁻ &nbsp;|&nbsp; Enlace covalente P–O en (PO₄)³⁻</div>
+              <p style="font-size: 0.91rem;">
+                Los átomos de oxígeno forman tetraedros covalentes (PO<sub>4</sub>)<sup>3−</sup> de altísima energía de enlace (<i>E</i><sub>P–O</sub> ≈ 595 kJ/mol). Esto impide la liberación de O<sub>2</sub> gaseoso hasta superar los <strong>270 °C</strong>, otorgando inmunidad estructural frente al embalamiento térmico (<em>thermal runaway</em>).
+              </p>
+              <ul style="font-size: 0.85rem; color: var(--ink-secondary); padding-left: 1.15rem; margin-bottom: 0;">
+                <li><strong>Menor potencial redox:</strong> Su meseta plana a 3,29 V reduce drásticamente la fuerza electromotriz que alimenta la reducción parásita del electrolito en el ánodo de grafito (capa SEI).</li>
+                <li><strong>Calibración BMS:</strong> Debido a la transición bifásica FePO<sub>4</sub>/LiFePO<sub>4</sub>, conviene cargar al 100% una vez al mes para equilibrar celdas en el codo superior (3,65 V).</li>
+                <li><strong>Modelos del catálogo:</strong> BYD Dolphin Surf, MG4 Electric, Tesla Model 3 RWD, BYD Dolphin Comfort, Citroën ë-C3.</li>
+              </ul>
+            </article>
+
+            <article id="card-nmc" class="chem-card nmc-card" tabindex="0" role="button" aria-pressed="false">
+              <div class="badge-row" style="margin-bottom: 0.6rem;">
+                <span class="tag nmc">Alta Densidad Gravimétrica · Óxido Laminar (R-3m)</span>
+                <span class="tag tabular">3,65 – 4,20 V máx</span>
+              </div>
+              <h3>Óxido de Níquel, Manganeso y Cobalto (LiNi<sub>x</sub>Mn<sub>y</sub>Co<sub>z</sub>O<sub>2</sub> · NMC)</h3>
+              <div class="chem-formula">LiNiₓMnᵧCo₂O₂ ⇄ Li₁₋δNiₓMnᵧCo₂O₂ + δLi⁺ + δe⁻</div>
+              <p style="font-size: 0.91rem;">
+                Estructura laminar análoga al LiCoO<sub>2</sub> con mayor energía específica (Wh/kg), lo que permite empaquetar <strong>52 kWh</strong> en un utilitario corto como el Renault 5 E-Tech con excelente respuesta a bajas temperaturas.
+              </p>
+              <ul style="font-size: 0.85rem; color: var(--ink-secondary); padding-left: 1.15rem; margin-bottom: 0;">
+                <li><strong>Sensibilidad al alto SoC en reposo:</strong> Al 100% SoC el potencial alcanza ~4,20 V, acelerando la oxidación anódica del carbonato de etileno (EC) y la reconstrucción superficial a fase tipo espinela/sal gema.</li>
+                <li><strong>Protocolo óptimo para el profesor:</strong> Si eliges NMC (ej. Renault 5 52 kWh), basta con limitar la carga diaria en garaje al <strong>60%–70% SoC</strong> y subir al 100% solo la víspera del viaje de 300 km.</li>
+                <li><strong>Modelos del catálogo:</strong> Renault 5 E-Tech 52 kWh (y variantes NMC de alta autonomía).</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="card">
+            <div class="grid-2" style="align-items: end; margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="chem-soc-slider">
+                  <span>Estado de Carga (SoC) habitual de estacionamiento en garaje</span>
+                  <strong id="chem-soc-val" class="tabular" style="color: var(--accent-primary);">100% SoC</strong>
+                </label>
+                <input type="range" id="chem-soc-slider" min="20" max="100" step="5" value="100" />
+                <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--ink-muted); margin-top: 0.25rem;">
+                  <span>20% (Almacenamiento óptimo)</span>
+                  <span>60% (Ideal diario NMC)</span>
+                  <span>100% (Tensión máxima)</span>
+                </div>
+              </div>
+
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="chem-temp-select">
+                  <span>Temperatura media anual de tu plaza de garaje en Madrid</span>
+                </label>
+                <select id="chem-temp-select">
+                  <option value="16">16 °C · Garaje subterráneo profundo (Sótano -2 / -3 fresco)</option>
+                  <option value="21" selected>21 °C · Garaje comunitario estándar en Madrid (Sótano -1)</option>
+                  <option value="27">27 °C · Plaza en superficie o garaje cálido en verano</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="canvas-card">
+                <h4>Curva Cinética de Retención SoH (0 a 10 Años · Ley de Arrhenius)</h4>
+                <div class="canvas-wrapper">
+                  <canvas id="aging-canvas" width="580" height="290" role="img" aria-label="Curva de retención de estado de salud SoH durante 10 años comparando cátodo LFP Olivino frente a NMC Laminar"></canvas>
+                </div>
+              </div>
+              <div class="canvas-card">
+                <h4>Perfil Termodinámico de Potencial vs. SoC (Meseta LFP 3,29 V vs. Pendiente NMC)</h4>
+                <div class="canvas-wrapper">
+                  <canvas id="voltage-canvas" width="580" height="290" role="img" aria-label="Curva de tensión de celda en voltios frente al estado de carga SoC comparando la meseta LFP a 3,29 V con la rampa NMC hasta 4,20 V"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div id="chem-verdict-box" class="verdict-banner">
+              Cargando simulación electroquímica de envejecimiento por calendario…
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 3: PÓKER DE CANDIDATOS, CATÁLOGO Y COMPARADOR CARA A CARA -->
+      <section id="mod-catalogo" class="section-block no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 3 · Selección de Mercado y Configuraciones Oficiales</span>
+            <h2 class="section-title">El Póker de Candidatos (Tus 4 Favoritos) + Catálogo y Comparador 1 vs 1</h2>
+            <p class="section-lead">
+              Análisis con precios verificados al contado en España y enlaces directos a tus <strong>3 configuraciones reales guardadas</strong> (Renault 5 E-Tech Techno 52 kWh, BYD Dolphin Surf y MG4 Electric LFP) frente a la referencia en mercado de ocasión reciente (Tesla Model 3 RWD 60 kWh LFP).
+            </p>
+          </div>
+
+          <!-- 3A: Póker Protagonista (2x2 Grid) -->
+          <div style="margin-bottom: 2.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+              <h3>1. El Póker Protagonista: Tus 4 Opciones Principales</h3>
+              <span class="tag lfp">Datos Oficiales de Configurador + Ocasión Madrid</span>
+            </div>
+            <div id="protagonist-grid" class="grid-2">
+              <!-- Renderizado dinámicamente por app.js con fallback semántico inicial -->
+              <article class="vehicle-card protagonist">
+                <div>
+                  <div class="badge-row" style="margin-bottom: 0.5rem;">
+                    <span class="tag nmc">NMC 52 kWh</span>
+                    <span class="tag">425 km WLTP</span>
+                    <span class="tag tabular">25.522 € Contado Promo</span>
+                  </div>
+                  <h4>Renault 5 E-Tech techno 52 kWh (Tu Configuración)</h4>
+                  <p style="font-size: 0.86rem;">Acabado techno · 150 CV · Color Azul Noche · Llantas 18" techno · 3.922 mm de longitud.</p>
+                </div>
+                <a href="https://www.renault.es/electricos/r5-e-tech-electrico/configurador.html?conf=https%3A%2F%2Fes.co.rplug.renault.com%2Fc%2FBAHPt%2FAmnZK2oMuA" target="_blank" rel="noopener noreferrer" class="btn-apple primary sm">Abrir Configuración Guardada Renault 5 ↗</a>
+              </article>
+              <article class="vehicle-card protagonist">
+                <div>
+                  <div class="badge-row" style="margin-bottom: 0.5rem;">
+                    <span class="tag lfp">LFP Blade 43,2 kWh</span>
+                    <span class="tag">322 km WLTP</span>
+                    <span class="tag tabular">19.990 – 26.490 €</span>
+                  </div>
+                  <h4>BYD Dolphin Surf Boost / Comfort (Gama Oficial)</h4>
+                  <p style="font-size: 0.86rem;">Química LFP Blade indestructible · 3.990 mm largo · Active desde 19.990 € / Boost 43,2 kWh 23.990 €.</p>
+                </div>
+                <a href="https://www.byd.com/es-es/configurador/dolphin-surf" target="_blank" rel="noopener noreferrer" class="btn-apple primary sm">Abrir Configurador BYD Dolphin Surf ↗</a>
+              </article>
+              <article class="vehicle-card protagonist">
+                <div>
+                  <div class="badge-row" style="margin-bottom: 0.5rem;">
+                    <span class="tag lfp">LFP 54 kWh</span>
+                    <span class="tag">415 km WLTP</span>
+                    <span class="tag tabular">21.690 € Contado</span>
+                  </div>
+                  <h4>MG4 Electric Comfort 54 kWh LFP (Nuevo / Ocasión)</h4>
+                  <p style="font-size: 0.86rem;">Propulsión trasera RWD · 4.287 mm largo · Nuevo 43/54 kWh o seminuevo LFP 51 kWh desde 18.990 €.</p>
+                </div>
+                <a href="https://www.mgmotor.es/configurator/mg4" target="_blank" rel="noopener noreferrer" class="btn-apple primary sm">Abrir Configurador MG4 Electric ↗</a>
+              </article>
+              <article class="vehicle-card protagonist">
+                <div>
+                  <div class="badge-row" style="margin-bottom: 0.5rem;">
+                    <span class="tag lfp">LFP CATL 60 kWh</span>
+                    <span class="tag">491 km WLTP</span>
+                    <span class="tag tabular">31.490 € Ocasión</span>
+                  </div>
+                  <h4>Tesla Model 3 RWD 60 kWh (Ocasión 2023)</h4>
+                  <p style="font-size: 0.86rem;">Líder aerodinámico (14,5 kWh/100 km) · Ya absorbió la depreciación de los 3 primeros años.</p>
+                </div>
+                <a href="https://www.tesla.com/es_es/inventory/used/m3" target="_blank" rel="noopener noreferrer" class="btn-apple sm">Ver Inventario Ocasión Madrid ↗</a>
+              </article>
+            </div>
+          </div>
+
+          <!-- 3B: Catálogo Completo Filtrable (7 Modelos) -->
+          <div class="card-subtle" style="margin-bottom: 2.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+              <div>
+                <h3 style="margin-bottom: 0.2rem;">2. Explorador del Catálogo Completo (7 Alternativas Analizadas)</h3>
+                <p style="font-size: 0.86rem; margin-bottom: 0;">Filtra por química de cátodo, estado (Nuevo/Km 0 vs. Ocasión) y presupuesto bruto al contado.</p>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.45rem;" role="group" aria-label="Filtro por química">
+                <button type="button" id="filter-chem-ALL" class="btn-apple sm filter-pill active" data-chem="ALL">Todas las Químicas (7)</button>
+                <button type="button" id="filter-chem-LFP" class="btn-apple sm filter-pill" data-chem="LFP">Solo LFP LiFePO₄</button>
+                <button type="button" id="filter-chem-NMC" class="btn-apple sm filter-pill" data-chem="NMC">Solo NMC Laminar</button>
+              </div>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="filter-condition">Modalidad de Compra</label>
+                <select id="filter-condition">
+                  <option value="ALL" selected>Todos (Nuevos, Km 0 y Ocasión Reciente)</option>
+                  <option value="Nuevo / Km 0">Solo Nuevos / Km 0 (Elegibles Plan Cambia 360 + IRPF)</option>
+                  <option value="Ocasión">Solo Ocasión / Seminuevo (Depreciación inicial ya absorbida)</option>
+                </select>
+              </div>
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="filter-budget">
+                  <span>Techo de Precio al Contado (antes de ayudas)</span>
+                  <strong id="budget-label" class="tabular" style="color: var(--accent-primary);">35.000 €</strong>
+                </label>
+                <input type="range" id="filter-budget" min="18000" max="35000" step="500" value="35000" />
+              </div>
+            </div>
+
+            <div id="catalog-grid" class="grid-3"></div>
+          </div>
+
+          <!-- 3C: Comparador Directo Cara a Cara (1 vs 1) -->
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+              <div>
+                <span class="eyebrow" style="margin-bottom: 0.35rem;">Duelo Técnico 1 vs 1</span>
+                <h3 style="margin-bottom: 0;">3. Comparador Directo "Cara a Cara"</h3>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.45rem;">
+                <button type="button" id="vs-preset-r5-surf" class="btn-apple sm">Urbano: Renault 5 vs Dolphin Surf</button>
+                <button type="button" id="vs-preset-mg4-m3" class="btn-apple sm">Viajero LFP: MG4 vs Model 3</button>
+                <button type="button" id="vs-preset-r5-m3" class="btn-apple sm">Nuevo vs Ocasión: R5 vs Model 3</button>
+              </div>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="versus-car-a">
+                  <span style="color: var(--accent-primary);">Candidato A (Verde Salvia)</span>
+                </label>
+                <select id="versus-car-a">
+                  <option value="renault-5-techno" selected>Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf">BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="versus-car-b">
+                  <span style="color: var(--accent-secondary);">Candidato B (Cobre / Ámbar)</span>
+                </label>
+                <select id="versus-car-b">
+                  <option value="renault-5-techno">Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf" selected>BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="versus-comparison-body"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 4: COMPARADOR VISUAL DE TAMAÑO Y HABITABILIDAD VS OPEL ASTRA (2000) -->
+      <section id="mod-dimensiones" class="section-block alt-surface no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 4 · Metrología Exterior y Ergonomía de Garaje</span>
+            <h2 class="section-title">Comparador de Tamaño y Habitabilidad frente a tu Opel Astra (2000)</h2>
+            <p class="section-lead">
+              Superposición a escala milimétrica entre tu <strong>Opel Astra G del año 2000</strong> (conmutable entre carrocería 5 Puertas de 4.110 mm y Sedán 4 Puertas de 4.252 mm) y cada candidato eléctrico. Evalúa de un vistazo si ganas agilidad de maniobra en Madrid o capacidad de carga y batalla.
+            </p>
+          </div>
+
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="grid-2" style="margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="dim-car-select">Vehículo Eléctrico a Superponer</label>
+                <select id="dim-car-select">
+                  <option value="renault-5-techno" selected>Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf">BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="dim-astra-select">Referencia Actual (Tu Opel Astra Año 2000)</label>
+                <select id="dim-astra-select">
+                  <option value="compact5p" selected>Opel Astra G 5 Puertas (4.110 mm largo · 370 L maletero)</option>
+                  <option value="sedan4p">Opel Astra G Sedán 4 Puertas (4.252 mm largo · 460 L maletero)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="canvas-wrapper" style="margin-bottom: 1.25rem;">
+              <canvas id="dimensions-canvas" width="820" height="330" role="img" aria-label="Superposición dimensional a escala en perfil lateral y planta de garaje entre el vehículo eléctrico seleccionado y el Opel Astra del año 2000"></canvas>
+            </div>
+
+            <div class="grid-4" style="margin-bottom: 1rem;">
+              <div class="kpi-card">
+                <div class="kpi-label">Δ Longitud Exterior</div>
+                <div id="dim-delta-length" class="kpi-value tabular">-18,8 cm</div>
+                <div class="kpi-sub">Diferencia frente al Opel Astra</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Δ Anchura (Sin Espejos)</div>
+                <div id="dim-delta-width" class="kpi-value tabular">+6,5 cm</div>
+                <div class="kpi-sub">Estabilidad de vía y hombros</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Δ Batalla (Distancia Ejes)</div>
+                <div id="dim-delta-wheelbase" class="kpi-value tabular">-6,6 cm</div>
+                <div class="kpi-sub">Suelo plano sin túnel de escape</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Δ Capacidad Maletero</div>
+                <div id="dim-delta-trunk" class="kpi-value tabular">-44 L</div>
+                <div class="kpi-sub">Incluye frunk delantero si aplica</div>
+              </div>
+            </div>
+
+            <div id="dim-verdict-text" class="verdict-banner" style="margin-top: 0;">
+              Calculando comparativa dimensional frente al Opel Astra G (2000)…
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 0.4rem;">Escala Comparativa de los 7 Candidatos frente al Opel Astra (2000)</h3>
+            <p style="font-size: 0.86rem; margin-bottom: 1rem;">
+              Comparación simultánea de longitud exterior (mm) y volumen total de maletero (litros) respecto a la línea base de tu Astra.
+            </p>
+            <div id="dim-all-cars-bars"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 5: SIMULADOR PATRIMONIAL COMPLETO (5-8 AÑOS) + IRPF + DEVALUACIÓN -->
+      <section id="mod-patrimonio" class="section-block no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 5 · Ingeniería Fiscal, Subvenciones y Curva de Depreciación</span>
+            <h2 class="section-title">Simulador Patrimonial Completo (5 a 8 Años): Ayudas, "Mordisco Fiscal" IRPF y Valor Residual</h2>
+            <p class="section-lead">
+              En la Comunidad de Madrid, las subvenciones directas (<strong>Plan Cambia 360: hasta 5.500 €</strong> con achatarramiento del Opel Astra + <strong>65% del Wallbox</strong>) constituyen una <em>ganancia patrimonial no derivada de transmisión</em> que tributa en la Base General del IRPF a tu tipo marginal. Por el contrario, la <strong>deducción estatal del 15% en el IRPF</strong> (sobre base máxima de 20.000 € tras restar ayudas directas) está exenta de tributación.
+            </p>
+          </div>
+
+          <div class="split-asymmetric">
+            <!-- Panel Izquierdo: Configuración Financiera y Fiscal -->
+            <div class="card">
+              <h3 style="margin-bottom: 1rem;">Parámetros de Compra y Fiscalidad</h3>
+
+              <div class="control-group">
+                <label class="control-label" for="sim-car-select">Vehículo a Simular</label>
+                <select id="sim-car-select">
+                  <option value="renault-5-techno">Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf" selected>BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+
+              <div id="sim-occasion-warning" class="warning-banner" style="display: none;">
+                <strong>Vehículo de Ocasión seleccionado:</strong> No aplica Plan Cambia 360 (5.500 €) ni deducción estatal del 15% por compra de vehículo nuevo. A cambio, <strong>no sufres el mordisco fiscal en el IRPF</strong> por el coche y te ahorras la fuerte depreciación de los primeros años. Las ayudas del Wallbox sí permanecen activas.
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="sim-custom-price">
+                  <span>Precio de Compra al Contado (Ajustable)</span>
+                  <strong id="sim-price-label" class="tabular" style="color: var(--accent-primary);">23.990 €</strong>
+                </label>
+                <input type="range" id="sim-custom-price" min="15000" max="36000" step="100" value="23990" />
+              </div>
+
+              <div style="margin-bottom: 1rem;">
+                <div class="control-label">Incentivos Públicos y Achatarramiento</div>
+                <label class="checkbox-row">
+                  <input type="checkbox" id="chk-cambia360" checked />
+                  <span>
+                    <strong>Plan Cambia 360 Madrid (+4.000 €)</strong>
+                    <small style="display: block; color: var(--ink-muted);">Subvención directa por compra de BEV nuevo (tributa en IRPF).</small>
+                  </span>
+                </label>
+                <label class="checkbox-row">
+                  <input type="checkbox" id="chk-achatarra" checked />
+                  <span>
+                    <strong>Bono Achatarramiento Opel Astra 2000 (+1.500 €)</strong>
+                    <small style="display: block; color: var(--ink-muted);">Incremento Cambia 360 por baja definitiva de vehículo Categoría A sin etiqueta.</small>
+                  </span>
+                </label>
+                <label class="checkbox-row">
+                  <input type="checkbox" id="chk-irpf-car" checked />
+                  <span>
+                    <strong>Deducción Estatal 15% en IRPF (hasta 3.000 €)</strong>
+                    <small style="display: block; color: var(--ink-muted);">15% sobre base máx. de 20.000 € tras detraer ayudas directas (libre de impuestos).</small>
+                  </span>
+                </label>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="sim-wallbox-cost">
+                  <span>Coste Instalación Wallbox (ITC-BT-52 con GDP)</span>
+                  <strong id="sim-wallbox-label" class="tabular">1.800 €</strong>
+                </label>
+                <input type="range" id="sim-wallbox-cost" min="1200" max="2400" step="50" value="1800" />
+              </div>
+
+              <label class="checkbox-row" style="margin-bottom: 1rem;">
+                <input type="checkbox" id="chk-wallbox-aid" checked />
+                <span>
+                  <strong>Ayudas Wallbox: 65% Cambia 360 + 15% Deducción IRPF</strong>
+                  <small style="display: block; color: var(--ink-muted);">Subvención municipal del 65% + deducción del 15% sobre el neto restante.</small>
+                </span>
+              </label>
+
+              <div class="grid-2">
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="sim-irpf-bracket">Tramo Marginal IRPF</label>
+                  <select id="sim-irpf-bracket">
+                    <option value="24">24% (Base hasta 20.200 €)</option>
+                    <option value="30">30% (Base 20.200 – 35.200 €)</option>
+                    <option value="37" selected>37% (Prof. Titular / Catedrático 35k–60k €)</option>
+                    <option value="45">45% (Tramo superior &gt; 60.000 €)</option>
+                  </select>
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="sim-horizon-years">Horizonte Patrimonial</label>
+                  <select id="sim-horizon-years">
+                    <option value="5">5 Años (25.000 km)</option>
+                    <option value="6" selected>6 Años (30.000 km)</option>
+                    <option value="7">7 Años (35.000 km)</option>
+                    <option value="8">8 Años (40.000 km)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel Derecho: KPIs Patrimoniales y Gráficas -->
+            <div>
+              <div class="grid-3" style="margin-bottom: 1.25rem;">
+                <div class="kpi-card">
+                  <div class="kpi-label">1. Factura Bruta (Coche+WB)</div>
+                  <div id="res-gross" class="kpi-value tabular">25.790 €</div>
+                  <div class="kpi-sub">Desembolso inicial en caja</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">2. Ayudas Nominales Brutas</div>
+                  <div id="res-aids-nominal" class="kpi-value sage tabular">-8.940 €</div>
+                  <div class="kpi-sub">Cambia 360 + Deducciones 15%</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">3. "Mordisco Fiscal" IRPF</div>
+                  <div id="res-tax-bite" class="kpi-value amber tabular">+2.468 €</div>
+                  <div class="kpi-sub">Tributación subvenciones en Renta</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">4. Inversión Neta Real</div>
+                  <div id="res-net-initial" class="kpi-value sage tabular">19.318 €</div>
+                  <div class="kpi-sub">Tras liquidar IRPF al año siguiente</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">5. Valor Residual Estimado</div>
+                  <div id="res-residual-val" class="kpi-value tabular">12.400 €</div>
+                  <div class="kpi-sub">Valor de reventa al final del horizonte</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">6. Coste Patrimonial Neto</div>
+                  <div id="res-tco-net" class="kpi-value tabular">7.998 €</div>
+                  <div class="kpi-sub">Compra neta + uso − valor reventa</div>
+                </div>
+              </div>
+
+              <div class="card" style="margin-bottom: 1.25rem;">
+                <h4 style="margin-bottom: 0.45rem;">Cascada Fiscal: Del Precio de Factura al Desembolso Neto Real</h4>
+                <div class="canvas-wrapper">
+                  <canvas id="patrimonial-waterfall-canvas" width="660" height="260" role="img" aria-label="Gráfico de cascada fiscal desde factura bruta, restando ayudas y deducción IRPF y sumando tributación en Renta hasta el desembolso neto"></canvas>
+                </div>
+              </div>
+
+              <div class="card">
+                <h4 style="margin-bottom: 0.45rem;">Curva Patrimonial y Devaluación (0–8 Años): Tu Elección vs. Model 3 Ocasión vs. Gasolina</h4>
+                <div class="canvas-wrapper" style="margin-bottom: 1rem;">
+                  <canvas id="depreciation-curve-canvas" width="660" height="295" role="img" aria-label="Curva de coste patrimonial neto y depreciación de 0 a 8 años comparando el coche seleccionado frente a Tesla Model 3 ocasión y un gasolina equivalente"></canvas>
+                </div>
+                <div id="sim-breakdown-text" class="verdict-banner" style="margin-top: 0;">
+                  Calculando desglose fiscal RDL 7/2026 y curva de retención de valor…
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 6: SIMULADOR VIAJE 300 KM + GENERADOR LEGAL ART. 17.5 LPH -->
+      <section id="mod-logistica" class="section-block alt-surface">
+        <div class="wrap">
+          <div class="section-header no-print">
+            <span class="eyebrow">Módulo 6 · Física Aerodinámica en Ruta y Derecho Inmobiliario</span>
+            <h2 class="section-title">Simulador del Viaje Anual de 300 km y Escrito Legal Art. 17.5 LPH</h2>
+            <p class="section-lead">
+              Comprueba el comportamiento energético real en tu salida anual de <strong>300 km por autovía</strong> (escalado aerodinámico proporcional a <i>v</i><sup>2</sup> y penalización térmica de invierno/verano) y genera al instante la notificación formal para instalar el punto de recarga en tu plaza de garaje comunitaria sin pedir permiso a la Junta.
+            </p>
+          </div>
+
+          <!-- Parte A: Simulador Físico del Viaje de 300 km -->
+          <div class="card no-print" style="margin-bottom: 2.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem;">
+              <h3 style="margin-bottom: 0;">Parte A · Simulador Físico del Viaje Interurbano de 300 km</h3>
+              <span class="tag lfp">Salida al 100% SoC desde Madrid · Margen de Seguridad ≥ 12%</span>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="trip-car-select">Vehículo para el Viaje</label>
+                <select id="trip-car-select">
+                  <option value="renault-5-techno" selected>Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf">BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="trip-speed-slider">
+                  <span>Velocidad de Crucero en Autovía</span>
+                  <strong id="trip-speed-val" class="tabular" style="color: var(--accent-primary);">120 km/h</strong>
+                </label>
+                <input type="range" id="trip-speed-slider" min="100" max="130" step="5" value="120" />
+              </div>
+
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="trip-weather-select">Climatología y Uso de Bomba de Calor / A/C</label>
+                <select id="trip-weather-select">
+                  <option value="winter">Invierno Meseta (5 °C · Calefacción + mayor densidad aire +18%)</option>
+                  <option value="mild" selected>Primavera / Otoño Templado (20 °C · Condición nominal WLTP)</option>
+                  <option value="summer">Verano Continental (35 °C · Climatizador A/C activo +7%)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="split-asymmetric">
+              <div id="trip-results-panel">
+                <!-- Poblado dinámicamente por app.js -->
+              </div>
+              <div class="canvas-wrapper">
+                <canvas id="trip-canvas" width="600" height="275" role="img" aria-label="Balance energético en ruta de 300 km y comparativa de porcentaje de batería a la llegada en los 4 vehículos protagonistas"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parte B: Generador Legal Art. 17.5 LPH -->
+          <div class="card">
+            <div class="no-print" style="margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <div>
+                  <span class="eyebrow" style="margin-bottom: 0.35rem;">Derecho Civil · Propiedad Horizontal e ITC-BT-52</span>
+                  <h3 style="margin-bottom: 0;">Parte B · Generador de Comunicación Oficial a la Comunidad (Art. 17.5 LPH)</h3>
+                </div>
+                <div style="display: flex; gap: 0.6rem;">
+                  <button type="button" id="btn-copy-lph" class="btn-apple">Copiar Escrito</button>
+                  <button type="button" id="btn-print-lph" class="btn-apple primary">Imprimir / Guardar PDF (A4)</button>
+                </div>
+              </div>
+              <p style="font-size: 0.9rem; margin-bottom: 1.25rem;">
+                El <strong>Artículo 17.5 de la Ley 49/1960 de Propiedad Horizontal</strong> establece que para instalar un punto de recarga en plaza individual de garaje <strong>solo se requiere comunicación previa por escrito</strong> al Presidente o Administrador, sin necesidad de someterlo a votación en Junta de Propietarios. Rellena tus datos y pulsa <em>Imprimir / Guardar PDF</em> para obtener únicamente el documento formal en A4.
+              </p>
+
+              <div class="grid-4" style="margin-bottom: 1rem;">
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-owner-name">Nombre y Apellidos del Titular</label>
+                  <input type="text" id="lph-owner-name" name="ownerName" autocomplete="name" value="Prof. Dr. Titular de la Plaza" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-owner-dni">DNI / NIF</label>
+                  <input type="text" id="lph-owner-dni" name="ownerDni" autocomplete="off" value="00000000X" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-address">Dirección de la Comunidad (Madrid)</label>
+                  <input type="text" id="lph-address" name="communityAddress" autocomplete="street-address" value="Calle Ejemplo nº 10, 28006 Madrid" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-spot">Identificación de Plaza de Garaje</label>
+                  <input type="text" id="lph-spot" name="parkingSpot" autocomplete="off" value="Plaza de garaje nº 24 (Sótano -1)" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-recipient">Destinatario</label>
+                  <input type="text" id="lph-recipient" name="recipientRole" autocomplete="organization-title" value="Sr./Sra. Presidente/a de la Comunidad y Administración de Fincas" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-power">Potencia y Esquema ITC-BT-52</label>
+                  <input type="text" id="lph-power" name="wallboxPower" autocomplete="off" value="7,4 kW Monofásico (Esquema 2 con GDP)" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-installer">Empresa Instaladora Autorizada</label>
+                  <input type="text" id="lph-installer" name="installerName" autocomplete="organization" value="Empresa Instaladora Habilitada en Baja Tensión" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-date">Fecha Prevista de Inicio</label>
+                  <input type="date" id="lph-date" name="plannedDate" autocomplete="off" value="2026-12-15" />
+                </div>
+              </div>
+            </div>
+
+            <div id="lph-print-sheet" class="lph-sheet" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer no-print">
+    <div class="wrap" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <strong>Asesoria coche EV · Dictamen Técnico y Patrimonial</strong>
+        <div>Desarrollado con rigor termodinámico, electroquímico (LiFePO<sub>4</sub> vs NMC) y fiscal (Plan Cambia 360 + RDL 7/2026).</div>
+      </div>
+      <div class="tabular">5.000 km/año · Sustitución Opel Astra G (2000)</div>
+    </div>
+  </footer>
+
+  <script type="module" src="src/js/app.js"></script>
+</body>
+</html>

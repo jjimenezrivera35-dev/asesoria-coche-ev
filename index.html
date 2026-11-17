@@ -1,0 +1,4456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FAF6F0" />
+  <title>Asesoria coche EV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+  <style>
+:root {
+  --bg-canvas: #FAF6F0;
+  --bg-surface: #F2ECE1;
+  --bg-elevated: #FFFFFF;
+  --bg-glass: rgba(250, 246, 240, 0.88);
+  --ink-primary: #1C1917;
+  --ink-secondary: #57534E;
+  --ink-muted: #78716C;
+  --accent-primary: #0F5E56;
+  --accent-primary-soft: #E6F2F0;
+  --accent-secondary: #B45309;
+  --accent-secondary-soft: #FEF3C7;
+  --border-subtle: #E6DEC8;
+  --border-strong: #D4C8AE;
+  --danger-ink: #991B1B;
+  --danger-soft: #FEE2E2;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-card: 0 2px 10px rgba(28, 25, 23, 0.04), 0 1px 2px rgba(28, 25, 23, 0.03);
+  --shadow-elevated: 0 10px 30px rgba(28, 25, 23, 0.07), 0 2px 6px rgba(28, 25, 23, 0.04);
+  --font-display: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-canvas);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-canvas);
+  color: var(--ink-primary);
+  overflow-x: hidden;
+}
+
+/* Accessibility Skip Link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 999;
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  box-shadow: var(--shadow-elevated);
+  transition: top 150ms ease;
+}
+
+.skip-link:focus-visible {
+  top: 0.75rem;
+  outline: 2px solid var(--ink-primary);
+  outline-offset: 2px;
+}
+
+/* Equal left/right content edges */
+.wrap {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 3.5vw, 2.5rem);
+}
+
+/* Open, geometric display typography (no cramped serif) */
+h1, h2, h3, .hero-title, .section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-optical-sizing: auto;
+  color: var(--ink-primary);
+  margin-top: 0;
+  text-wrap: balance;
+}
+
+h1, .hero-title {
+  font-size: clamp(1.85rem, 2.6vw, 2.45rem);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h2, .section-title {
+  font-size: clamp(1.45rem, 2vw, 1.85rem);
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: clamp(1.15rem, 1.45vw, 1.38rem);
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+h4 {
+  font-family: var(--font-sans);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  margin: 0 0 0.5rem 0;
+  color: var(--ink-primary);
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--ink-secondary);
+}
+
+.tabular, .mono {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent-primary);
+  background: var(--accent-primary-soft);
+  border: 1px solid rgba(15, 94, 86, 0.2);
+  padding: 0.28rem 0.75rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 0.85rem;
+}
+
+.eyebrow.amber {
+  color: var(--accent-secondary);
+  background: var(--accent-secondary-soft);
+  border-color: rgba(180, 83, 9, 0.22);
+}
+
+/* Static Top Masthead (never sticky, never overlaps scrolled sections) */
+.site-header {
+  position: relative;
+  z-index: 20;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 2.2vw, 2rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  min-height: 64px;
+  padding-block: 0.55rem;
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--ink-primary);
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: -0.03em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.brand-sub {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+}
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Two-Column Page Shell: Left Sticky Vertical Index + Main Content */
+.page-shell {
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 2.2vw, 2rem);
+  display: grid;
+  grid-template-columns: 215px minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.main-content .wrap {
+  max-width: 100%;
+  padding-inline: 0;
+}
+
+.side-index {
+  position: sticky;
+  top: 1.25rem;
+  padding-top: 1.5rem;
+}
+
+.side-index-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem 0.85rem;
+  box-shadow: var(--shadow-card);
+}
+
+.side-index-title {
+  font-family: var(--font-mono);
+  font-size: 0.71rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  padding: 0 0.45rem 0.6rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.side-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  margin-bottom: 0.85rem;
+}
+
+.side-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  color: var(--ink-secondary);
+  font-size: 0.81rem;
+  font-weight: 600;
+  line-height: 1.25;
+  padding: 0.5rem 0.55rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, transform 90ms ease-out;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.side-nav-step {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--bg-elevated);
+  color: var(--ink-muted);
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.side-nav-link:hover {
+  color: var(--ink-primary);
+  background: rgba(255, 255, 255, 0.65);
+  border-color: var(--border-subtle);
+}
+
+.side-nav-link.is-active {
+  background: var(--bg-elevated);
+  color: var(--accent-primary);
+  border-color: rgba(15, 94, 86, 0.28);
+  box-shadow: 0 1px 3px rgba(28, 25, 23, 0.05);
+}
+
+.side-nav-link.is-active .side-nav-step {
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  border-color: var(--accent-primary);
+}
+
+.side-index-cta {
+  width: 100%;
+  font-size: 0.79rem;
+  padding: 0.55rem 0.75rem;
+}
+
+@media (max-width: 1079px) {
+  .page-shell {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .side-index {
+    position: relative;
+    top: 0;
+    padding-top: 1rem;
+  }
+
+  .side-nav-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+    gap: 0.4rem;
+  }
+
+  .side-index-cta {
+    display: none;
+  }
+}
+
+/* Instant response on press & touch ergonomics (apple-design §1) */
+.btn-apple, button, .interactive-card, .segmented-btn, a, .chem-card[role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 90ms ease-out, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.btn-apple:active, button:active, .segmented-btn:active, .is-pressing {
+  transform: scale(0.97);
+}
+
+.btn-apple:focus-visible,
+button:focus-visible,
+.segmented-btn:focus-visible,
+a:focus-visible,
+.chem-card[role="button"]:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Buttons */
+.btn-apple {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.62rem 1.15rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-elevated);
+  color: var(--ink-primary);
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04);
+}
+
+.btn-apple:hover {
+  border-color: var(--ink-secondary);
+  background: var(--bg-surface);
+}
+
+.btn-apple.primary {
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  border-color: var(--accent-primary);
+}
+
+.btn-apple.primary:hover {
+  background: #0B4B44;
+}
+
+.btn-apple.amber {
+  background: var(--accent-secondary-soft);
+  color: var(--accent-secondary);
+  border-color: rgba(180, 83, 9, 0.35);
+}
+
+.btn-apple.sm {
+  font-size: 0.79rem;
+  padding: 0.46rem 0.85rem;
+  min-height: 36px;
+}
+
+.btn-apple.active, .filter-pill.active {
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  border-color: var(--accent-primary);
+}
+
+/* Sections & Cards */
+section[id], #versus-car-a {
+  scroll-margin-top: 1.5rem;
+}
+
+.section-block {
+  padding-block: clamp(2.25rem, 4.5vw, 3.75rem);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.section-block.alt-surface {
+  background-color: var(--bg-surface);
+  padding-inline: clamp(1.15rem, 2.2vw, 1.75rem);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  margin-block: 1rem;
+}
+
+.section-header {
+  max-width: 840px;
+  margin-bottom: 2rem;
+}
+
+.section-lead {
+  font-size: 1.02rem;
+  color: var(--ink-secondary);
+  line-height: 1.65;
+}
+
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: clamp(1.15rem, 2.2vw, 1.65rem);
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+}
+
+.card-subtle {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: clamp(1.1rem, 2vw, 1.5rem);
+  min-width: 0;
+}
+
+/* Deterministic Grids (2x2 for Protagonists, 3-col for Catalog, 4-col for KPIs) */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.35rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.split-asymmetric {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1.28fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 1180px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .split-asymmetric {
+    grid-template-columns: 1fr;
+  }
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Hero Section */
+.hero-section {
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+  border-bottom: 1px solid var(--border-subtle);
+  background: radial-gradient(circle at 85% 15%, rgba(15, 94, 86, 0.06), transparent 45%),
+              radial-gradient(circle at 15% 80%, rgba(180, 83, 9, 0.05), transparent 45%),
+              var(--bg-canvas);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.95fr);
+  gap: 1.75rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero-thesis-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--accent-primary);
+  border-radius: var(--radius-md);
+  padding: 1.35rem 1.45rem;
+  box-shadow: var(--shadow-card);
+}
+
+.kpi-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.05rem 1.15rem;
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+}
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  margin-bottom: 0.35rem;
+}
+
+.kpi-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-weight: 700;
+  color: var(--ink-primary);
+  line-height: 1.2;
+}
+
+.kpi-value.sage {
+  color: var(--accent-primary);
+}
+
+.kpi-value.amber {
+  color: var(--accent-secondary);
+}
+
+.kpi-sub {
+  font-size: 0.79rem;
+  color: var(--ink-muted);
+  margin-top: 0.3rem;
+}
+
+/* Segmented Control with Spring Pill Indicator */
+.segmented-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  gap: 4px;
+}
+
+.spring-pill-indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2px 6px rgba(28, 25, 23, 0.08), 0 1px 1px rgba(28, 25, 23, 0.04);
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform, width;
+}
+
+.segmented-btn {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  cursor: pointer;
+}
+
+.segmented-btn.active {
+  color: var(--ink-primary);
+}
+
+/* Form Controls */
+.control-group {
+  margin-bottom: 1.15rem;
+  min-width: 0;
+}
+
+.control-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+  margin-bottom: 0.4rem;
+}
+
+select, input[type="text"], input[type="date"], input[type="number"] {
+  width: 100%;
+  max-width: 100%;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--ink-primary);
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.56rem 0.8rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+#tco-mode-select {
+  width: auto;
+  min-width: 265px;
+  padding-right: 2.2rem;
+}
+
+select:focus-visible,
+input[type="text"]:focus-visible,
+input[type="date"]:focus-visible,
+input[type="number"]:focus-visible,
+input[type="range"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(15, 94, 86, 0.14);
+}
+
+input[type="range"] {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  accent-color: var(--accent-primary);
+  cursor: pointer;
+  height: 6px;
+  border-radius: 999px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 0.55rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--ink-primary);
+}
+
+.checkbox-row input[type="checkbox"] {
+  margin-top: 0.2rem;
+  accent-color: var(--accent-primary);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Canvases & Chart Cards */
+.canvas-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.canvas-card h4 {
+  min-height: 2.75rem;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.9rem;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Chemistry Cards & Formula Box */
+.chem-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.3rem;
+  position: relative;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.chem-card.lfp-card {
+  border-top: 4px solid var(--accent-primary);
+}
+
+.chem-card.nmc-card {
+  border-top: 4px solid var(--accent-secondary);
+}
+
+.chem-formula {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  padding: 0.42rem 0.7rem;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  color: var(--ink-primary);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.verdict-banner {
+  background: var(--accent-primary-soft);
+  border: 1px solid rgba(15, 94, 86, 0.25);
+  border-left: 4px solid var(--accent-primary);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.2rem;
+  color: var(--ink-primary);
+  font-size: 0.9rem;
+  margin-top: 1.25rem;
+}
+
+.warning-banner {
+  background: var(--accent-secondary-soft);
+  border: 1px solid rgba(180, 83, 9, 0.3);
+  border-left: 4px solid var(--accent-secondary);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1rem;
+  color: #78350F;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+/* Protagonist & Catalog Cards */
+.vehicle-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: var(--shadow-card);
+  min-width: 0;
+}
+
+.vehicle-card.protagonist {
+  border: 1.5px solid var(--accent-primary);
+  box-shadow: var(--shadow-elevated);
+}
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface);
+  color: var(--ink-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.tag.lfp {
+  background: var(--accent-primary-soft);
+  color: var(--accent-primary);
+  border-color: rgba(15, 94, 86, 0.25);
+}
+
+.tag.nmc {
+  background: var(--accent-secondary-soft);
+  color: var(--accent-secondary);
+  border-color: rgba(180, 83, 9, 0.25);
+}
+
+.spec-grid-mini {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  font-size: 0.81rem;
+}
+
+/* Redesigned Versus Table & Bars (Zero Text/Badge Collision) */
+.vs-metric-row {
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.vs-metric-row:last-child {
+  border-bottom: none;
+}
+
+.vs-metric-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.55rem;
+}
+
+.vs-metric-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ink-primary);
+}
+
+.vs-winner-badge {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.vs-metric-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  align-items: end;
+}
+
+.vs-col {
+  min-width: 0;
+}
+
+.vs-val-label {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  line-height: 1.35;
+}
+
+.vs-val-label.car-a {
+  color: var(--accent-primary);
+}
+
+.vs-val-label.car-b {
+  color: var(--accent-secondary);
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .vs-metric-cols {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+  .vs-val-label.car-b {
+    text-align: left;
+  }
+}
+
+.vs-bar-track {
+  height: 10px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.vs-bar-fill {
+  height: 100%;
+  background: var(--accent-primary);
+  border-radius: var(--radius-pill);
+  transition: width 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vs-bar-fill.car-b {
+  background: var(--accent-secondary);
+}
+
+/* Multi-car Dimension Bars */
+.dim-bar-item {
+  display: grid;
+  grid-template-columns: 170px 1fr 105px;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed var(--border-subtle);
+  font-size: 0.84rem;
+}
+
+@media (max-width: 640px) {
+  .dim-bar-item {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
+
+.dim-bar-track {
+  height: 12px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-pill);
+  position: relative;
+  overflow: hidden;
+}
+
+.dim-bar-fill {
+  height: 100%;
+  background: var(--accent-primary);
+  border-radius: var(--radius-pill);
+}
+
+/* Legal Document Sheet (Art. 17.5 LPH) */
+.lph-sheet {
+  background: #FFFFFF;
+  color: #111111;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  box-shadow: var(--shadow-elevated);
+}
+
+/* Footer */
+.site-footer {
+  padding-block: 2.25rem;
+  margin-top: 2rem;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  font-size: 0.84rem;
+  color: var(--ink-muted);
+}
+
+/* Reduced motion & reduced transparency (apple-design §14) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 120ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .site-header {
+    background: #FAF6F0 !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* Print Isolation for Art. 17.5 LPH Official Notification */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 20mm;
+  }
+
+  html, body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11.5pt;
+  }
+
+  .skip-link,
+  .site-header,
+  .side-index,
+  .hero-section,
+  #mod-termodinamica,
+  #mod-quimica,
+  #mod-catalogo,
+  #mod-dimensiones,
+  #mod-patrimonio,
+  .no-print,
+  .site-footer {
+    display: none !important;
+  }
+
+  .page-shell,
+  .main-content {
+    display: block !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #mod-logistica {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: #FFFFFF !important;
+  }
+
+  #lph-print-sheet {
+    display: block !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-size: 11.5pt !important;
+    line-height: 1.6 !important;
+    color: #000000 !important;
+    white-space: pre-wrap !important;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <a href="#hero" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- Cabecera Superior Estática (No fija al hacer scroll) -->
+  <header class="site-header no-print">
+    <div class="header-inner">
+      <a href="#hero" class="brand-block">
+        <div class="brand-mark">EV</div>
+        <div>
+          <div class="brand-title">Asesoria coche EV</div>
+          <span class="brand-sub">Termodinámica · Electroquímica LFP/NMC · Fiscalidad IRPF y Plan Cambia 360</span>
+        </div>
+      </a>
+      <div class="header-meta">
+        <span class="tag lfp tabular">Perfil: 5.000 km/año · Sustitución Opel Astra G (2000)</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <!-- Índice Lateral Vertical Sticky (Columna Izquierda) -->
+    <aside class="side-index no-print" aria-label="Índice de secciones">
+      <div class="side-index-card">
+        <div class="side-index-title">ÍNDICE DEL DICTAMEN</div>
+        <nav class="side-nav-list" aria-label="Navegación por módulos del informe">
+          <a href="#hero" class="side-nav-link is-active" data-section="hero">
+            <span class="side-nav-step">0</span>
+            <span>Resumen Ejecutivo</span>
+          </a>
+          <a href="#mod-termodinamica" class="side-nav-link" data-section="mod-termodinamica">
+            <span class="side-nav-step">1</span>
+            <span>Termodinámica BEV/PHEV</span>
+          </a>
+          <a href="#mod-quimica" class="side-nav-link" data-section="mod-quimica">
+            <span class="side-nav-step">2</span>
+            <span>Química LFP vs NMC</span>
+          </a>
+          <a href="#mod-catalogo" class="side-nav-link" data-section="mod-catalogo">
+            <span class="side-nav-step">3</span>
+            <span>Póker y Cara a Cara</span>
+          </a>
+          <a href="#mod-dimensiones" class="side-nav-link" data-section="mod-dimensiones">
+            <span class="side-nav-step">4</span>
+            <span>Tamaño vs Opel Astra</span>
+          </a>
+          <a href="#mod-patrimonio" class="side-nav-link" data-section="mod-patrimonio">
+            <span class="side-nav-step">5</span>
+            <span>Patrimonio e IRPF</span>
+          </a>
+          <a href="#mod-logistica" class="side-nav-link" data-section="mod-logistica">
+            <span class="side-nav-step">6</span>
+            <span>Viaje 300 km y LPH</span>
+          </a>
+        </nav>
+        <a href="#mod-patrimonio" class="btn-apple primary side-index-cta">Ir al Simulador Patrimonial →</a>
+      </div>
+    </aside>
+
+    <!-- Columna Principal de Contenido -->
+    <main class="main-content">
+      <!-- HERO EJECUTIVO -->
+      <section id="hero" class="hero-section no-print">
+        <div class="wrap">
+          <div class="hero-grid">
+            <div>
+              <span class="eyebrow">Dictamen Personalizado · Análisis Técnico y Financiero</span>
+              <h1 class="hero-title">De un Opel Astra (2000) a la Movilidad Eléctrica: Análisis Termodinámico, Electroquímico y Patrimonial</h1>
+              <p class="section-lead">
+                Estudio de ingeniería y finanzas diseñado para un perfil de <strong>5.000 km anuales</strong> en Madrid
+                (recorridos urbanos cortos + <strong>1 viaje interurbano anual de 300 km</strong>), con achatarramiento de un
+                <strong>Opel Astra G (año 2000, sin distintivo ambiental DGT)</strong> y techo presupuestario de <strong>35.000 €</strong>.
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.4rem;">
+                <a href="#mod-catalogo" class="btn-apple primary">Explorar Póker de Candidatos</a>
+                <a href="#mod-quimica" class="btn-apple">Laboratorio LFP vs NMC</a>
+                <a href="#mod-dimensiones" class="btn-apple">Comparar Tamaño vs Opel Astra</a>
+              </div>
+            </div>
+
+            <div class="hero-thesis-box">
+              <div class="eyebrow amber" style="margin-bottom: 0.6rem;">Síntesis del Dictamen Catedrático</div>
+              <h3 style="margin-bottom: 0.6rem;">Tres conclusiones físicas y fiscales irrefutables</h3>
+              <ol style="margin: 0; padding-left: 1.2rem; color: var(--ink-secondary); font-size: 0.91rem; display: grid; gap: 0.55rem;">
+                <li>
+                  <strong>Descarte termodinámico del PHEV:</strong> A 5.000 km/año en trayectos cortos, el aceite del motor térmico sufre condensación acuosa y dilución ácida sin superar los 90 °C de evaporación.
+                </li>
+                <li>
+                  <strong>Superioridad cinética del cátodo LFP (LiFePO<sub>4</sub>):</strong> Su enlace covalente P–O en estructura olivino minimiza el envejecimiento por calendario (<i>k</i> ∝ <i>e</i><sup>−E<sub>a</sub>/RT</sup>) cuando el vehículo pasa el 96% del tiempo estacionado en garaje.
+                </li>
+                <li>
+                  <strong>El "Mordisco Fiscal" en el IRPF:</strong> Los 5.500 € del Plan Cambia 360 tributan como ganancia patrimonial al tipo marginal (37%), reduciendo la ayuda neta y haciendo muy competitivo el mercado de ocasión reciente (Tesla Model 3 RWD / MG4).
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="grid-4">
+            <div class="kpi-card">
+              <div class="kpi-label">Uso Anual Modelizado</div>
+              <div class="kpi-value tabular">5.000 km/año</div>
+              <div class="kpi-sub">~4.700 km Madrid urbano + 1 viaje de 300 km</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Vehículo saliente (Achatarramiento)</div>
+              <div class="kpi-value amber tabular">+5.500 € Brutos</div>
+              <div class="kpi-sub">Opel Astra (2000) Categoría A → Plan Cambia 360</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Techo Presupuestario</div>
+              <div class="kpi-value tabular">&lt; 35.000 €</div>
+              <div class="kpi-sub">Objetivo neto real: 13.500 € – 25.500 € tras incentivos</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Coste Energético en Garaje</div>
+              <div class="kpi-value sage tabular">~51 € / año</div>
+              <div class="kpi-sub">Tarifa valle EV (0,068 €/kWh · ~750 kWh anuales)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 1: TERMODINÁMICA Y MECÁNICA (BEV vs PHEV) -->
+      <section id="mod-termodinamica" class="section-block no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 1 · Termodinámica Aplicada y Tribología</span>
+            <h2 class="section-title">Por qué el Híbrido Enchufable (PHEV) fracasa a 5.000 km/año</h2>
+            <p class="section-lead">
+              Para quien recorre apenas 10–15 km diarios por Madrid y realiza un único viaje largo al año, el híbrido enchufable (PHEV) reúne las penalizaciones de ambos mundos: degradación química del aceite de cárter por baja temperatura e inercia parasitaria de un doble tren motriz.
+            </p>
+          </div>
+
+          <div class="split-asymmetric">
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+                <div class="segmented-control" role="tablist" aria-label="Selector de arquitectura motriz">
+                  <div id="tech-pill" class="spring-pill-indicator"></div>
+                  <button type="button" id="tab-bev" class="segmented-btn active" role="tab" aria-selected="true" aria-controls="tech-detail-panel" data-tech="bev">
+                    BEV 100% Eléctrico
+                  </button>
+                  <button type="button" id="tab-phev" class="segmented-btn" role="tab" aria-selected="false" aria-controls="tech-detail-panel" data-tech="phev">
+                    PHEV Híbrido Enchufable
+                  </button>
+                </div>
+                <span class="tag lfp">Diagnóstico Químico-Mecánico</span>
+              </div>
+
+              <div id="tech-detail-panel" role="tabpanel" aria-labelledby="tab-bev">
+                <h3>Arquitectura BEV: Simplicidad Termodinámica (η ≈ 88–92%)</h3>
+                <p>
+                  Un vehículo eléctrico puro elimina más de 2.000 piezas móviles sujetas a fricción, fatiga térmica y tribología crítica (turbocompresor, inyectores, embrague, correa de distribución, filtro de partículas GPF y catalizador de tres vías).
+                </p>
+                <ul style="color: var(--ink-secondary); font-size: 0.92rem; padding-left: 1.2rem; display: grid; gap: 0.5rem;">
+                  <li><strong>Sin degradación por trayectos cortos:</strong> El motor síncrono de imanes permanentes opera con eficiencia máxima desde <i>t</i> = 0 s, sin requerir calentamiento de fluidos.</li>
+                  <li><strong>Frenada regenerativa:</strong> En tráfico denso de Madrid (M-30 / almendra central), recupera entre el 25% y el 35% de la energía cinética, preservando discos y pastillas por más de 100.000 km.</li>
+                  <li><strong>Mantenimiento anual testimonial (~95 €/año):</strong> Limitado a filtro de habitáculo (carbón activo), revisión de neumáticos y líquido de frenos cada 2–3 años.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="control-label" style="margin-bottom: 0.85rem;">
+                <span>Coste Operativo Acumulado (Taller + Energía · 5.000 km/año)</span>
+                <select id="tco-mode-select" aria-label="Horizonte de cálculo TCO">
+                  <option value="5years" selected>Acumulado 5 años (25.000 km)</option>
+                  <option value="8years">Acumulado 8 años (40.000 km)</option>
+                  <option value="annual">Promedio Anual (5.000 km/año)</option>
+                </select>
+              </div>
+              <div class="canvas-wrapper">
+                <canvas id="tco-canvas" width="620" height="300" role="img" aria-label="Gráfico de barras comparativo de coste operativo acumulado entre eléctrico puro BEV, híbrido enchufable PHEV y combustión ICE"></canvas>
+              </div>
+              <p style="font-size: 0.82rem; color: var(--ink-muted); margin-top: 0.75rem; margin-bottom: 0;">
+                Nota tribológica: En el PHEV, el subproducto de combustión (C<sub>n</sub>H<sub>m</sub> + O<sub>2</sub> → CO<sub>2</sub> + H<sub>2</sub>O) condensa en las paredes frías del cilindro en arranques esporádicos (&lt;90 °C), formando ácidos orgánicos y lodos que obligan a cambiar el aceite cada 12 meses aunque el motor térmico haya rodado menos de 800 km.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 2: LABORATORIO ELECTROQUÍMICO LFP vs NMC -->
+      <section id="mod-quimica" class="section-block alt-surface no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 2 · Electroquímica de Estado Sólido y Cinética de Arrhenius</span>
+            <h2 class="section-title">Cátodo Olivino LiFePO<sub>4</sub> (LFP) frente a Óxido Laminar LiNi<sub>x</sub>Mn<sub>y</sub>Co<sub>z</sub>O<sub>2</sub> (NMC)</h2>
+            <p class="section-lead">
+              Con solo 5.000 km anuales (~12 a 15 ciclos completos equivalentes al año), la degradación por ciclado es despreciable. El factor determinante de la longevidad de tu batería a 10 años es el <strong>envejecimiento por calendario</strong> (<em>Calendar Aging</em>), gobernado por la ecuación de Arrhenius y el potencial electroquímico en reposo.
+            </p>
+          </div>
+
+          <div class="grid-2" style="margin-bottom: 1.5rem;">
+            <article id="card-lfp" class="chem-card lfp-card" tabindex="0" role="button" aria-pressed="true">
+              <div class="badge-row" style="margin-bottom: 0.6rem;">
+                <span class="tag lfp">Química Recomendada · Estructura Olivino (Pnma)</span>
+                <span class="tag tabular">3,20 – 3,29 V nominal</span>
+              </div>
+              <h3>Fosfato de Hierro y Litio (LiFePO<sub>4</sub> · LFP)</h3>
+              <div class="chem-formula">LiFePO₄ ⇄ FePO₄ + Li⁺ + e⁻ &nbsp;|&nbsp; Enlace covalente P–O en (PO₄)³⁻</div>
+              <p style="font-size: 0.91rem;">
+                Los átomos de oxígeno forman tetraedros covalentes (PO<sub>4</sub>)<sup>3−</sup> de altísima energía de enlace (<i>E</i><sub>P–O</sub> ≈ 595 kJ/mol). Esto impide la liberación de O<sub>2</sub> gaseoso hasta superar los <strong>270 °C</strong>, otorgando inmunidad estructural frente al embalamiento térmico (<em>thermal runaway</em>).
+              </p>
+              <ul style="font-size: 0.85rem; color: var(--ink-secondary); padding-left: 1.15rem; margin-bottom: 0;">
+                <li><strong>Menor potencial redox:</strong> Su meseta plana a 3,29 V reduce drásticamente la fuerza electromotriz que alimenta la reducción parásita del electrolito en el ánodo de grafito (capa SEI).</li>
+                <li><strong>Calibración BMS:</strong> Debido a la transición bifásica FePO<sub>4</sub>/LiFePO<sub>4</sub>, conviene cargar al 100% una vez al mes para equilibrar celdas en el codo superior (3,65 V).</li>
+                <li><strong>Modelos del catálogo:</strong> BYD Dolphin Surf, MG4 Electric, Tesla Model 3 RWD, BYD Dolphin Comfort, Citroën ë-C3.</li>
+              </ul>
+            </article>
+
+            <article id="card-nmc" class="chem-card nmc-card" tabindex="0" role="button" aria-pressed="false">
+              <div class="badge-row" style="margin-bottom: 0.6rem;">
+                <span class="tag nmc">Alta Densidad Gravimétrica · Óxido Laminar (R-3m)</span>
+                <span class="tag tabular">3,65 – 4,20 V máx</span>
+              </div>
+              <h3>Óxido de Níquel, Manganeso y Cobalto (LiNi<sub>x</sub>Mn<sub>y</sub>Co<sub>z</sub>O<sub>2</sub> · NMC)</h3>
+              <div class="chem-formula">LiNiₓMnᵧCo₂O₂ ⇄ Li₁₋δNiₓMnᵧCo₂O₂ + δLi⁺ + δe⁻</div>
+              <p style="font-size: 0.91rem;">
+                Estructura laminar análoga al LiCoO<sub>2</sub> con mayor energía específica (Wh/kg), lo que permite empaquetar <strong>52 kWh</strong> en un utilitario corto como el Renault 5 E-Tech con excelente respuesta a bajas temperaturas.
+              </p>
+              <ul style="font-size: 0.85rem; color: var(--ink-secondary); padding-left: 1.15rem; margin-bottom: 0;">
+                <li><strong>Sensibilidad al alto SoC en reposo:</strong> Al 100% SoC el potencial alcanza ~4,20 V, acelerando la oxidación anódica del carbonato de etileno (EC) y la reconstrucción superficial a fase tipo espinela/sal gema.</li>
+                <li><strong>Protocolo óptimo para el profesor:</strong> Si eliges NMC (ej. Renault 5 52 kWh), basta con limitar la carga diaria en garaje al <strong>60%–70% SoC</strong> y subir al 100% solo la víspera del viaje de 300 km.</li>
+                <li><strong>Modelos del catálogo:</strong> Renault 5 E-Tech 52 kWh (y variantes NMC de alta autonomía).</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="card">
+            <div class="grid-2" style="align-items: end; margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="chem-soc-slider">
+                  <span>Estado de Carga (SoC) habitual de estacionamiento en garaje</span>
+                  <strong id="chem-soc-val" class="tabular" style="color: var(--accent-primary);">100% SoC</strong>
+                </label>
+                <input type="range" id="chem-soc-slider" min="20" max="100" step="5" value="100" />
+                <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--ink-muted); margin-top: 0.25rem;">
+                  <span>20% (Almacenamiento óptimo)</span>
+                  <span>60% (Ideal diario NMC)</span>
+                  <span>100% (Tensión máxima)</span>
+                </div>
+              </div>
+
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="chem-temp-select">
+                  <span>Temperatura media anual de tu plaza de garaje en Madrid</span>
+                </label>
+                <select id="chem-temp-select">
+                  <option value="16">16 °C · Garaje subterráneo profundo (Sótano -2 / -3 fresco)</option>
+                  <option value="21" selected>21 °C · Garaje comunitario estándar en Madrid (Sótano -1)</option>
+                  <option value="27">27 °C · Plaza en superficie o garaje cálido en verano</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="canvas-card">
+                <h4>Curva Cinética de Retención SoH (0 a 10 Años · Ley de Arrhenius)</h4>
+                <div class="canvas-wrapper">
+                  <canvas id="aging-canvas" width="580" height="290" role="img" aria-label="Curva de retención de estado de salud SoH durante 10 años comparando cátodo LFP Olivino frente a NMC Laminar"></canvas>
+                </div>
+              </div>
+              <div class="canvas-card">
+                <h4>Perfil Termodinámico de Potencial vs. SoC (Meseta LFP 3,29 V vs. Pendiente NMC)</h4>
+                <div class="canvas-wrapper">
+                  <canvas id="voltage-canvas" width="580" height="290" role="img" aria-label="Curva de tensión de celda en voltios frente al estado de carga SoC comparando la meseta LFP a 3,29 V con la rampa NMC hasta 4,20 V"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div id="chem-verdict-box" class="verdict-banner">
+              Cargando simulación electroquímica de envejecimiento por calendario…
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 3: PÓKER DE CANDIDATOS, CATÁLOGO Y COMPARADOR CARA A CARA -->
+      <section id="mod-catalogo" class="section-block no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 3 · Selección de Mercado y Configuraciones Oficiales</span>
+            <h2 class="section-title">El Póker de Candidatos (Tus 4 Favoritos) + Catálogo y Comparador 1 vs 1</h2>
+            <p class="section-lead">
+              Análisis con precios verificados al contado en España y enlaces directos a tus <strong>3 configuraciones reales guardadas</strong> (Renault 5 E-Tech Techno 52 kWh, BYD Dolphin Surf y MG4 Electric LFP) frente a la referencia en mercado de ocasión reciente (Tesla Model 3 RWD 60 kWh LFP).
+            </p>
+          </div>
+
+          <!-- 3A: Póker Protagonista (2x2 Grid) -->
+          <div style="margin-bottom: 2.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+              <h3>1. El Póker Protagonista: Tus 4 Opciones Principales</h3>
+              <span class="tag lfp">Datos Oficiales de Configurador + Ocasión Madrid</span>
+            </div>
+            <div id="protagonist-grid" class="grid-2">
+              <!-- Renderizado dinámicamente por app.js con fallback semántico inicial -->
+              <article class="vehicle-card protagonist">
+                <div>
+                  <div class="badge-row" style="margin-bottom: 0.5rem;">
+                    <span class="tag nmc">NMC 52 kWh</span>
+                    <span class="tag">425 km WLTP</span>
+                    <span class="tag tabular">25.522 € Contado Promo</span>
+                  </div>
+                  <h4>Renault 5 E-Tech techno 52 kWh (Tu Configuración)</h4>
+                  <p style="font-size: 0.86rem;">Acabado techno · 150 CV · Color Azul Noche · Llantas 18" techno · 3.922 mm de longitud.</p>
+                </div>
+                <a href="https://www.renault.es/electricos/r5-e-tech-electrico/configurador.html?conf=https%3A%2F%2Fes.co.rplug.renault.com%2Fc%2FBAHPt%2FAmnZK2oMuA" target="_blank" rel="noopener noreferrer" class="btn-apple primary sm">Abrir Configuración Guardada Renault 5 ↗</a>
+              </article>
+              <article class="vehicle-card protagonist">
+                <div>
+                  <div class="badge-row" style="margin-bottom: 0.5rem;">
+                    <span class="tag lfp">LFP Blade 43,2 kWh</span>
+                    <span class="tag">322 km WLTP</span>
+                    <span class="tag tabular">19.990 – 26.490 €</span>
+                  </div>
+                  <h4>BYD Dolphin Surf Boost / Comfort (Gama Oficial)</h4>
+                  <p style="font-size: 0.86rem;">Química LFP Blade indestructible · 3.990 mm largo · Active desde 19.990 € / Boost 43,2 kWh 23.990 €.</p>
+                </div>
+                <a href="https://www.byd.com/es-es/configurador/dolphin-surf" target="_blank" rel="noopener noreferrer" class="btn-apple primary sm">Abrir Configurador BYD Dolphin Surf ↗</a>
+              </article>
+              <article class="vehicle-card protagonist">
+                <div>
+                  <div class="badge-row" style="margin-bottom: 0.5rem;">
+                    <span class="tag lfp">LFP 54 kWh</span>
+                    <span class="tag">415 km WLTP</span>
+                    <span class="tag tabular">21.690 € Contado</span>
+                  </div>
+                  <h4>MG4 Electric Comfort 54 kWh LFP (Nuevo / Ocasión)</h4>
+                  <p style="font-size: 0.86rem;">Propulsión trasera RWD · 4.287 mm largo · Nuevo 43/54 kWh o seminuevo LFP 51 kWh desde 18.990 €.</p>
+                </div>
+                <a href="https://www.mgmotor.es/configurator/mg4" target="_blank" rel="noopener noreferrer" class="btn-apple primary sm">Abrir Configurador MG4 Electric ↗</a>
+              </article>
+              <article class="vehicle-card protagonist">
+                <div>
+                  <div class="badge-row" style="margin-bottom: 0.5rem;">
+                    <span class="tag lfp">LFP CATL 60 kWh</span>
+                    <span class="tag">491 km WLTP</span>
+                    <span class="tag tabular">31.490 € Ocasión</span>
+                  </div>
+                  <h4>Tesla Model 3 RWD 60 kWh (Ocasión 2023)</h4>
+                  <p style="font-size: 0.86rem;">Líder aerodinámico (14,5 kWh/100 km) · Ya absorbió la depreciación de los 3 primeros años.</p>
+                </div>
+                <a href="https://www.tesla.com/es_es/inventory/used/m3" target="_blank" rel="noopener noreferrer" class="btn-apple sm">Ver Inventario Ocasión Madrid ↗</a>
+              </article>
+            </div>
+          </div>
+
+          <!-- 3B: Catálogo Completo Filtrable (7 Modelos) -->
+          <div class="card-subtle" style="margin-bottom: 2.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+              <div>
+                <h3 style="margin-bottom: 0.2rem;">2. Explorador del Catálogo Completo (7 Alternativas Analizadas)</h3>
+                <p style="font-size: 0.86rem; margin-bottom: 0;">Filtra por química de cátodo, estado (Nuevo/Km 0 vs. Ocasión) y presupuesto bruto al contado.</p>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.45rem;" role="group" aria-label="Filtro por química">
+                <button type="button" id="filter-chem-ALL" class="btn-apple sm filter-pill active" data-chem="ALL">Todas las Químicas (7)</button>
+                <button type="button" id="filter-chem-LFP" class="btn-apple sm filter-pill" data-chem="LFP">Solo LFP LiFePO₄</button>
+                <button type="button" id="filter-chem-NMC" class="btn-apple sm filter-pill" data-chem="NMC">Solo NMC Laminar</button>
+              </div>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="filter-condition">Modalidad de Compra</label>
+                <select id="filter-condition">
+                  <option value="ALL" selected>Todos (Nuevos, Km 0 y Ocasión Reciente)</option>
+                  <option value="Nuevo / Km 0">Solo Nuevos / Km 0 (Elegibles Plan Cambia 360 + IRPF)</option>
+                  <option value="Ocasión">Solo Ocasión / Seminuevo (Depreciación inicial ya absorbida)</option>
+                </select>
+              </div>
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="filter-budget">
+                  <span>Techo de Precio al Contado (antes de ayudas)</span>
+                  <strong id="budget-label" class="tabular" style="color: var(--accent-primary);">35.000 €</strong>
+                </label>
+                <input type="range" id="filter-budget" min="18000" max="35000" step="500" value="35000" />
+              </div>
+            </div>
+
+            <div id="catalog-grid" class="grid-3"></div>
+          </div>
+
+          <!-- 3C: Comparador Directo Cara a Cara (1 vs 1) -->
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem;">
+              <div>
+                <span class="eyebrow" style="margin-bottom: 0.35rem;">Duelo Técnico 1 vs 1</span>
+                <h3 style="margin-bottom: 0;">3. Comparador Directo "Cara a Cara"</h3>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.45rem;">
+                <button type="button" id="vs-preset-r5-surf" class="btn-apple sm">Urbano: Renault 5 vs Dolphin Surf</button>
+                <button type="button" id="vs-preset-mg4-m3" class="btn-apple sm">Viajero LFP: MG4 vs Model 3</button>
+                <button type="button" id="vs-preset-r5-m3" class="btn-apple sm">Nuevo vs Ocasión: R5 vs Model 3</button>
+              </div>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="versus-car-a">
+                  <span style="color: var(--accent-primary);">Candidato A (Verde Salvia)</span>
+                </label>
+                <select id="versus-car-a">
+                  <option value="renault-5-techno" selected>Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf">BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="versus-car-b">
+                  <span style="color: var(--accent-secondary);">Candidato B (Cobre / Ámbar)</span>
+                </label>
+                <select id="versus-car-b">
+                  <option value="renault-5-techno">Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf" selected>BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="versus-comparison-body"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 4: COMPARADOR VISUAL DE TAMAÑO Y HABITABILIDAD VS OPEL ASTRA (2000) -->
+      <section id="mod-dimensiones" class="section-block alt-surface no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 4 · Metrología Exterior y Ergonomía de Garaje</span>
+            <h2 class="section-title">Comparador de Tamaño y Habitabilidad frente a tu Opel Astra (2000)</h2>
+            <p class="section-lead">
+              Superposición a escala milimétrica entre tu <strong>Opel Astra G del año 2000</strong> (conmutable entre carrocería 5 Puertas de 4.110 mm y Sedán 4 Puertas de 4.252 mm) y cada candidato eléctrico. Evalúa de un vistazo si ganas agilidad de maniobra en Madrid o capacidad de carga y batalla.
+            </p>
+          </div>
+
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="grid-2" style="margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="dim-car-select">Vehículo Eléctrico a Superponer</label>
+                <select id="dim-car-select">
+                  <option value="renault-5-techno" selected>Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf">BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="dim-astra-select">Referencia Actual (Tu Opel Astra Año 2000)</label>
+                <select id="dim-astra-select">
+                  <option value="compact5p" selected>Opel Astra G 5 Puertas (4.110 mm largo · 370 L maletero)</option>
+                  <option value="sedan4p">Opel Astra G Sedán 4 Puertas (4.252 mm largo · 460 L maletero)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="canvas-wrapper" style="margin-bottom: 1.25rem;">
+              <canvas id="dimensions-canvas" width="820" height="330" role="img" aria-label="Superposición dimensional a escala en perfil lateral y planta de garaje entre el vehículo eléctrico seleccionado y el Opel Astra del año 2000"></canvas>
+            </div>
+
+            <div class="grid-4" style="margin-bottom: 1rem;">
+              <div class="kpi-card">
+                <div class="kpi-label">Δ Longitud Exterior</div>
+                <div id="dim-delta-length" class="kpi-value tabular">-18,8 cm</div>
+                <div class="kpi-sub">Diferencia frente al Opel Astra</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Δ Anchura (Sin Espejos)</div>
+                <div id="dim-delta-width" class="kpi-value tabular">+6,5 cm</div>
+                <div class="kpi-sub">Estabilidad de vía y hombros</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Δ Batalla (Distancia Ejes)</div>
+                <div id="dim-delta-wheelbase" class="kpi-value tabular">-6,6 cm</div>
+                <div class="kpi-sub">Suelo plano sin túnel de escape</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Δ Capacidad Maletero</div>
+                <div id="dim-delta-trunk" class="kpi-value tabular">-44 L</div>
+                <div class="kpi-sub">Incluye frunk delantero si aplica</div>
+              </div>
+            </div>
+
+            <div id="dim-verdict-text" class="verdict-banner" style="margin-top: 0;">
+              Calculando comparativa dimensional frente al Opel Astra G (2000)…
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 0.4rem;">Escala Comparativa de los 7 Candidatos frente al Opel Astra (2000)</h3>
+            <p style="font-size: 0.86rem; margin-bottom: 1rem;">
+              Comparación simultánea de longitud exterior (mm) y volumen total de maletero (litros) respecto a la línea base de tu Astra.
+            </p>
+            <div id="dim-all-cars-bars"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 5: SIMULADOR PATRIMONIAL COMPLETO (5-8 AÑOS) + IRPF + DEVALUACIÓN -->
+      <section id="mod-patrimonio" class="section-block no-print">
+        <div class="wrap">
+          <div class="section-header">
+            <span class="eyebrow">Módulo 5 · Ingeniería Fiscal, Subvenciones y Curva de Depreciación</span>
+            <h2 class="section-title">Simulador Patrimonial Completo (5 a 8 Años): Ayudas, "Mordisco Fiscal" IRPF y Valor Residual</h2>
+            <p class="section-lead">
+              En la Comunidad de Madrid, las subvenciones directas (<strong>Plan Cambia 360: hasta 5.500 €</strong> con achatarramiento del Opel Astra + <strong>65% del Wallbox</strong>) constituyen una <em>ganancia patrimonial no derivada de transmisión</em> que tributa en la Base General del IRPF a tu tipo marginal. Por el contrario, la <strong>deducción estatal del 15% en el IRPF</strong> (sobre base máxima de 20.000 € tras restar ayudas directas) está exenta de tributación.
+            </p>
+          </div>
+
+          <div class="split-asymmetric">
+            <!-- Panel Izquierdo: Configuración Financiera y Fiscal -->
+            <div class="card">
+              <h3 style="margin-bottom: 1rem;">Parámetros de Compra y Fiscalidad</h3>
+
+              <div class="control-group">
+                <label class="control-label" for="sim-car-select">Vehículo a Simular</label>
+                <select id="sim-car-select">
+                  <option value="renault-5-techno">Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf" selected>BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+
+              <div id="sim-occasion-warning" class="warning-banner" style="display: none;">
+                <strong>Vehículo de Ocasión seleccionado:</strong> No aplica Plan Cambia 360 (5.500 €) ni deducción estatal del 15% por compra de vehículo nuevo. A cambio, <strong>no sufres el mordisco fiscal en el IRPF</strong> por el coche y te ahorras la fuerte depreciación de los primeros años. Las ayudas del Wallbox sí permanecen activas.
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="sim-custom-price">
+                  <span>Precio de Compra al Contado (Ajustable)</span>
+                  <strong id="sim-price-label" class="tabular" style="color: var(--accent-primary);">23.990 €</strong>
+                </label>
+                <input type="range" id="sim-custom-price" min="15000" max="36000" step="100" value="23990" />
+              </div>
+
+              <div style="margin-bottom: 1rem;">
+                <div class="control-label">Incentivos Públicos y Achatarramiento</div>
+                <label class="checkbox-row">
+                  <input type="checkbox" id="chk-cambia360" checked />
+                  <span>
+                    <strong>Plan Cambia 360 Madrid (+4.000 €)</strong>
+                    <small style="display: block; color: var(--ink-muted);">Subvención directa por compra de BEV nuevo (tributa en IRPF).</small>
+                  </span>
+                </label>
+                <label class="checkbox-row">
+                  <input type="checkbox" id="chk-achatarra" checked />
+                  <span>
+                    <strong>Bono Achatarramiento Opel Astra 2000 (+1.500 €)</strong>
+                    <small style="display: block; color: var(--ink-muted);">Incremento Cambia 360 por baja definitiva de vehículo Categoría A sin etiqueta.</small>
+                  </span>
+                </label>
+                <label class="checkbox-row">
+                  <input type="checkbox" id="chk-irpf-car" checked />
+                  <span>
+                    <strong>Deducción Estatal 15% en IRPF (hasta 3.000 €)</strong>
+                    <small style="display: block; color: var(--ink-muted);">15% sobre base máx. de 20.000 € tras detraer ayudas directas (libre de impuestos).</small>
+                  </span>
+                </label>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="sim-wallbox-cost">
+                  <span>Coste Instalación Wallbox (ITC-BT-52 con GDP)</span>
+                  <strong id="sim-wallbox-label" class="tabular">1.800 €</strong>
+                </label>
+                <input type="range" id="sim-wallbox-cost" min="1200" max="2400" step="50" value="1800" />
+              </div>
+
+              <label class="checkbox-row" style="margin-bottom: 1rem;">
+                <input type="checkbox" id="chk-wallbox-aid" checked />
+                <span>
+                  <strong>Ayudas Wallbox: 65% Cambia 360 + 15% Deducción IRPF</strong>
+                  <small style="display: block; color: var(--ink-muted);">Subvención municipal del 65% + deducción del 15% sobre el neto restante.</small>
+                </span>
+              </label>
+
+              <div class="grid-2">
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="sim-irpf-bracket">Tramo Marginal IRPF</label>
+                  <select id="sim-irpf-bracket">
+                    <option value="24">24% (Base hasta 20.200 €)</option>
+                    <option value="30">30% (Base 20.200 – 35.200 €)</option>
+                    <option value="37" selected>37% (Prof. Titular / Catedrático 35k–60k €)</option>
+                    <option value="45">45% (Tramo superior &gt; 60.000 €)</option>
+                  </select>
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="sim-horizon-years">Horizonte Patrimonial</label>
+                  <select id="sim-horizon-years">
+                    <option value="5">5 Años (25.000 km)</option>
+                    <option value="6" selected>6 Años (30.000 km)</option>
+                    <option value="7">7 Años (35.000 km)</option>
+                    <option value="8">8 Años (40.000 km)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel Derecho: KPIs Patrimoniales y Gráficas -->
+            <div>
+              <div class="grid-3" style="margin-bottom: 1.25rem;">
+                <div class="kpi-card">
+                  <div class="kpi-label">1. Factura Bruta (Coche+WB)</div>
+                  <div id="res-gross" class="kpi-value tabular">25.790 €</div>
+                  <div class="kpi-sub">Desembolso inicial en caja</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">2. Ayudas Nominales Brutas</div>
+                  <div id="res-aids-nominal" class="kpi-value sage tabular">-8.940 €</div>
+                  <div class="kpi-sub">Cambia 360 + Deducciones 15%</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">3. "Mordisco Fiscal" IRPF</div>
+                  <div id="res-tax-bite" class="kpi-value amber tabular">+2.468 €</div>
+                  <div class="kpi-sub">Tributación subvenciones en Renta</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">4. Inversión Neta Real</div>
+                  <div id="res-net-initial" class="kpi-value sage tabular">19.318 €</div>
+                  <div class="kpi-sub">Tras liquidar IRPF al año siguiente</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">5. Valor Residual Estimado</div>
+                  <div id="res-residual-val" class="kpi-value tabular">12.400 €</div>
+                  <div class="kpi-sub">Valor de reventa al final del horizonte</div>
+                </div>
+                <div class="kpi-card">
+                  <div class="kpi-label">6. Coste Patrimonial Neto</div>
+                  <div id="res-tco-net" class="kpi-value tabular">7.998 €</div>
+                  <div class="kpi-sub">Compra neta + uso − valor reventa</div>
+                </div>
+              </div>
+
+              <div class="card" style="margin-bottom: 1.25rem;">
+                <h4 style="margin-bottom: 0.45rem;">Cascada Fiscal: Del Precio de Factura al Desembolso Neto Real</h4>
+                <div class="canvas-wrapper">
+                  <canvas id="patrimonial-waterfall-canvas" width="660" height="260" role="img" aria-label="Gráfico de cascada fiscal desde factura bruta, restando ayudas y deducción IRPF y sumando tributación en Renta hasta el desembolso neto"></canvas>
+                </div>
+              </div>
+
+              <div class="card">
+                <h4 style="margin-bottom: 0.45rem;">Curva Patrimonial y Devaluación (0–8 Años): Tu Elección vs. Model 3 Ocasión vs. Gasolina</h4>
+                <div class="canvas-wrapper" style="margin-bottom: 1rem;">
+                  <canvas id="depreciation-curve-canvas" width="660" height="295" role="img" aria-label="Curva de coste patrimonial neto y depreciación de 0 a 8 años comparando el coche seleccionado frente a Tesla Model 3 ocasión y un gasolina equivalente"></canvas>
+                </div>
+                <div id="sim-breakdown-text" class="verdict-banner" style="margin-top: 0;">
+                  Calculando desglose fiscal RDL 7/2026 y curva de retención de valor…
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÓDULO 6: SIMULADOR VIAJE 300 KM + GENERADOR LEGAL ART. 17.5 LPH -->
+      <section id="mod-logistica" class="section-block alt-surface">
+        <div class="wrap">
+          <div class="section-header no-print">
+            <span class="eyebrow">Módulo 6 · Física Aerodinámica en Ruta y Derecho Inmobiliario</span>
+            <h2 class="section-title">Simulador del Viaje Anual de 300 km y Escrito Legal Art. 17.5 LPH</h2>
+            <p class="section-lead">
+              Comprueba el comportamiento energético real en tu salida anual de <strong>300 km por autovía</strong> (escalado aerodinámico proporcional a <i>v</i><sup>2</sup> y penalización térmica de invierno/verano) y genera al instante la notificación formal para instalar el punto de recarga en tu plaza de garaje comunitaria sin pedir permiso a la Junta.
+            </p>
+          </div>
+
+          <!-- Parte A: Simulador Físico del Viaje de 300 km -->
+          <div class="card no-print" style="margin-bottom: 2.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem;">
+              <h3 style="margin-bottom: 0;">Parte A · Simulador Físico del Viaje Interurbano de 300 km</h3>
+              <span class="tag lfp">Salida al 100% SoC desde Madrid · Margen de Seguridad ≥ 12%</span>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 1.25rem;">
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="trip-car-select">Vehículo para el Viaje</label>
+                <select id="trip-car-select">
+                  <option value="renault-5-techno" selected>Renault 5 E-Tech · NMC 52 kWh (25.522 €)</option>
+                  <option value="byd-dolphin-surf">BYD Dolphin Surf · LFP 43.2 kWh (23.990 €)</option>
+                  <option value="mg4-electric">MG4 Electric · LFP 54 kWh (21.690 €)</option>
+                  <option value="tesla-model3-rwd">Tesla Model 3 RWD · LFP 60 kWh (31.490 €)</option>
+                  <option value="byd-dolphin-comfort">BYD Dolphin 60kWh · LFP 60.4 kWh (21.845 €)</option>
+                  <option value="citroen-ec3">Citroën ë-C3 · LFP 44 kWh (17.690 €)</option>
+                  <option value="volvo-ex30">Volvo EX30 · NMC 51 kWh (30.400 €)</option>
+                </select>
+              </div>
+
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="trip-speed-slider">
+                  <span>Velocidad de Crucero en Autovía</span>
+                  <strong id="trip-speed-val" class="tabular" style="color: var(--accent-primary);">120 km/h</strong>
+                </label>
+                <input type="range" id="trip-speed-slider" min="100" max="130" step="5" value="120" />
+              </div>
+
+              <div class="control-group" style="margin-bottom: 0;">
+                <label class="control-label" for="trip-weather-select">Climatología y Uso de Bomba de Calor / A/C</label>
+                <select id="trip-weather-select">
+                  <option value="winter">Invierno Meseta (5 °C · Calefacción + mayor densidad aire +18%)</option>
+                  <option value="mild" selected>Primavera / Otoño Templado (20 °C · Condición nominal WLTP)</option>
+                  <option value="summer">Verano Continental (35 °C · Climatizador A/C activo +7%)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="split-asymmetric">
+              <div id="trip-results-panel">
+                <!-- Poblado dinámicamente por app.js -->
+              </div>
+              <div class="canvas-wrapper">
+                <canvas id="trip-canvas" width="600" height="275" role="img" aria-label="Balance energético en ruta de 300 km y comparativa de porcentaje de batería a la llegada en los 4 vehículos protagonistas"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parte B: Generador Legal Art. 17.5 LPH -->
+          <div class="card">
+            <div class="no-print" style="margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <div>
+                  <span class="eyebrow" style="margin-bottom: 0.35rem;">Derecho Civil · Propiedad Horizontal e ITC-BT-52</span>
+                  <h3 style="margin-bottom: 0;">Parte B · Generador de Comunicación Oficial a la Comunidad (Art. 17.5 LPH)</h3>
+                </div>
+                <div style="display: flex; gap: 0.6rem;">
+                  <button type="button" id="btn-copy-lph" class="btn-apple">Copiar Escrito</button>
+                  <button type="button" id="btn-print-lph" class="btn-apple primary">Imprimir / Guardar PDF (A4)</button>
+                </div>
+              </div>
+              <p style="font-size: 0.9rem; margin-bottom: 1.25rem;">
+                El <strong>Artículo 17.5 de la Ley 49/1960 de Propiedad Horizontal</strong> establece que para instalar un punto de recarga en plaza individual de garaje <strong>solo se requiere comunicación previa por escrito</strong> al Presidente o Administrador, sin necesidad de someterlo a votación en Junta de Propietarios. Rellena tus datos y pulsa <em>Imprimir / Guardar PDF</em> para obtener únicamente el documento formal en A4.
+              </p>
+
+              <div class="grid-4" style="margin-bottom: 1rem;">
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-owner-name">Nombre y Apellidos del Titular</label>
+                  <input type="text" id="lph-owner-name" name="ownerName" autocomplete="name" value="Prof. Dr. Titular de la Plaza" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-owner-dni">DNI / NIF</label>
+                  <input type="text" id="lph-owner-dni" name="ownerDni" autocomplete="off" value="00000000X" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-address">Dirección de la Comunidad (Madrid)</label>
+                  <input type="text" id="lph-address" name="communityAddress" autocomplete="street-address" value="Calle Ejemplo nº 10, 28006 Madrid" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-spot">Identificación de Plaza de Garaje</label>
+                  <input type="text" id="lph-spot" name="parkingSpot" autocomplete="off" value="Plaza de garaje nº 24 (Sótano -1)" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-recipient">Destinatario</label>
+                  <input type="text" id="lph-recipient" name="recipientRole" autocomplete="organization-title" value="Sr./Sra. Presidente/a de la Comunidad y Administración de Fincas" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-power">Potencia y Esquema ITC-BT-52</label>
+                  <input type="text" id="lph-power" name="wallboxPower" autocomplete="off" value="7,4 kW Monofásico (Esquema 2 con GDP)" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-installer">Empresa Instaladora Autorizada</label>
+                  <input type="text" id="lph-installer" name="installerName" autocomplete="organization" value="Empresa Instaladora Habilitada en Baja Tensión" />
+                </div>
+                <div class="control-group" style="margin-bottom: 0;">
+                  <label class="control-label" for="lph-date">Fecha Prevista de Inicio</label>
+                  <input type="date" id="lph-date" name="plannedDate" autocomplete="off" value="2026-12-15" />
+                </div>
+              </div>
+            </div>
+
+            <div id="lph-print-sheet" class="lph-sheet" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer no-print">
+    <div class="wrap" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <strong>Asesoria coche EV · Dictamen Técnico y Patrimonial</strong>
+        <div>Desarrollado con rigor termodinámico, electroquímico (LiFePO<sub>4</sub> vs NMC) y fiscal (Plan Cambia 360 + RDL 7/2026).</div>
+      </div>
+      <div class="tabular">5.000 km/año · Sustitución Opel Astra G (2000)</div>
+    </div>
+  </footer>
+
+  <script>
+(() => {
+"use strict";
+
+/* --- 1. Vehicle Dataset & Opel Astra (2000) Baselines --- */
+const ASTRA_BASELINES = {
+  compact5p: {
+    id: 'compact5p',
+    name: 'Opel Astra G 5 Puertas (2000)',
+    lengthMm: 4110,
+    widthMm: 1709,
+    heightMm: 1425,
+    wheelbaseMm: 2606,
+    trunkLiters: 370,
+    badgeDgt: 'Sin distintivo (Categoría A)',
+    fuelL100: 6.8
+  },
+  sedan4p: {
+    id: 'sedan4p',
+    name: 'Opel Astra G Sedán 4 Puertas (2000)',
+    lengthMm: 4252,
+    widthMm: 1709,
+    heightMm: 1425,
+    wheelbaseMm: 2606,
+    trunkLiters: 460,
+    badgeDgt: 'Sin distintivo (Categoría A)',
+    fuelL100: 6.8
+  }
+};
+const VEHICLES = [
+  {
+    id: 'renault-5-techno',
+    name: 'Renault 5 E-Tech techno 52 kWh (Tu Configuración)',
+    shortName: 'Renault 5 E-Tech',
+    isProtagonist: true,
+    segment: 'Segmento B · Utilitario Neo-Retro',
+    condition: 'Nuevo / Km 0',
+    chemistry: 'NMC',
+    batteryKwh: 52,
+    powerCv: 150,
+    powerKw: 110,
+    wltpKm: 425,
+    urbanWltpKm: 550,
+    highwayKwh100: 17.8,
+    dcPeakKw: 100,
+    dc10to80Min: 30,
+    priceMin: 21620,
+    priceMax: 25600,
+    priceAvg: 25522,
+    pricePvp: 34005,
+    eligibleNewAid: true,
+    configuratorUrl: 'https://www.renault.es/electricos/r5-e-tech-electrico/configurador.html?conf=https%3A%2F%2Fes.co.rplug.renault.com%2Fc%2FBAHPt%2FAmnZK2oMuA',
+    configSummary: 'Acabado techno · 110 kW (150 CV) · Batería 52 kWh Autonomía Confort · Color Azul Noche · Llantas 18" techno · Tapicería reciclada denim/gris · Contado promo: 25.522 € (PVP 34.005 €). Variante 40 kWh Evolution desde 21.620 €.',
+    lengthMm: 3922,
+    widthMm: 1774,
+    heightMm: 1498,
+    wheelbaseMm: 2540,
+    trunkLiters: 326,
+    frunkLiters: 0,
+    annualDepreciationRates: [0.14, 0.10, 0.08, 0.07, 0.06, 0.06, 0.05, 0.05],
+    badge: 'Configuración Guardada · Diseño & Agilidad Urbana',
+    notes: '19 cm más corto que tu Opel Astra 5p pero con 52 kWh y bomba de calor de serie. Al ser química NMC, conviene estacionarlo habitualmente entre el 50% y el 70% SoC en el garaje.',
+    variants: [
+      { name: 'techno 52 kWh (150 CV · Tu Config)', batteryKwh: 52, wltpKm: 425, priceEur: 25522 },
+      { name: 'evolution 40 kWh (120 CV · Urbano)', batteryKwh: 40, wltpKm: 312, priceEur: 21620 }
+    ]
+  },
+  {
+    id: 'byd-dolphin-surf',
+    name: 'BYD Dolphin Surf Boost / Comfort (Gama Oficial)',
+    shortName: 'BYD Dolphin Surf',
+    isProtagonist: true,
+    segment: 'Segmento B · Urbano LFP',
+    condition: 'Nuevo / Km 0',
+    chemistry: 'LFP',
+    batteryKwh: 43.2,
+    powerCv: 156,
+    powerKw: 115,
+    wltpKm: 322,
+    urbanWltpKm: 507,
+    highwayKwh100: 17.5,
+    dcPeakKw: 85,
+    dc10to80Min: 30,
+    priceMin: 19990,
+    priceMax: 26490,
+    priceAvg: 23990,
+    pricePvp: 23990,
+    eligibleNewAid: true,
+    configuratorUrl: 'https://www.byd.com/es-es/configurador/dolphin-surf',
+    configSummary: 'Blade Battery LFP · Active 30 kWh (88 CV, 220 km WLTP, 19.990 € PVP / 14.455 € con ayudas) · Boost 43,2 kWh (88 CV, 322 km WLTP, 23.990 €) · Comfort 43,2 kWh (156 CV, cámara 360°, 26.490 €).',
+    lengthMm: 3990,
+    widthMm: 1720,
+    heightMm: 1590,
+    wheelbaseMm: 2500,
+    trunkLiters: 316,
+    frunkLiters: 0,
+    annualDepreciationRates: [0.15, 0.10, 0.08, 0.07, 0.06, 0.06, 0.05, 0.05],
+    badge: 'Compra Maestra Urbana · Química LFP Blade',
+    notes: 'Química LiFePO4 estructuralmente inmune a fuga térmica y mínima degradación por calendario. 12 cm más corto que el Astra 5p, ideal para maniobrar en Madrid con equipamiento tecnológico completo.',
+    variants: [
+      { name: 'Active 30 kWh (88 CV)', batteryKwh: 30, wltpKm: 220, priceEur: 19990 },
+      { name: 'Boost 43,2 kWh (88 CV)', batteryKwh: 43.2, wltpKm: 322, priceEur: 23990 },
+      { name: 'Comfort 43,2 kWh (156 CV)', batteryKwh: 43.2, wltpKm: 310, priceEur: 26490 }
+    ]
+  },
+  {
+    id: 'mg4-electric',
+    name: 'MG4 Electric Comfort 54 kWh LFP (Nuevo / Ocasión)',
+    shortName: 'MG4 Electric',
+    isProtagonist: true,
+    segment: 'Segmento C · Compacto RWD',
+    condition: 'Nuevo / Km 0',
+    chemistry: 'LFP',
+    batteryKwh: 54,
+    powerCv: 170,
+    powerKw: 125,
+    wltpKm: 415,
+    urbanWltpKm: 530,
+    highwayKwh100: 18.0,
+    dcPeakKw: 117,
+    dc10to80Min: 26,
+    priceMin: 19690,
+    priceMax: 23690,
+    priceAvg: 21690,
+    pricePvp: 29865,
+    eligibleNewAid: true,
+    configuratorUrl: 'https://www.mgmotor.es/configurator/mg4',
+    configSummary: 'Propulsión trasera y batería LFP. Nuevo en configurador: 43 kWh Comfort (325 km, 19.690 € contado) y 54 kWh Comfort (415 km, 21.690 € contado). Unidades Ocasión 23/24 (51 kWh LFP) en Madrid por 18.490–19.990 €.',
+    lengthMm: 4287,
+    widthMm: 1836,
+    heightMm: 1504,
+    wheelbaseMm: 2705,
+    trunkLiters: 363,
+    frunkLiters: 0,
+    annualDepreciationRates: [0.16, 0.11, 0.08, 0.07, 0.06, 0.06, 0.05, 0.05],
+    badge: 'Equilibrio Polivalente · Plataforma MSP Trasera',
+    notes: 'Tamaño prácticamente calcado al Opel Astra Sedán (4,29 m), con propulsión trasera, reparto de pesos 50:50 y batería LFP de 54 kWh capaz de cubrir el viaje de 300 km con margen holgado.',
+    variants: [
+      { name: 'Comfort 54 kWh LFP (Nuevo Contado)', batteryKwh: 54, wltpKm: 415, priceEur: 21690 },
+      { name: 'Comfort 43 kWh LFP (Nuevo Contado)', batteryKwh: 43, wltpKm: 325, priceEur: 19690 },
+      { name: 'Standard 51 kWh LFP (Ocasión 23/24)', batteryKwh: 51, wltpKm: 350, priceEur: 18990 }
+    ]
+  },
+  {
+    id: 'tesla-model3-rwd',
+    name: 'Tesla Model 3 RWD 60 kWh (Ocasión 2023)',
+    shortName: 'Tesla Model 3 RWD',
+    isProtagonist: true,
+    segment: 'Segmento D · Berlina Eficiente',
+    condition: 'Ocasión',
+    chemistry: 'LFP',
+    batteryKwh: 60,
+    powerCv: 283,
+    powerKw: 208,
+    wltpKm: 491,
+    urbanWltpKm: 610,
+    highwayKwh100: 14.5,
+    dcPeakKw: 170,
+    dc10to80Min: 25,
+    priceMin: 28990,
+    priceMax: 33990,
+    priceAvg: 31490,
+    pricePvp: 41490,
+    eligibleNewAid: false,
+    configuratorUrl: 'https://www.tesla.com/es_es/inventory/used/m3',
+    configSummary: 'Referencia aerodinámica (Cd 0,219 · 14,5 kWh/100 km en autovía). Batería LFP CATL 60 kWh. Ya absorbió su fuerte depreciación inicial (ahorro de ~10.000 € respecto a nuevo). Stock en Madrid entre 28.990 € y 33.990 €.',
+    lengthMm: 4720,
+    widthMm: 1849,
+    heightMm: 1441,
+    wheelbaseMm: 2875,
+    trunkLiters: 513,
+    frunkLiters: 88,
+    annualDepreciationRates: [0.07, 0.07, 0.06, 0.06, 0.05, 0.05, 0.05, 0.04],
+    badge: 'Rey Aerodinámico · 300 km Sin Parar',
+    notes: 'Completa el viaje de 300 km a 120 km/h de un tirón sobrando más del 22% de batería. Aunque no recibe ayudas de coche nuevo, evita el "mordisco fiscal" en IRPF y ya absorbió la devaluación de los 3 primeros años.',
+    variants: [
+      { name: 'RWD 60 kWh LFP (Ocasión 2023 · 45.000 km)', batteryKwh: 60, wltpKm: 491, priceEur: 31490 }
+    ]
+  },
+  {
+    id: 'byd-dolphin-comfort',
+    name: 'BYD Dolphin Comfort 60,4 kWh (Km 0)',
+    shortName: 'BYD Dolphin 60kWh',
+    isProtagonist: false,
+    segment: 'Segmento C · Compacto',
+    condition: 'Nuevo / Km 0',
+    chemistry: 'LFP',
+    batteryKwh: 60.4,
+    powerCv: 204,
+    powerKw: 150,
+    wltpKm: 427,
+    urbanWltpKm: 560,
+    highwayKwh100: 17.8,
+    dcPeakKw: 88,
+    dc10to80Min: 29,
+    priceMin: 20490,
+    priceMax: 23199,
+    priceAvg: 21845,
+    pricePvp: 35690,
+    eligibleNewAid: true,
+    configuratorUrl: 'https://www.byd.com/es-es/model/dolphin',
+    configSummary: 'Compacto de 4,29 m con batería Blade LFP de 60,4 kWh y 204 CV. Unidades Km 0 en concesionarios de Madrid entre 20.490 € y 23.199 € al contado.',
+    lengthMm: 4290,
+    widthMm: 1770,
+    heightMm: 1570,
+    wheelbaseMm: 2700,
+    trunkLiters: 345,
+    frunkLiters: 0,
+    annualDepreciationRates: [0.14, 0.10, 0.08, 0.07, 0.06, 0.06, 0.05, 0.05],
+    badge: 'Gran Batería LFP · Km 0',
+    notes: 'Alternativa de segmento C con 60,4 kWh LFP por el precio de un utilitario.',
+    variants: [
+      { name: 'Comfort 60,4 kWh LFP (Km 0 Madrid)', batteryKwh: 60.4, wltpKm: 427, priceEur: 21845 }
+    ]
+  },
+  {
+    id: 'citroen-ec3',
+    name: 'Citroën ë-C3 You 44 kWh (Nuevo / Km 0)',
+    shortName: 'Citroën ë-C3',
+    isProtagonist: false,
+    segment: 'Segmento B · Utilitario',
+    condition: 'Nuevo / Km 0',
+    chemistry: 'LFP',
+    batteryKwh: 44,
+    powerCv: 113,
+    powerKw: 83,
+    wltpKm: 320,
+    urbanWltpKm: 440,
+    highwayKwh100: 19.2,
+    dcPeakKw: 100,
+    dc10to80Min: 26,
+    priceMin: 16275,
+    priceMax: 19100,
+    priceAvg: 17690,
+    pricePvp: 22590,
+    eligibleNewAid: true,
+    configuratorUrl: 'https://www.citroen.es/modelos/nuevo-e-c3.html',
+    configSummary: 'Utilitario con suspensión Advanced Comfort y batería LFP de 44 kWh. El desembolso inicial más bajo del mercado en Madrid.',
+    lengthMm: 4015,
+    widthMm: 1755,
+    heightMm: 1577,
+    wheelbaseMm: 2540,
+    trunkLiters: 310,
+    frunkLiters: 0,
+    annualDepreciationRates: [0.16, 0.11, 0.09, 0.07, 0.06, 0.06, 0.05, 0.05],
+    badge: 'Mínimo Desembolso · Confort Suspensión',
+    notes: 'Opción pragmática de bajo coste con química LFP y acceso alto.',
+    variants: [
+      { name: 'You 44 kWh LFP', batteryKwh: 44, wltpKm: 320, priceEur: 17690 }
+    ]
+  },
+  {
+    id: 'volvo-ex30',
+    name: 'Volvo EX30 Single Motor (Km 0 / 2024)',
+    shortName: 'Volvo EX30',
+    isProtagonist: false,
+    segment: 'Segmento B-SUV · Premium',
+    condition: 'Nuevo / Km 0',
+    chemistry: 'NMC',
+    batteryKwh: 51,
+    powerCv: 272,
+    powerKw: 200,
+    wltpKm: 344,
+    urbanWltpKm: 475,
+    highwayKwh100: 18.5,
+    dcPeakKw: 134,
+    dc10to80Min: 26,
+    priceMin: 28900,
+    priceMax: 31900,
+    priceAvg: 30400,
+    pricePvp: 39050,
+    eligibleNewAid: true,
+    configuratorUrl: 'https://www.volvocars.com/es/cars/ex30-electric/',
+    configSummary: 'B-SUV escandinavo de 272 CV con batería LFP de 51 kWh (Core/Plus) en unidades Km 0 en Madrid alrededor de 30.400 €.',
+    lengthMm: 4233,
+    widthMm: 1836,
+    heightMm: 1550,
+    wheelbaseMm: 2650,
+    trunkLiters: 318,
+    frunkLiters: 7,
+    annualDepreciationRates: [0.15, 0.10, 0.08, 0.07, 0.06, 0.06, 0.05, 0.05],
+    badge: 'Alternativa Escandinava · 272 CV',
+    notes: 'Longitud intermedia entre el Astra 5p y el Astra Sedán, con altas prestaciones.',
+    variants: [
+      { name: 'Single Motor 51 kWh (Km 0)', batteryKwh: 51, wltpKm: 344, priceEur: 30400 }
+    ]
+  }
+];
+
+/* --- 2. Thermodynamic, Electrochemical, Fiscal & Legal Models --- */
+function computeTcoBreakdown(mode = '5yr') {
+  const multiplier = (mode === '8yr' || mode === '8years') ? 8 : mode === 'annual' ? 1 : 5;
+  const labels = ['BEV 100% Eléctrico', 'PHEV Híbrido Enchufable', 'ICE Gasolina / MHEV'];
+
+  // 5.000 km/año en Madrid:
+  // BEV: ~51 €/año carga nocturna (0,068 €/kWh) + ~34 €/año recarga viaje 300 km = 85 €/año energía; ~95 €/año mantenimiento (filtro polen, líquido frenos).
+  // PHEV: condensación acuosa en cárter por trayectos cortos (<15 km) obliga a cambios de aceite/filtros anuales y mantenimiento dual (480 €/año) + energía mixta (210 €/año).
+  // ICE: 6,8 L/100km * 50 * 1,65 €/L = 561 €/año combustible; ~390 €/año mantenimiento y desgaste embrague/distribución/ITV.
+  const annualMaintenance = [95, 480, 390];
+  const annualEnergy = [85, 210, 560];
+
+  const maintenance = annualMaintenance.map(v => Math.round(v * multiplier));
+  const energy = annualEnergy.map(v => Math.round(v * multiplier));
+  const total = maintenance.map((m, idx) => m + energy[idx]);
+
+  return {
+    mode,
+    multiplier,
+    labels,
+    maintenance,
+    energy,
+    total
+  };
+}
+function computeCalendarAging({ socPercent = 80, tempC = 21 } = {}) {
+  const soc = Math.min(100, Math.max(20, Number(socPercent) || 80));
+  const temp = Math.min(40, Math.max(5, Number(tempC) || 21));
+
+  const years = Array.from({ length: 11 }, (_, i) => i);
+  const tRefK = 293.15; // 20 °C
+  const tActualK = temp + 273.15;
+
+  // Arrhenius factor exp((Ea/R) * (1/Tref - 1/T))
+  // LFP olivine (covalent P-O bond, ~3.29V plateau) has lower thermal & anodic sensitivity than layered NMC (~4.20V at 100% SoC)
+  const tempFactorLfp = Math.exp(3200 * (1 / tRefK - 1 / tActualK));
+  const tempFactorNmc = Math.exp(4200 * (1 / tRefK - 1 / tActualK));
+
+  const s = soc / 100;
+  const socFactorLfp = 0.65 + 0.55 * Math.pow(s, 1.8);
+  const socFactorNmc = 0.70 + 1.65 * Math.pow(s, 2.35);
+
+  // Base degradation rates tuned for 5.000 km/yr (predominantly calendar SEI growth ~ t^0.72 + light cyclic fade)
+  const baseRateLfp = 0.88;
+  const baseRateNmc = 0.98;
+
+  const lfpRetention = years.map(yr => {
+    if (yr === 0) return 100;
+    const calLoss = baseRateLfp * tempFactorLfp * socFactorLfp * Math.pow(yr, 0.72);
+    const cycLoss = 0.08 * yr; // 5,000 km/yr ~ 15 full cycles/yr on LFP
+    const ret = Math.min(100, Math.max(60, 100 - (calLoss + cycLoss)));
+    return Number(ret.toFixed(1));
+  });
+
+  const nmcRetention = years.map(yr => {
+    if (yr === 0) return 100;
+    const calLoss = baseRateNmc * tempFactorNmc * socFactorNmc * Math.pow(yr, 0.72);
+    const cycLoss = 0.14 * yr; // 5,000 km/yr cyclic wear on NMC
+    const ret = Math.min(100, Math.max(55, 100 - (calLoss + cycLoss)));
+    return Number(ret.toFixed(1));
+  });
+
+  const lfp10YrLoss = Number((100 - lfpRetention[10]).toFixed(1));
+  const nmc10YrLoss = Number((100 - nmcRetention[10]).toFixed(1));
+
+  const socPoints = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+  const lfpVolts = [3.00, 3.20, 3.25, 3.28, 3.29, 3.29, 3.30, 3.31, 3.32, 3.34, 3.65];
+  const nmcVolts = [3.00, 3.42, 3.55, 3.62, 3.68, 3.74, 3.82, 3.91, 4.01, 4.11, 4.20];
+
+  const gap10Yr = Number((lfpRetention[10] - nmcRetention[10]).toFixed(1));
+  let verdictText = `A ${temp} °C y ${soc}% de SoC medio en garaje, el cátodo olivino LFP conserva el ${lfpRetention[10]}% de capacidad a los 10 años frente al ${nmcRetention[10]}% del NMC (ventaja de +${gap10Yr} puntos porcentuales para LFP).`;
+  if (soc >= 85) {
+    verdictText += ' En baterías NMC, estacionar por encima del 80% SoC mantiene el potencial catódico cerca de 4,15–4,20 V, acelerando la oxidación anódica del electrolito y el crecimiento de la capa SEI.';
+  } else {
+    verdictText += ' Mantener el SoC moderado en garaje mitiga la tensión electroquímica en NMC, aunque la estructura covalente P–O del LFP sigue ofreciendo mayor estabilidad termodinámica.';
+  }
+
+  return {
+    years,
+    lfpRetention,
+    nmcRetention,
+    lfp10YrLoss,
+    nmc10YrLoss,
+    voltageCurve: {
+      socPoints,
+      lfpVolts,
+      nmcVolts
+    },
+    verdictText
+  };
+}
+function computeDimensionsDiff(carId, astraKey = 'compact5p') {
+  const car = VEHICLES.find(v => v.id === carId) || VEHICLES[0];
+  const astra = ASTRA_BASELINES[astraKey] || ASTRA_BASELINES.compact5p;
+
+  const deltaLengthMm = car.lengthMm - astra.lengthMm;
+  const deltaLengthCm = Number((deltaLengthMm / 10).toFixed(1));
+  const deltaWidthMm = car.widthMm - astra.widthMm;
+  const deltaHeightMm = car.heightMm - astra.heightMm;
+  const deltaWheelbaseMm = car.wheelbaseMm - astra.wheelbaseMm;
+  const totalCargoLiters = car.trunkLiters + (car.frunkLiters || 0);
+  const deltaTrunkLiters = totalCargoLiters - astra.trunkLiters;
+
+  let sizeVerdict = '';
+  if (deltaLengthMm < -50) {
+    sizeVerdict = `${Math.abs(deltaLengthCm).toFixed(1)} cm más corto que tu ${astra.name}: máxima agilidad de aparcamiento en Madrid.`;
+  } else if (deltaLengthMm <= 180) {
+    const sign = deltaLengthMm >= 0 ? `+${deltaLengthCm.toFixed(1)}` : `${deltaLengthCm.toFixed(1)}`;
+    sizeVerdict = `Huella muy similar a tu ${astra.name} (${sign} cm de longitud), combinando facilidad en garaje y aplomo en autovía.`;
+  } else {
+    sizeVerdict = `+${deltaLengthCm.toFixed(1)} cm más largo que tu ${astra.name}: berlina de segmento superior con ${totalCargoLiters} L de carga total.`;
+  }
+
+  return {
+    car,
+    astra,
+    deltaLengthMm,
+    deltaLengthCm,
+    deltaWidthMm,
+    deltaHeightMm,
+    deltaWheelbaseMm,
+    deltaTrunkLiters,
+    totalCargoLiters,
+    sizeVerdict
+  };
+}
+function computePatrimonialSimulation({
+  carId = 'byd-dolphin-surf',
+  customPrice,
+  useCambia360 = true,
+  useScrappage = true,
+  useIrpfCar = true,
+  wallboxCost = 1800,
+  useWallboxAid = true,
+  marginalIrpfRate = 37,
+  horizonYears = 6
+} = {}) {
+  const car = VEHICLES.find(v => v.id === carId) || VEHICLES[0];
+  const priceUsed = typeof customPrice === 'number' && !Number.isNaN(customPrice)
+    ? customPrice
+    : car.priceAvg;
+
+  const canUseNewAid = Boolean(car.eligibleNewAid);
+  const cambiaBase = canUseNewAid && useCambia360 ? 4000 : 0;
+  const cambiaScrap = canUseNewAid && useCambia360 && useScrappage ? 1500 : 0;
+  const directCarSub = cambiaBase + cambiaScrap;
+
+  // RDL 7/2026: Base máxima de 20.000 € tras restar ayudas públicas directas
+  const irpfCarBase = canUseNewAid && useIrpfCar
+    ? Math.min(20000, Math.max(0, priceUsed - directCarSub))
+    : 0;
+  const irpfCarDed = Math.round(irpfCarBase * 0.15);
+
+  const wbCost = typeof wallboxCost === 'number' && !Number.isNaN(wallboxCost) ? wallboxCost : 1800;
+  const wallboxCambia = useWallboxAid ? Math.round(wbCost * 0.65) : 0;
+  const wallboxIrpfBase = useWallboxAid ? Math.min(4000, Math.max(0, wbCost - wallboxCambia)) : 0;
+  const wallboxIrpf = Math.round(wallboxIrpfBase * 0.15);
+
+  const grossTotal = priceUsed + wbCost;
+  const totalAidsNominal = directCarSub + irpfCarDed + wallboxCambia + wallboxIrpf;
+
+  // Las subvenciones directas (Cambia 360 coche + Wallbox) tributan como ganancia patrimonial no derivada de transmisión en la Base General del IRPF
+  const taxableSubsidies = directCarSub + wallboxCambia;
+  const marginalRate = typeof marginalIrpfRate === 'number' && !Number.isNaN(marginalIrpfRate)
+    ? marginalIrpfRate
+    : 37;
+  const taxBiteIrpf = Math.round(taxableSubsidies * (marginalRate / 100));
+
+  const netAidsAfterTax = totalAidsNominal - taxBiteIrpf;
+  const netInitialOutlayAfterTax = grossTotal - netAidsAfterTax;
+
+  const horizon = Math.min(8, Math.max(1, Number(horizonYears) || 6));
+  const years = Array.from({ length: horizon + 1 }, (_, i) => i);
+
+  // Devaluación anual del coche seleccionado sobre su precio de mercado
+  const selectedResidual = [];
+  let currentRes = priceUsed;
+  for (let y = 0; y <= horizon; y++) {
+    if (y > 0) {
+      const rate = car.annualDepreciationRates[y - 1] ?? 0.05;
+      currentRes = currentRes * (1 - rate);
+    }
+    selectedResidual.push(Math.round(currentRes));
+  }
+
+  // Referencia Tesla Model 3 RWD Ocasión (2023) que ya absorbió los 3 primeros años de caída fuerte
+  const model3 = VEHICLES.find(v => v.id === 'tesla-model3-rwd') || car;
+  const m3InitialOutlay = model3.priceAvg + wbCost - (wallboxCambia + wallboxIrpf - Math.round(wallboxCambia * (marginalRate / 100)));
+  let m3Res = model3.priceAvg;
+
+  // Referencia Gasolina / MHEV equivalente (24.500 € compra, sin Wallbox)
+  const iceInitialPurchase = 24500;
+  const iceDeprRates = [0.16, 0.11, 0.09, 0.08, 0.07, 0.06, 0.06, 0.05];
+  let iceRes = iceInitialPurchase;
+
+  const annualEvRunning = 180; // ~85 € energía + ~95 € mantenimiento + IVTM bonificado
+  const annualIceRunning = 950; // ~560 € gasolina + ~390 € mantenimiento/ITV/IVTM
+
+  const selectedNetCost = [];
+  const model3UsedNetCost = [];
+  const iceNetCost = [];
+
+  for (let y = 0; y <= horizon; y++) {
+    if (y > 0) {
+      const m3Rate = model3.annualDepreciationRates[y - 1] ?? 0.05;
+      m3Res = m3Res * (1 - m3Rate);
+      const iceRate = iceDeprRates[y - 1] ?? 0.05;
+      iceRes = iceRes * (1 - iceRate);
+    }
+    selectedNetCost.push(Math.round(netInitialOutlayAfterTax + y * annualEvRunning - selectedResidual[y]));
+    model3UsedNetCost.push(Math.round(m3InitialOutlay + y * annualEvRunning - m3Res));
+    iceNetCost.push(Math.round(iceInitialPurchase + y * annualIceRunning - iceRes));
+  }
+
+  return {
+    car,
+    priceUsed,
+    directCarSub,
+    irpfCarBase,
+    irpfCarDed,
+    wallboxCambia,
+    wallboxIrpfBase,
+    wallboxIrpf,
+    grossTotal,
+    totalAidsNominal,
+    taxableSubsidies,
+    taxBiteIrpf,
+    netAidsAfterTax,
+    netInitialOutlayAfterTax,
+    yearlyCurve: {
+      years,
+      selectedResidual,
+      selectedNetCost,
+      model3UsedNetCost,
+      iceNetCost
+    }
+  };
+}
+function computeHighwayTrip300km({
+  carId = 'renault-5-techno',
+  speedKmh = 120,
+  weather = 'mild'
+} = {}) {
+  const car = VEHICLES.find(v => v.id === carId) || VEHICLES[0];
+  const speed = Math.min(140, Math.max(90, Number(speedKmh) || 120));
+
+  // Escalado aerodinámico: ~28% resistencia a la rodadura + ~72% arrastre aerodinámico proporcional a (v/120)^2
+  const speedFactor = 0.28 + 0.72 * Math.pow(speed / 120, 2);
+
+  let weatherFactor = 1.0;
+  if (weather === 'winter' || weather === '5') {
+    weatherFactor = 1.18;
+  } else if (weather === 'summer' || weather === '35') {
+    weatherFactor = 1.07;
+  }
+
+  const consumptionKwh100 = Number((car.highwayKwh100 * speedFactor * weatherFactor).toFixed(1));
+  const tripEnergyKwh = Number((consumptionKwh100 * 3).toFixed(1)); // 300 km
+  const usableBatteryKwh = Number((car.batteryKwh * 0.96).toFixed(1));
+
+  const arrivalSocNoStop = Math.round(((usableBatteryKwh - tripEnergyKwh) / usableBatteryKwh) * 100);
+  const minSafeArrivalSoc = 12;
+  const needsStop = arrivalSocNoStop < minSafeArrivalSoc;
+
+  let energyToChargeKwh = 0;
+  let stopMinutes = 0;
+  if (needsStop) {
+    const targetArrivalSoc = 15;
+    const deficitPercent = targetArrivalSoc - arrivalSocNoStop;
+    energyToChargeKwh = Number(Math.max(4, (deficitPercent / 100) * usableBatteryKwh).toFixed(1));
+    const avgDcKw = car.dcPeakKw * 0.68;
+    stopMinutes = Math.max(10, Math.round((energyToChargeKwh / avgDcKw) * 60 + 4));
+  }
+
+  // Coste anual cargando en garaje (~4.700 km urbanos + 300 km salida = 750 kWh/año a 0,068 €/kWh tarifa valle EV)
+  const annualHomeCostEur = 51;
+
+  const tripCostByNetwork = {
+    tesla: Number((tripEnergyKwh * 0.42).toFixed(2)),
+    zunder: Number((tripEnergyKwh * 0.50).toFixed(2)),
+    ionity: Number((tripEnergyKwh * 0.65).toFixed(2))
+  };
+
+  return {
+    car,
+    speedKmh: speed,
+    weather,
+    consumptionKwh100,
+    tripEnergyKwh,
+    usableBatteryKwh,
+    arrivalSocNoStop,
+    needsStop,
+    energyToChargeKwh,
+    stopMinutes,
+    annualHomeCostEur,
+    tripCostByNetwork
+  };
+}
+function generateLph175Document({
+  ownerName = 'Nombre y Apellidos del Propietario',
+  ownerDni = '00000000X',
+  communityAddress = 'Dirección de la Comunidad de Propietarios, Madrid',
+  parkingSpot = 'Plaza de garaje nº __',
+  recipientRole = 'Sr./Sra. Presidente/a de la Comunidad de Propietarios y Administrador/a de Fincas',
+  wallboxPowerKw = '7,4 kW (Monofásico 32 A)',
+  installerName = 'Empresa Instaladora Autorizada en Baja Tensión',
+  plannedDate = '2026-12-15'
+} = {}) {
+  return `A LA ATENCIÓN DE: ${recipientRole}
+COMUNIDAD DE PROPIETARIOS: ${communityAddress}
+
+ASUNTO: Comunicación previa oficial de instalación de punto de recarga para vehículo eléctrico en plaza individual de garaje (Artículo 17.5 de la Ley 49/1960 de Propiedad Horizontal).
+
+En Madrid, a fecha de notificación previa (ejecución prevista: ${plannedDate}).
+
+D./Dña. ${ownerName}, mayor de edad, con DNI/NIF ${ownerDni}, en calidad de titular/propietario de la plaza de aparcamiento identificada como "${parkingSpot}" ubicada en el garaje comunitario de la finca sita en ${communityAddress}, comparece y, como mejor proceda en Derecho,
+
+EXPONE:
+
+PRIMERO.— Habilitación legal directa sin necesidad de acuerdo en Junta (Artículo 17.5 LPH).
+Que de conformidad con lo dispuesto taxativamente en el Artículo 17.5 de la Ley 49/1960, de 21 de julio, sobre Propiedad Horizontal (reformado por la Ley 19/2009 y el Real Decreto-ley 7/2019):
+
+"La instalación de un punto de recarga de vehículos eléctricos para uso privado en el aparcamiento del edificio, siempre que éste se ubique en una plaza individual de garaje, sólo requerirá la comunicación previa a la comunidad. El coste de dicha instalación y el consumo de electricidad correspondiente serán asumidos íntegramente por el o los interesados directos en la misma."
+
+SEGUNDO.— Especificaciones técnicas y cumplimiento normativo (ITC-BT-52).
+Que la instalación proyectada se ejecutará conforme al Esquema 2 de la Instrucción Técnica Complementaria ITC-BT-52 del Reglamento Electrotécnico para Baja Tensión (Real Decreto 1053/2014), conectando el suministro desde el contador individual de la vivienda de mi propiedad hasta el punto de recarga (${wallboxPowerKw}) situado exclusivamente dentro de los límites perimetrales de la ${parkingSpot}, contando con sistema de protección diferencial y control dinámico de potencia (GDP), sin afectar al suministro comunitario ni generar gasto alguno para la Comunidad.
+
+TERCERO.— Empresa instaladora habilitada y certificación CIE.
+Que los trabajos serán realizados por la empresa instaladora autorizada ${installerName}, la cual emitirá a la finalización de la obra el correspondiente Certificado de Instalación Eléctrica (Boletín CIE) diligenciado ante la Dirección General de Industria, Energía y Minas de la Comunidad de Madrid, cuya copia será remitida a la Administración de la finca para su archivo.
+
+Por todo lo expuesto,
+
+SOLICITA:
+
+Tenga por presentado este escrito y por cumplido el trámite legal de COMUNICACIÓN PREVIA establecido en el Artículo 17.5 de la Ley de Propiedad Horizontal para el inicio de los trabajos previstos a partir del día ${plannedDate}, facilitando al personal técnico de ${installerName} el acceso a los cuartos de contadores y canalizaciones comunes del garaje para el tendido reglamentario según la ITC-BT-52.
+
+Atentamente,
+
+
+Fdo.: ${ownerName}
+DNI: ${ownerDni}
+Titular de: ${parkingSpot}
+---
+Recibí de la Comunidad / Administración de Fincas (Fecha, firma y sello):`;
+}
+
+/* --- 3. Critically Damped Apple Spring Physics Engine --- */
+// Critically damped Apple-style spring physics engine (apple-design §1, §3, §4, §14)
+// Preserves live position and velocity on mid-flight retargeting.
+
+const activeSprings = new Map();
+
+function prefersReducedMotion() {
+  if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+  return false;
+}
+
+function getNow() {
+  if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+    return performance.now();
+  }
+  return Date.now();
+}
+
+function scheduleFrame(cb) {
+  if (typeof requestAnimationFrame === 'function') {
+    return requestAnimationFrame(cb);
+  }
+  return setTimeout(() => cb(getNow()), 16);
+}
+
+function cancelFrame(id) {
+  if (typeof cancelAnimationFrame === 'function') {
+    cancelAnimationFrame(id);
+  } else {
+    clearTimeout(id);
+  }
+}
+class SpringAnimator {
+  static get activeAnimations() {
+    return activeSprings;
+  }
+
+  static animateValue(
+    key,
+    fromValue,
+    toValue,
+    onUpdate,
+    { damping = 1.0, response = 0.35, precision = 0.001, onComplete } = {}
+  ) {
+    const existing = activeSprings.get(key);
+    const startValue = existing ? existing.value : Number(fromValue);
+    const startVelocity = existing ? existing.velocity : 0;
+    const target = Number(toValue);
+
+    if (existing && existing.rafId) {
+      cancelFrame(existing.rafId);
+    }
+
+    if (prefersReducedMotion() || Math.abs(target - startValue) <= precision) {
+      activeSprings.set(key, { value: target, velocity: 0, target, rafId: null });
+      if (typeof onUpdate === 'function') onUpdate(target);
+      if (typeof onComplete === 'function') onComplete(target);
+      return;
+    }
+
+    // Apple spring parameterization:
+    // stiffness k = (2 * pi / response)^2, damping c = 4 * pi * damping / response
+    const omega = (2 * Math.PI) / Math.max(0.05, response);
+    const stiffness = omega * omega;
+    const dampingCoeff = 2 * Math.max(0.1, damping) * omega;
+
+    const state = {
+      value: startValue,
+      velocity: startVelocity,
+      target,
+      lastTime: getNow(),
+      rafId: null
+    };
+    activeSprings.set(key, state);
+
+    const step = (now) => {
+      const dt = Math.min(0.064, Math.max(0.001, (now - state.lastTime) / 1000));
+      state.lastTime = now;
+
+      // Semi-implicit Euler integration with sub-stepping for stability
+      const subSteps = 2;
+      const subDt = dt / subSteps;
+      for (let i = 0; i < subSteps; i++) {
+        const displacement = state.value - state.target;
+        const springForce = -stiffness * displacement;
+        const dampingForce = -dampingCoeff * state.velocity;
+        const acceleration = springForce + dampingForce;
+        state.velocity += acceleration * subDt;
+        state.value += state.velocity * subDt;
+      }
+
+      if (typeof onUpdate === 'function') {
+        onUpdate(state.value);
+      }
+
+      const isSettled =
+        Math.abs(state.target - state.value) <= precision &&
+        Math.abs(state.velocity) <= precision * 10;
+
+      if (isSettled) {
+        state.value = state.target;
+        state.velocity = 0;
+        state.rafId = null;
+        if (typeof onUpdate === 'function') onUpdate(state.target);
+        if (typeof onComplete === 'function') onComplete(state.target);
+      } else {
+        state.rafId = scheduleFrame(step);
+      }
+    };
+
+    state.rafId = scheduleFrame(step);
+  }
+
+  static animateNumber(
+    el,
+    targetValue,
+    formatter = (v) => new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0, useGrouping: 'always' }).format(Math.round(v)),
+    options = {}
+  ) {
+    if (!el) return;
+    const key = el.id || el.dataset?.springKey || `num_${Math.random().toString(36).slice(2)}`;
+    if (!el.id && el.dataset) {
+      el.dataset.springKey = key;
+    }
+
+    const currentNumeric =
+      el._springCurrentValue !== undefined
+        ? el._springCurrentValue
+        : Number(String(el.textContent || '0').replace(/[^\d,-]/g, '').replace(',', '.')) || 0;
+
+    const target = Number(targetValue) || 0;
+
+    SpringAnimator.animateValue(
+      `number:${key}`,
+      currentNumeric,
+      target,
+      (val) => {
+        el._springCurrentValue = val;
+        el.textContent = formatter(val);
+      },
+      { damping: 1.0, response: 0.35, precision: 0.25, ...options }
+    );
+  }
+
+  static movePillIndicator(pillEl, targetBtnEl, key = 'pill') {
+    if (!pillEl || !targetBtnEl) return;
+    const parent = pillEl.offsetParent || pillEl.parentElement;
+    if (!parent) return;
+
+    const parentRect = parent.getBoundingClientRect();
+    const btnRect = targetBtnEl.getBoundingClientRect();
+
+    const targetLeft = btnRect.left - parentRect.left;
+    const targetWidth = btnRect.width;
+
+    const currentLeft =
+      pillEl._springLeft !== undefined ? pillEl._springLeft : targetBtnEl.offsetLeft || 4;
+    const currentWidth =
+      pillEl._springWidth !== undefined ? pillEl._springWidth : targetWidth || 120;
+
+    SpringAnimator.animateValue(
+      `${key}:left`,
+      currentLeft,
+      targetLeft,
+      (x) => {
+        pillEl._springLeft = x;
+        pillEl.style.transform = `translate3d(${x - 4}px, 0, 0)`;
+      },
+      { damping: 1.0, response: 0.32, precision: 0.2 }
+    );
+
+    SpringAnimator.animateValue(
+      `${key}:width`,
+      currentWidth,
+      targetWidth,
+      (w) => {
+        pillEl._springWidth = w;
+        pillEl.style.width = `${w}px`;
+      },
+      { damping: 1.0, response: 0.32, precision: 0.2 }
+    );
+  }
+
+  static bindTactilePress(root = typeof document !== 'undefined' ? document : null) {
+    if (!root || typeof root.addEventListener !== 'function') return;
+    const selector = '.btn-apple, button, .interactive-card, .segmented-btn';
+
+    const clearPress = (e) => {
+      const target = e.target?.closest ? e.target.closest(selector) : null;
+      if (target) target.classList.remove('is-pressing');
+      if (typeof document !== 'undefined') {
+        document.querySelectorAll('.is-pressing').forEach((el) => el.classList.remove('is-pressing'));
+      }
+    };
+
+    root.addEventListener(
+      'pointerdown',
+      (e) => {
+        const target = e.target?.closest ? e.target.closest(selector) : null;
+        if (target && !target.disabled) {
+          target.classList.add('is-pressing');
+        }
+      },
+      { passive: true }
+    );
+
+    root.addEventListener('pointerup', clearPress, { passive: true });
+    root.addEventListener('pointercancel', clearPress, { passive: true });
+    root.addEventListener('pointerleave', clearPress, { passive: true });
+  }
+
+  animateValue(...args) {
+    return SpringAnimator.animateValue(...args);
+  }
+
+  animateNumber(...args) {
+    return SpringAnimator.animateNumber(...args);
+  }
+
+  movePillIndicator(...args) {
+    return SpringAnimator.movePillIndicator(...args);
+  }
+
+  bindTactilePress(...args) {
+    return SpringAnimator.bindTactilePress(...args);
+  }
+}
+
+/* --- 4. Interactive Controller & HiDPI Canvas Renderers --- */
+const PALETTE = {
+  bgCanvas: '#FAF6F0',
+  bgSurface: '#F2ECE1',
+  bgElevated: '#FFFFFF',
+  inkPrimary: '#1C1917',
+  inkSecondary: '#57534E',
+  inkMuted: '#78716C',
+  sage: '#0F5E56',
+  sageSoft: '#E6F2F0',
+  sageMid: '#2D8A7E',
+  copper: '#B45309',
+  copperSoft: '#FEF3C7',
+  danger: '#991B1B',
+  dangerSoft: '#FEE2E2',
+  borderSubtle: '#E6DEC8',
+  borderStrong: '#D4C8AE'
+};
+
+const state = {
+  techTab: 'bev',
+  tcoMode: '5years',
+  chemSoc: 100,
+  chemTemp: 21,
+  selectedChemFocus: 'LFP',
+  catalogChem: 'ALL',
+  catalogCondition: 'ALL',
+  catalogBudget: 35000,
+  versusCarA: 'renault-5-techno',
+  versusCarB: 'byd-dolphin-surf',
+  dimCarId: 'renault-5-techno',
+  dimAstraKey: 'compact5p',
+  simCarId: 'byd-dolphin-surf',
+  simCustomPrice: 23990,
+  simUseCambia360: true,
+  simUseScrappage: true,
+  simUseIrpfCar: true,
+  simWallboxCost: 1800,
+  simUseWallboxAid: true,
+  simIrpfBracket: 37,
+  simHorizonYears: 6,
+  tripCarId: 'renault-5-techno',
+  tripSpeed: 120,
+  tripWeather: 'mild'
+};
+
+function formatSpanishInteger(n) {
+  const rounded = Math.round(Number(n) || 0);
+  const isNeg = rounded < 0;
+  const s = Math.abs(rounded).toString();
+  const formatted = s.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return (isNeg ? '-' : '') + formatted;
+}
+
+function fmtInt(n) {
+  return formatSpanishInteger(n);
+}
+
+function fmtEur(n) {
+  return `${fmtInt(n)} €`;
+}
+
+function fmtSignedEur(n) {
+  const rounded = Math.round(Number(n) || 0);
+  const sign = rounded > 0 ? '+' : rounded < 0 ? '-' : '';
+  return `${sign}${formatSpanishInteger(Math.abs(rounded))} €`;
+}
+
+function niceMax(val, step = 1000) {
+  const raw = Math.max(Number(val) || 0, step);
+  return Math.ceil(raw / step) * step;
+}
+
+function setupHiDPICanvas(canvas, defaultWidth = 600, defaultHeight = 280) {
+  if (!canvas) return null;
+  const dpr = (typeof window !== 'undefined' && window.devicePixelRatio) ? Math.min(window.devicePixelRatio, 2.5) : 1;
+  const rect = canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : null;
+  const cssWidth = (rect && rect.width > 40) ? Math.floor(rect.width) : (canvas.width || defaultWidth);
+  const aspect = defaultHeight / defaultWidth;
+  const cssHeight = Math.max(210, Math.round(cssWidth * aspect));
+
+  if (canvas.width !== Math.round(cssWidth * dpr) || canvas.height !== Math.round(cssHeight * dpr)) {
+    canvas.width = Math.round(cssWidth * dpr);
+    canvas.height = Math.round(cssHeight * dpr);
+  }
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, cssWidth, cssHeight);
+  return { ctx, width: cssWidth, height: cssHeight };
+}
+
+function drawRoundedRect(ctx, x, y, w, h, r = 6) {
+  const radius = Math.min(r, Math.abs(w) / 2, Math.abs(h) / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + w - radius, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+  ctx.lineTo(x + w, y + h - radius);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+  ctx.lineTo(x + radius, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+}
+
+function drawPillCallout(ctx, text, centerX, topY, textColor, borderColor, bgColor = PALETTE.bgCanvas) {
+  ctx.save();
+  ctx.font = '700 10.5px "JetBrains Mono", monospace';
+  const textW = ctx.measureText(text).width;
+  const padX = 8;
+  const pillW = textW + padX * 2;
+  const pillH = 20;
+  const x = centerX - pillW / 2;
+  const y = topY;
+
+  ctx.fillStyle = bgColor;
+  ctx.strokeStyle = borderColor;
+  ctx.lineWidth = 1.2;
+  drawRoundedRect(ctx, x, y, pillW, pillH, 6);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = textColor;
+  ctx.textAlign = 'center';
+  ctx.fillText(text, centerX, y + 13.5);
+  ctx.restore();
+}
+
+/* ==========================================================================
+   MODULE 1: TERMODINÁMICA Y MECÁNICA (BEV vs PHEV)
+   ========================================================================== */
+function updateTechDetailPanel() {
+  const panel = document.getElementById('tech-detail-panel');
+  const tabBev = document.getElementById('tab-bev');
+  const tabPhev = document.getElementById('tab-phev');
+  const pill = document.getElementById('tech-pill');
+  if (!panel) return;
+
+  if (state.techTab === 'bev') {
+    if (tabBev) {
+      tabBev.classList.add('active');
+      tabBev.setAttribute('aria-selected', 'true');
+    }
+    if (tabPhev) {
+      tabPhev.classList.remove('active');
+      tabPhev.setAttribute('aria-selected', 'false');
+    }
+    panel.setAttribute('aria-labelledby', 'tab-bev');
+    if (pill && tabBev) SpringAnimator.movePillIndicator(pill, tabBev, 'tech-pill');
+
+    panel.innerHTML = `
+      <h3>Arquitectura BEV: Simplicidad Termodinámica (η ≈ 88–92%)</h3>
+      <p>
+        Un vehículo eléctrico puro elimina más de 2.000 piezas móviles sujetas a fricción, fatiga térmica y tribología crítica (turbocompresor, inyectores, embrague, correa de distribución, filtro de partículas GPF y catalizador de tres vías).
+      </p>
+      <ul style="color: var(--ink-secondary); font-size: 0.92rem; padding-left: 1.2rem; display: grid; gap: 0.5rem; margin-bottom: 0;">
+        <li><strong>Sin degradación por trayectos cortos:</strong> El motor síncrono de imanes permanentes o rotor bobinado opera con eficiencia máxima desde t = 0 s, sin requerir calentamiento de fluidos ni alcanzar temperatura de régimen.</li>
+        <li><strong>Frenada regenerativa en Madrid:</strong> En tráfico urbano (M-30 y almendra central), recupera entre el 25% y el 35% de la energía cinética, preservando discos y pastillas por más de 100.000 km.</li>
+        <li><strong>Mantenimiento anual testimonial (~95 €/año):</strong> Limitado a filtro de habitáculo (carbón activo), revisión de neumáticos y líquido de frenos cada 2–3 años.</li>
+      </ul>
+    `;
+  } else {
+    if (tabPhev) {
+      tabPhev.classList.add('active');
+      tabPhev.setAttribute('aria-selected', 'true');
+    }
+    if (tabBev) {
+      tabBev.classList.remove('active');
+      tabBev.setAttribute('aria-selected', 'false');
+    }
+    panel.setAttribute('aria-labelledby', 'tab-phev');
+    if (pill && tabPhev) SpringAnimator.movePillIndicator(pill, tabPhev, 'tech-pill');
+
+    panel.innerHTML = `
+      <h3 style="color: var(--accent-secondary);">Por qué el PHEV está contraindicado a 5.000 km/año</h3>
+      <p>
+        En recorridos diarios cortos (&lt;15 km), el híbrido enchufable arranca esporádicamente su motor de combustión en frío por picos de demanda o mantenimiento de gasolina vieja, sin alcanzar los <strong>90–95 °C</strong> necesarios en el cárter para evaporar el agua condensada.
+      </p>
+      <ul style="color: var(--ink-secondary); font-size: 0.92rem; padding-left: 1.2rem; display: grid; gap: 0.5rem; margin-bottom: 0;">
+        <li><strong>Emulsión acuosa y dilución ácida del aceite:</strong> El vapor de agua (C<sub>n</sub>H<sub>m</sub> + O<sub>2</sub> → CO<sub>2</sub> + H<sub>2</sub>O) y los hidrocarburos inquemados condensan en las camisas frías, degradando los aditivos detergentes (ZDDP) y obligando a cambios de aceite cada 12 meses.</li>
+        <li><strong>Batería pequeña sometida a estrés de ciclado:</strong> Con solo 10–14 kWh, sufre entre 4 y 5 veces más ciclos profundos anuales que una batería BEV de 52–60 kWh para los mismos kilómetros.</li>
+        <li><strong>Lastre muerto de 150–200 kg:</strong> En ciudad arrastras un motor térmico apagado y su transmisión; en el viaje de 300 km arrastras una batería descargada con mayor consumo de gasolina (~480 €/año solo en taller oficial).</li>
+      </ul>
+    `;
+  }
+}
+
+function renderTcoCanvas() {
+  const canvas = document.getElementById('tco-canvas');
+  const setup = setupHiDPICanvas(canvas, 620, 300);
+  if (!setup) return;
+  const { ctx, width, height } = setup;
+
+  const data = computeTcoBreakdown(state.tcoMode);
+  const pad = { top: 38, right: 24, bottom: 52, left: 68 };
+  const plotW = width - pad.left - pad.right;
+  const plotH = height - pad.top - pad.bottom;
+
+  const rawMax = Math.max(...data.total, 800) * 1.15;
+  const stepUnit = state.tcoMode === 'annual' ? 400 : 2000;
+  const maxVal = niceMax(rawMax, stepUnit);
+
+  // Gridlines
+  ctx.strokeStyle = PALETTE.borderSubtle;
+  ctx.lineWidth = 1;
+  ctx.font = '500 11px "JetBrains Mono", monospace';
+  ctx.fillStyle = PALETTE.inkMuted;
+  ctx.textAlign = 'right';
+
+  const steps = 4;
+  for (let i = 0; i <= steps; i++) {
+    const val = Math.round((maxVal / steps) * i);
+    const y = pad.top + plotH - (val / maxVal) * plotH;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(width - pad.right, y);
+    ctx.stroke();
+    ctx.fillText(fmtEur(val), pad.left - 8, y + 4);
+  }
+
+  // Legend
+  ctx.textAlign = 'left';
+  ctx.font = '600 11px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = PALETTE.sage;
+  ctx.fillRect(pad.left, 10, 12, 12);
+  ctx.fillStyle = PALETTE.inkPrimary;
+  ctx.fillText('Energía / Combustible', pad.left + 17, 20);
+
+  ctx.fillStyle = PALETTE.copper;
+  ctx.fillRect(pad.left + 168, 10, 12, 12);
+  ctx.fillStyle = PALETTE.inkPrimary;
+  ctx.fillText('Mantenimiento Taller e ITV', pad.left + 185, 20);
+
+  // Stacked Bars
+  const groupW = plotW / data.labels.length;
+  const barW = Math.min(82, groupW * 0.46);
+
+  data.labels.forEach((label, idx) => {
+    const eVal = data.energy[idx];
+    const mVal = data.maintenance[idx];
+    const tot = data.total[idx];
+
+    const centerX = pad.left + groupW * idx + groupW / 2;
+    const x = centerX - barW / 2;
+
+    const eH = (eVal / maxVal) * plotH;
+    const mH = (mVal / maxVal) * plotH;
+
+    const yEnergy = pad.top + plotH - eH;
+    const yMaint = yEnergy - mH;
+
+    // Energy segment (bottom)
+    ctx.fillStyle = idx === 0 ? PALETTE.sage : '#64748B';
+    drawRoundedRect(ctx, x, yEnergy, barW, eH, 4);
+    ctx.fill();
+
+    // Maintenance segment (top)
+    ctx.fillStyle = idx === 0 ? PALETTE.sageMid : PALETTE.copper;
+    drawRoundedRect(ctx, x, yMaint, barW, mH, 4);
+    ctx.fill();
+
+    // Total badge above bar
+    ctx.fillStyle = PALETTE.inkPrimary;
+    ctx.font = '700 12px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(fmtEur(tot), centerX, yMaint - 8);
+
+    // X-axis label
+    ctx.fillStyle = PALETTE.inkSecondary;
+    ctx.font = '600 11px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText(label, centerX, pad.top + plotH + 21);
+
+    ctx.fillStyle = PALETTE.inkMuted;
+    ctx.font = '500 9.5px "JetBrains Mono", monospace';
+    ctx.fillText(`E:${fmtInt(eVal)}€ · T:${fmtInt(mVal)}€`, centerX, pad.top + plotH + 36);
+  });
+}
+
+/* ==========================================================================
+   MODULE 2: LABORATORIO ELECTROQUÍMICO LFP vs NMC
+   ========================================================================== */
+function renderElectrochemistryModule() {
+  const socLabel = document.getElementById('chem-soc-val');
+  if (socLabel) socLabel.textContent = `${state.chemSoc}% SoC`;
+
+  const cardLfp = document.getElementById('card-lfp');
+  const cardNmc = document.getElementById('card-nmc');
+  if (cardLfp && cardNmc) {
+    const isLfp = state.selectedChemFocus === 'LFP';
+    cardLfp.style.boxShadow = isLfp ? 'var(--shadow-elevated)' : 'var(--shadow-card)';
+    cardNmc.style.boxShadow = !isLfp ? 'var(--shadow-elevated)' : 'var(--shadow-card)';
+    cardLfp.setAttribute('aria-pressed', isLfp ? 'true' : 'false');
+    cardNmc.setAttribute('aria-pressed', !isLfp ? 'true' : 'false');
+  }
+
+  const aging = computeCalendarAging({ socPercent: state.chemSoc, tempC: state.chemTemp });
+
+  const verdictBox = document.getElementById('chem-verdict-box');
+  if (verdictBox) {
+    verdictBox.innerHTML = `
+      <strong>Dictamen Electroquímico a 10 Años (${state.chemTemp} °C · ${state.chemSoc}% SoC en garaje):</strong>
+      Pérdida acumulada LFP (LiFePO<sub>4</sub>): <strong class="tabular" style="color: var(--accent-primary);">-${aging.lfp10YrLoss}%</strong> (retiene <strong>${aging.lfpRetention[10]}% SoH</strong>)
+      frente a pérdida NMC: <strong class="tabular" style="color: var(--accent-secondary);">-${aging.nmc10YrLoss}%</strong> (retiene <strong>${aging.nmcRetention[10]}% SoH</strong>).
+      <div style="margin-top: 0.35rem; color: var(--ink-secondary);">${aging.verdictText}</div>
+    `;
+  }
+
+  renderAgingCanvas(aging);
+  renderVoltageCanvas(aging);
+}
+
+function renderAgingCanvas(aging) {
+  const canvas = document.getElementById('aging-canvas');
+  const setup = setupHiDPICanvas(canvas, 580, 290);
+  if (!setup) return;
+  const { ctx, width, height } = setup;
+
+  const pad = { top: 44, right: 64, bottom: 42, left: 48 };
+  const plotW = width - pad.left - pad.right;
+  const plotH = height - pad.top - pad.bottom;
+
+  const minY = 70;
+  const maxY = 100;
+
+  // Top legend header (never collides with curves)
+  const lfpEnd = aging.lfpRetention[10];
+  const nmcEnd = aging.nmcRetention[10];
+  ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'left';
+
+  ctx.fillStyle = PALETTE.sage;
+  ctx.fillRect(pad.left, 11, 10, 10);
+  ctx.fillStyle = PALETTE.inkPrimary;
+  const lfpLegTxt = `LFP Olivino (10a): ${String(lfpEnd).replace('.', ',')}% SoH`;
+  ctx.fillText(lfpLegTxt, pad.left + 14, 20);
+
+  const nmcLegX = pad.left + ctx.measureText(lfpLegTxt).width + 26;
+  ctx.fillStyle = PALETTE.copper;
+  ctx.fillRect(nmcLegX, 11, 10, 10);
+  ctx.fillStyle = PALETTE.inkPrimary;
+  ctx.fillText(`NMC Laminar (10a): ${String(nmcEnd).replace('.', ',')}% SoH`, nmcLegX + 14, 20);
+
+  // Grid
+  ctx.strokeStyle = PALETTE.borderSubtle;
+  ctx.lineWidth = 1;
+  ctx.font = '500 10.5px "JetBrains Mono", monospace';
+  ctx.fillStyle = PALETTE.inkMuted;
+  ctx.textAlign = 'right';
+
+  for (let v = minY; v <= maxY; v += 5) {
+    const y = pad.top + plotH - ((v - minY) / (maxY - minY)) * plotH;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(pad.left + plotW, y);
+    ctx.stroke();
+    ctx.fillText(`${v}%`, pad.left - 7, y + 3.5);
+  }
+
+  // X-axis years 0..10 (uniform format)
+  ctx.textAlign = 'center';
+  aging.years.forEach((yr, idx) => {
+    const x = pad.left + (idx / 10) * plotW;
+    ctx.fillText(`${yr}a`, x, height - 14);
+  });
+
+  const getY = (val) => {
+    const clamped = Math.max(minY, Math.min(maxY, val));
+    return pad.top + plotH - ((clamped - minY) / (maxY - minY)) * plotH;
+  };
+
+  const drawCurve = (values, color) => {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.8;
+    ctx.beginPath();
+    values.forEach((val, idx) => {
+      const x = pad.left + (idx / 10) * plotW;
+      const y = getY(val);
+      if (idx === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    values.forEach((val, idx) => {
+      const x = pad.left + (idx / 10) * plotW;
+      const y = getY(val);
+      ctx.fillStyle = PALETTE.bgElevated;
+      ctx.beginPath();
+      ctx.arc(x, y, 3.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+  };
+
+  drawCurve(aging.lfpRetention, PALETTE.sage);
+  drawCurve(aging.nmcRetention, PALETTE.copper);
+
+  // Right-margin endpoint pills (drawn strictly outside plotW so they never touch Years 7-10 curve lines)
+  let lfpPillY = getY(lfpEnd) - 10;
+  let nmcPillY = getY(nmcEnd) - 10;
+  if (Math.abs(nmcPillY - lfpPillY) < 22) {
+    const mid = (lfpPillY + nmcPillY) / 2;
+    lfpPillY = mid - 11;
+    nmcPillY = mid + 11;
+  }
+  const pillCenterX = pad.left + plotW + 33;
+  drawPillCallout(ctx, `${String(lfpEnd).replace('.', ',')}%`, pillCenterX, lfpPillY, PALETTE.sage, PALETTE.sage, PALETTE.bgElevated);
+  drawPillCallout(ctx, `${String(nmcEnd).replace('.', ',')}%`, pillCenterX, nmcPillY, PALETTE.copper, PALETTE.copper, PALETTE.bgElevated);
+}
+
+function renderVoltageCanvas(aging) {
+  const canvas = document.getElementById('voltage-canvas');
+  const setup = setupHiDPICanvas(canvas, 580, 290);
+  if (!setup) return;
+  const { ctx, width, height } = setup;
+
+  const pad = { top: 46, right: 24, bottom: 42, left: 54 };
+  const plotW = width - pad.left - pad.right;
+  const plotH = height - pad.top - pad.bottom;
+
+  const minV = 2.9;
+  const maxV = 4.3;
+
+  const getY = (v) => pad.top + plotH - ((v - minV) / (maxV - minV)) * plotH;
+
+  // High anodic oxidation stress zone (> 4.02 V) shaded inside plot area
+  const stressYTop = getY(4.3);
+  const stressYBot = getY(4.02);
+  ctx.fillStyle = 'rgba(180, 83, 9, 0.08)';
+  ctx.fillRect(pad.left, stressYTop, plotW, stressYBot - stressYTop);
+
+  // Top header badge for stress zone (above 4.20V gridline so line never cuts text)
+  ctx.save();
+  ctx.fillStyle = PALETTE.copperSoft;
+  ctx.strokeStyle = 'rgba(180, 83, 9, 0.35)';
+  ctx.lineWidth = 1;
+  drawRoundedRect(ctx, pad.left, 8, Math.min(plotW, 385), 22, 6);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = PALETTE.copper;
+  ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('▲ Zona >4,02 V: Oxidación acelerada del electrolito en NMC', pad.left + 8, 22.5);
+  ctx.restore();
+
+  // Grid
+  ctx.strokeStyle = PALETTE.borderSubtle;
+  ctx.lineWidth = 1;
+  ctx.font = '500 10.5px "JetBrains Mono", monospace';
+  ctx.fillStyle = PALETTE.inkMuted;
+  ctx.textAlign = 'right';
+
+  for (let v = 3.0; v <= 4.21; v += 0.3) {
+    const y = getY(v);
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(width - pad.right, y);
+    ctx.stroke();
+    ctx.fillText(`${v.toFixed(2).replace('.', ',')} V`, pad.left - 7, y + 3.5);
+  }
+
+  // Current SoC vertical marker
+  const socX = pad.left + (state.chemSoc / 100) * plotW;
+  ctx.strokeStyle = PALETTE.inkPrimary;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath();
+  ctx.moveTo(socX, pad.top);
+  ctx.lineTo(socX, pad.top + plotH);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // X-axis SoC labels
+  ctx.textAlign = 'center';
+  aging.voltageCurve.socPoints.forEach((s) => {
+    const x = pad.left + (s / 100) * plotW;
+    ctx.fillStyle = PALETTE.inkMuted;
+    ctx.fillText(`${s}%`, x, height - 14);
+  });
+
+  const drawVoltLine = (volts, color) => {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.8;
+    ctx.beginPath();
+    volts.forEach((v, idx) => {
+      const s = aging.voltageCurve.socPoints[idx];
+      const x = pad.left + (s / 100) * plotW;
+      const y = getY(v);
+      if (idx === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+  };
+
+  drawVoltLine(aging.voltageCurve.lfpVolts, PALETTE.sage);
+  drawVoltLine(aging.voltageCurve.nmcVolts, PALETTE.copper);
+
+  // Place callout pills in guaranteed clear zones above NMC and below LFP
+  // NMC at 65% SoC is ~3.88V; placing NMC pill above 3.92V in the left-center (36% SoC) keeps it strictly above the NMC curve
+  const nmcHighestInSpanY = getY(3.86);
+  const nmcPillTop = Math.max(pad.top + 18, nmcHighestInSpanY - 26);
+  drawPillCallout(
+    ctx,
+    'Pendiente NMC (3,65–4,20 V)',
+    pad.left + plotW * 0.36,
+    nmcPillTop,
+    PALETTE.copper,
+    PALETTE.copper,
+    PALETTE.bgElevated
+  );
+
+  // LFP in 25%-85% SoC is flat at 3.25-3.32V; placing LFP pill below 3.20V keeps it strictly below the LFP plateau
+  const lfpLowestInSpanY = getY(3.22);
+  const lfpPillTop = Math.min(pad.top + plotH - 22, lfpLowestInSpanY + 6);
+  drawPillCallout(
+    ctx,
+    'Meseta LFP ~3,29 V (FePO₄/LiFePO₄)',
+    pad.left + plotW * 0.56,
+    lfpPillTop,
+    PALETTE.sage,
+    PALETTE.sage,
+    PALETTE.bgElevated
+  );
+}
+
+/* ==========================================================================
+   MODULE 3: PÓKER PROTAGONISTA, CATÁLOGO Y CARA A CARA (1 vs 1)
+   ========================================================================== */
+function populateVehicleSelects() {
+  const selectIds = ['versus-car-a', 'versus-car-b', 'dim-car-select', 'sim-car-select', 'trip-car-select'];
+  selectIds.forEach((id) => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = VEHICLES.map((v) => {
+      const priceTxt = fmtInt(v.priceAvg);
+      return `<option value="${v.id}">${v.shortName} · ${v.chemistry} ${v.batteryKwh} kWh (${priceTxt} €)</option>`;
+    }).join('');
+  });
+
+  const vsA = document.getElementById('versus-car-a');
+  const vsB = document.getElementById('versus-car-b');
+  const dimSel = document.getElementById('dim-car-select');
+  const simSel = document.getElementById('sim-car-select');
+  const tripSel = document.getElementById('trip-car-select');
+
+  if (vsA) vsA.value = state.versusCarA;
+  if (vsB) vsB.value = state.versusCarB;
+  if (dimSel) dimSel.value = state.dimCarId;
+  if (simSel) simSel.value = state.simCarId;
+  if (tripSel) tripSel.value = state.tripCarId;
+}
+
+function renderProtagonistGrid() {
+  const grid = document.getElementById('protagonist-grid');
+  if (!grid) return;
+
+  const protagonists = VEHICLES.filter((v) => v.isProtagonist);
+  grid.innerHTML = protagonists.map((car) => {
+    const sim = computePatrimonialSimulation({
+      carId: car.id,
+      customPrice: car.priceAvg,
+      useCambia360: true,
+      useScrappage: true,
+      useIrpfCar: true,
+      wallboxCost: 1800,
+      useWallboxAid: true,
+      marginalIrpfRate: 37,
+      horizonYears: 6
+    });
+    const chemClass = car.chemistry === 'LFP' ? 'lfp' : 'nmc';
+    const variantsHtml = (car.variants || []).map((vr) =>
+      `<div style="display:flex; justify-content:space-between; font-size:0.78rem; padding:0.2rem 0; border-bottom:1px dashed var(--border-subtle);">
+         <span>${vr.name}</span>
+         <strong class="tabular">${vr.wltpKm} km · ${fmtEur(vr.priceEur)}</strong>
+       </div>`
+    ).join('');
+
+    return `
+      <article class="vehicle-card protagonist">
+        <div>
+          <div class="badge-row" style="margin-bottom: 0.55rem;">
+            <span class="tag ${chemClass}">${car.chemistry} · ${car.batteryKwh} kWh</span>
+            <span class="tag">${car.condition}</span>
+            <span class="tag tabular">${car.wltpKm} km WLTP</span>
+            <span class="tag">${car.badge}</span>
+          </div>
+          <h3 style="margin-bottom: 0.35rem; font-size: 1.28rem;">${car.name}</h3>
+          <p style="font-size: 0.86rem; margin-bottom: 0.75rem;">${car.configSummary}</p>
+
+          <div class="spec-grid-mini" style="margin-bottom: 0.75rem;">
+            <div><span style="color:var(--ink-muted);">Precio Contado:</span> <strong class="tabular">${fmtEur(car.priceAvg)}</strong></div>
+            <div><span style="color:var(--ink-muted);">Neto tras IRPF+WB:</span> <strong class="tabular" style="color:var(--accent-primary);">${fmtEur(sim.netInitialOutlayAfterTax)}</strong></div>
+            <div><span style="color:var(--ink-muted);">Dimensiones:</span> <strong class="tabular">${fmtInt(car.lengthMm)} × ${fmtInt(car.widthMm)} mm</strong></div>
+            <div><span style="color:var(--ink-muted);">Maletero:</span> <strong class="tabular">${car.trunkLiters + (car.frunkLiters || 0)} L</strong></div>
+            <div><span style="color:var(--ink-muted);">Consumo 120 km/h:</span> <strong class="tabular">${car.highwayKwh100} kWh/100</strong></div>
+            <div><span style="color:var(--ink-muted);">Carga DC 10-80%:</span> <strong class="tabular">${car.dcPeakKw} kW (${car.dc10to80Min} min)</strong></div>
+          </div>
+
+          <div style="margin-bottom: 0.75rem;">
+            <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.25rem;">Variantes y Precios Verificados:</div>
+            ${variantsHtml}
+          </div>
+          <p style="font-size: 0.82rem; color: var(--ink-secondary); margin-bottom: 0;">${car.notes}</p>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border-subtle);">
+          <a href="${car.configuratorUrl}" target="_blank" rel="noopener noreferrer" class="btn-apple primary sm">
+            Abrir Configurador Oficial ↗
+          </a>
+          <button type="button" class="btn-apple sm js-load-sim" data-car-id="${car.id}">
+            Simular IRPF y Devaluación
+          </button>
+          <button type="button" class="btn-apple sm js-load-dim" data-car-id="${car.id}">
+            Medir vs Opel Astra
+          </button>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+function renderCatalogGrid() {
+  const grid = document.getElementById('catalog-grid');
+  const budgetLabel = document.getElementById('budget-label');
+  if (budgetLabel) budgetLabel.textContent = fmtEur(state.catalogBudget);
+  if (!grid) return;
+
+  const filtered = VEHICLES.filter((car) => {
+    if (state.catalogChem !== 'ALL' && car.chemistry !== state.catalogChem) return false;
+    if (state.catalogCondition !== 'ALL' && car.condition !== state.catalogCondition) return false;
+    if (car.priceMin > state.catalogBudget && car.priceAvg > state.catalogBudget) return false;
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="card" style="grid-column: 1 / -1; text-align: center;">
+        <p style="margin-bottom: 0;">Ningún vehículo coincide con los filtros seleccionados. Amplía el presupuesto o selecciona "Todas las Químicas".</p>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((car) => {
+    const chemClass = car.chemistry === 'LFP' ? 'lfp' : 'nmc';
+    return `
+      <article class="vehicle-card ${car.isProtagonist ? 'protagonist' : ''}">
+        <div>
+          <div class="badge-row" style="margin-bottom: 0.45rem;">
+            <span class="tag ${chemClass}">${car.chemistry} ${car.batteryKwh} kWh</span>
+            <span class="tag">${car.condition}</span>
+            <span class="tag tabular">${fmtEur(car.priceAvg)}</span>
+          </div>
+          <h4 style="margin-bottom: 0.25rem;">${car.name}</h4>
+          <p style="font-size: 0.82rem; margin-bottom: 0.65rem;">${car.segment} · ${car.powerCv} CV · ${car.wltpKm} km WLTP</p>
+          <div class="spec-grid-mini">
+            <div>Largo: <strong class="tabular">${fmtInt(car.lengthMm)} mm</strong></div>
+            <div>Maletero: <strong class="tabular">${car.trunkLiters + (car.frunkLiters || 0)} L</strong></div>
+            <div>Autovía: <strong class="tabular">${car.highwayKwh100} kWh</strong></div>
+            <div>Pico DC: <strong class="tabular">${car.dcPeakKw} kW</strong></div>
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+          <a href="${car.configuratorUrl}" target="_blank" rel="noopener noreferrer" class="btn-apple sm">Web Oficial ↗</a>
+          <button type="button" class="btn-apple sm js-load-sim" data-car-id="${car.id}">Simular</button>
+          <button type="button" class="btn-apple sm js-load-vs" data-car-id="${car.id}">Comparar 1vs1</button>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
+function renderVersusComparison() {
+  const container = document.getElementById('versus-comparison-body');
+  if (!container) return;
+
+  const carA = VEHICLES.find((v) => v.id === state.versusCarA) || VEHICLES[0];
+  const carB = VEHICLES.find((v) => v.id === state.versusCarB) || VEHICLES[1];
+
+  const simA = computePatrimonialSimulation({ carId: carA.id, horizonYears: 5 });
+  const simB = computePatrimonialSimulation({ carId: carB.id, horizonYears: 5 });
+  const tripA = computeHighwayTrip300km({ carId: carA.id, speedKmh: 120, weather: 'mild' });
+  const tripB = computeHighwayTrip300km({ carId: carB.id, speedKmh: 120, weather: 'mild' });
+
+  const realHighwayRangeA = Math.round((carA.batteryKwh * 0.96 / carA.highwayKwh100) * 100);
+  const realHighwayRangeB = Math.round((carB.batteryKwh * 0.96 / carB.highwayKwh100) * 100);
+
+  const cargoA = carA.trunkLiters + (carA.frunkLiters || 0);
+  const cargoB = carB.trunkLiters + (carB.frunkLiters || 0);
+
+  const tco5A = simA.yearlyCurve.selectedNetCost[5];
+  const tco5B = simB.yearlyCurve.selectedNetCost[5];
+
+  const metrics = [
+    {
+      title: 'Química Catódica y Estabilidad por Calendario',
+      valA: `${carA.chemistry} (${carA.batteryKwh} kWh)`,
+      valB: `${carB.chemistry} (${carB.batteryKwh} kWh)`,
+      pctA: (carA.batteryKwh / 65) * 100,
+      pctB: (carB.batteryKwh / 65) * 100,
+      winner: carA.chemistry === 'LFP' && carB.chemistry !== 'LFP' ? carA.shortName
+        : carB.chemistry === 'LFP' && carA.chemistry !== 'LFP' ? carB.shortName
+        : carA.batteryKwh >= carB.batteryKwh ? carA.shortName : carB.shortName
+    },
+    {
+      title: 'Autonomía Real en Autovía a 120 km/h (100% → 0%)',
+      valA: `${realHighwayRangeA} km (${carA.highwayKwh100} kWh/100)`,
+      valB: `${realHighwayRangeB} km (${carB.highwayKwh100} kWh/100)`,
+      pctA: (realHighwayRangeA / 420) * 100,
+      pctB: (realHighwayRangeB / 420) * 100,
+      winner: realHighwayRangeA >= realHighwayRangeB ? carA.shortName : carB.shortName
+    },
+    {
+      title: 'Potencia Pico Carga Rápida DC (10% a 80%)',
+      valA: `${carA.dcPeakKw} kW (${carA.dc10to80Min} min)`,
+      valB: `${carB.dcPeakKw} kW (${carB.dc10to80Min} min)`,
+      pctA: (carA.dcPeakKw / 180) * 100,
+      pctB: (carB.dcPeakKw / 180) * 100,
+      winner: carA.dcPeakKw >= carB.dcPeakKw ? carA.shortName : carB.shortName
+    },
+    {
+      title: 'Capacidad Total de Maletero (incl. Frunk) y Longitud',
+      valA: `${cargoA} L (${fmtInt(carA.lengthMm)} mm)`,
+      valB: `${cargoB} L (${fmtInt(carB.lengthMm)} mm)`,
+      pctA: (cargoA / 620) * 100,
+      pctB: (cargoB / 620) * 100,
+      winner: cargoA >= cargoB ? `${carA.shortName} (+Carga)` : `${carB.shortName} (+Carga)`
+    },
+    {
+      title: 'Desembolso Inicial Neto Real (con Wallbox, Ayudas e IRPF)',
+      valA: `${fmtEur(simA.netInitialOutlayAfterTax)} (Bruto ${fmtEur(carA.priceAvg)})`,
+      valB: `${fmtEur(simB.netInitialOutlayAfterTax)} (Bruto ${fmtEur(carB.priceAvg)})`,
+      pctA: (simA.netInitialOutlayAfterTax / 35000) * 100,
+      pctB: (simB.netInitialOutlayAfterTax / 35000) * 100,
+      winner: simA.netInitialOutlayAfterTax <= simB.netInitialOutlayAfterTax ? `${carA.shortName} (Más económico)` : `${carB.shortName} (Más económico)`
+    },
+    {
+      title: 'Coste Patrimonial Neto a 5 Años (Compra + Uso − Reventa)',
+      valA: `${fmtEur(tco5A)} (Viaje 300 km: ${tripA.needsStop ? `${tripA.stopMinutes} min parada` : 'Sin parar'})`,
+      valB: `${fmtEur(tco5B)} (Viaje 300 km: ${tripB.needsStop ? `${tripB.stopMinutes} min parada` : 'Sin parar'})`,
+      pctA: (tco5A / 18000) * 100,
+      pctB: (tco5B / 18000) * 100,
+      winner: tco5A <= tco5B ? `${carA.shortName} (Menor pérdida patrimonial)` : `${carB.shortName} (Menor pérdida patrimonial)`
+    }
+  ];
+
+  container.innerHTML = metrics.map((m) => `
+    <div class="vs-metric-row">
+      <div class="vs-metric-top">
+        <span class="vs-metric-title">${m.title}</span>
+        <span class="tag lfp vs-winner-badge">Ventaja: ${m.winner}</span>
+      </div>
+      <div class="vs-metric-cols">
+        <div class="vs-col">
+          <div class="vs-val-label car-a">${carA.shortName}: ${m.valA}</div>
+          <div class="vs-bar-track">
+            <div class="vs-bar-fill" style="width: ${Math.min(100, Math.max(8, m.pctA)).toFixed(1)}%;"></div>
+          </div>
+        </div>
+        <div class="vs-col">
+          <div class="vs-val-label car-b">${carB.shortName}: ${m.valB}</div>
+          <div class="vs-bar-track">
+            <div class="vs-bar-fill car-b" style="width: ${Math.min(100, Math.max(8, m.pctB)).toFixed(1)}%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ==========================================================================
+   MODULE 4: COMPARADOR VISUAL DE TAMAÑO VS OPEL ASTRA (2000)
+   ========================================================================== */
+function renderDimensionsModule() {
+  const diff = computeDimensionsDiff(state.dimCarId, state.dimAstraKey);
+
+  const elLen = document.getElementById('dim-delta-length');
+  const elWid = document.getElementById('dim-delta-width');
+  const elWb = document.getElementById('dim-delta-wheelbase');
+  const elTrk = document.getElementById('dim-delta-trunk');
+  const elVerdict = document.getElementById('dim-verdict-text');
+
+  const signCm = (mm) => {
+    const cm = (mm / 10).toFixed(1).replace('.', ',');
+    return mm > 0 ? `+${cm} cm` : `${cm} cm`;
+  };
+  const signL = (liters) => (liters > 0 ? `+${liters} L` : `${liters} L`);
+
+  if (elLen) elLen.textContent = signCm(diff.deltaLengthMm);
+  if (elWid) elWid.textContent = signCm(diff.deltaWidthMm);
+  if (elWb) elWb.textContent = signCm(diff.deltaWheelbaseMm);
+  if (elTrk) elTrk.textContent = signL(diff.deltaTrunkLiters);
+
+  if (elVerdict) {
+    elVerdict.innerHTML = `
+      <strong>Comparativa Metrológica (${diff.car.name} vs. ${diff.astra.name}):</strong>
+      ${diff.sizeVerdict}
+      Longitud: <strong class="tabular">${fmtInt(diff.car.lengthMm)} mm</strong> vs <strong class="tabular">${fmtInt(diff.astra.lengthMm)} mm</strong> ·
+      Anchura: <strong class="tabular">${fmtInt(diff.car.widthMm)} mm</strong> vs <strong class="tabular">${fmtInt(diff.astra.widthMm)} mm</strong> ·
+      Capacidad total de carga: <strong class="tabular">${diff.totalCargoLiters} L</strong> vs <strong class="tabular">${diff.astra.trunkLiters} L</strong>.
+    `;
+  }
+
+  renderDimensionsCanvas(diff);
+  renderAllCarsDimensionBars(diff.astra);
+}
+
+function renderDimensionsCanvas(diff) {
+  const canvas = document.getElementById('dimensions-canvas');
+  const setup = setupHiDPICanvas(canvas, 820, 330);
+  if (!setup) return;
+  const { ctx, width, height } = setup;
+
+  const { car, astra } = diff;
+  const maxMm = 4900;
+  const leftZoneW = width * 0.62;
+  const rightZoneX = width * 0.66;
+  const rightZoneW = width * 0.31;
+
+  // Ground line for side profile
+  const groundY = height - 56;
+  const scaleX = (leftZoneW - 60) / maxMm;
+  const startX = 32;
+
+  ctx.strokeStyle = PALETTE.borderStrong;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(startX - 10, groundY);
+  ctx.lineTo(leftZoneW, groundY);
+  ctx.stroke();
+
+  const drawSideProfile = (v, isAstra) => {
+    const lenPx = v.lengthMm * scaleX;
+    const hPx = v.heightMm * scaleX * 1.15;
+    const wbPx = v.wheelbaseMm * scaleX;
+    const wheelR = 21;
+    const frontWheelX = startX + lenPx * 0.19;
+    const rearWheelX = frontWheelX + wbPx;
+
+    ctx.save();
+    if (isAstra) {
+      ctx.strokeStyle = PALETTE.copper;
+      ctx.lineWidth = 2.2;
+      ctx.setLineDash([6, 4]);
+      ctx.fillStyle = 'rgba(180, 83, 9, 0.08)';
+    } else {
+      ctx.strokeStyle = PALETTE.sage;
+      ctx.lineWidth = 2.6;
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(15, 94, 86, 0.16)';
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(startX, groundY - wheelR * 0.9);
+    ctx.lineTo(startX + lenPx * 0.05, groundY - hPx * 0.52);
+    ctx.lineTo(startX + lenPx * 0.28, groundY - hPx * 0.58);
+    ctx.lineTo(startX + lenPx * 0.44, groundY - hPx);
+    ctx.lineTo(startX + lenPx * 0.78, groundY - hPx * 0.96);
+    ctx.lineTo(startX + lenPx * 0.96, groundY - hPx * 0.55);
+    ctx.lineTo(startX + lenPx, groundY - wheelR * 0.9);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    [frontWheelX, rearWheelX].forEach((wx) => {
+      ctx.beginPath();
+      ctx.arc(wx, groundY - wheelR, wheelR, 0, Math.PI * 2);
+      ctx.fillStyle = isAstra ? 'rgba(180, 83, 9, 0.15)' : 'rgba(15, 94, 86, 0.25)';
+      ctx.fill();
+      ctx.stroke();
+    });
+    ctx.restore();
+  };
+
+  drawSideProfile(car, false);
+  drawSideProfile(astra, true);
+
+  ctx.font = '700 11.5px "Plus Jakarta Sans", sans-serif';
+  ctx.fillStyle = PALETTE.sage;
+  ctx.textAlign = 'left';
+  ctx.fillText(`■ ${car.shortName}: ${fmtInt(car.lengthMm)} mm largo × ${fmtInt(car.heightMm)} mm alto (Batalla ${fmtInt(car.wheelbaseMm)} mm)`, startX, 24);
+
+  ctx.fillStyle = PALETTE.copper;
+  ctx.fillText(`▢ ${astra.name}: ${fmtInt(astra.lengthMm)} mm largo × ${fmtInt(astra.heightMm)} mm alto (Batalla ${fmtInt(astra.wheelbaseMm)} mm)`, startX, 44);
+
+  const evEndPx = startX + car.lengthMm * scaleX;
+  const astraEndPx = startX + astra.lengthMm * scaleX;
+  ctx.font = '600 11px "JetBrains Mono", monospace';
+  ctx.fillStyle = PALETTE.sage;
+  ctx.fillText(`${(car.lengthMm / 1000).toFixed(2).replace('.', ',')} m`, evEndPx - 42, groundY + 20);
+  ctx.fillStyle = PALETTE.copper;
+  ctx.fillText(`Astra: ${(astra.lengthMm / 1000).toFixed(2).replace('.', ',')} m`, astraEndPx - 78, groundY + 38);
+
+  // Right zone: Top-down garage footprint comparison
+  const topScaleY = (height - 84) / maxMm;
+  const topScaleX = topScaleY * 1.25;
+  const centerX = rightZoneX + rightZoneW / 2;
+  const topOriginY = 48;
+
+  ctx.fillStyle = PALETTE.inkPrimary;
+  ctx.font = '700 11.5px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Planta en Plaza de Garaje (Ancho × Largo)', centerX, 24);
+
+  const evW = car.widthMm * topScaleX;
+  const evL = car.lengthMm * topScaleY;
+  ctx.fillStyle = 'rgba(15, 94, 86, 0.16)';
+  ctx.strokeStyle = PALETTE.sage;
+  ctx.lineWidth = 2.2;
+  drawRoundedRect(ctx, centerX - evW / 2, topOriginY, evW, evL, 12);
+  ctx.fill();
+  ctx.stroke();
+
+  const asW = astra.widthMm * topScaleX;
+  const asL = astra.lengthMm * topScaleY;
+  ctx.save();
+  ctx.strokeStyle = PALETTE.copper;
+  ctx.lineWidth = 2;
+  ctx.setLineDash([5, 4]);
+  drawRoundedRect(ctx, centerX - asW / 2, topOriginY, asW, asL, 10);
+  ctx.stroke();
+  ctx.restore();
+
+  ctx.font = '600 10.5px "JetBrains Mono", monospace';
+  ctx.fillStyle = PALETTE.inkPrimary;
+  ctx.fillText(`Ancho EV: ${fmtInt(car.widthMm)} mm`, centerX, topOriginY + evL / 2 - 6);
+  ctx.fillStyle = PALETTE.copper;
+  ctx.fillText(`Astra: ${fmtInt(astra.widthMm)} mm`, centerX, topOriginY + evL / 2 + 12);
+}
+
+function renderAllCarsDimensionBars(astra) {
+  const container = document.getElementById('dim-all-cars-bars');
+  if (!container) return;
+
+  const allRows = [
+    {
+      name: `★ ${astra.name}`,
+      lengthMm: astra.lengthMm,
+      cargoL: astra.trunkLiters,
+      isAstra: true
+    },
+    ...VEHICLES.map((v) => ({
+      name: v.shortName,
+      lengthMm: v.lengthMm,
+      cargoL: v.trunkLiters + (v.frunkLiters || 0),
+      isAstra: false,
+      isSelected: v.id === state.dimCarId
+    }))
+  ];
+
+  container.innerHTML = allRows.map((row) => {
+    const pctLen = Math.min(100, (row.lengthMm / 4850) * 100).toFixed(1);
+    const barColor = row.isAstra ? 'var(--accent-secondary)' : row.isSelected ? 'var(--accent-primary)' : '#64748B';
+    const diffMm = row.lengthMm - astra.lengthMm;
+    const diffTxt = row.isAstra ? 'Referencia' : `${diffMm >= 0 ? '+' : ''}${(diffMm / 10).toFixed(1).replace('.', ',')} cm`;
+
+    return `
+      <div class="dim-bar-item">
+        <div style="font-weight: ${row.isAstra || row.isSelected ? '700' : '500'}; color: var(--ink-primary);">
+          ${row.name}
+        </div>
+        <div class="dim-bar-track">
+          <div class="dim-bar-fill" style="width: ${pctLen}%; background: ${barColor};"></div>
+        </div>
+        <div class="tabular" style="text-align: right; font-size: 0.78rem;">
+          <strong>${fmtInt(row.lengthMm)} mm</strong> · ${row.cargoL} L
+          <div style="color: var(--ink-muted);">${diffTxt}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ==========================================================================
+   MODULE 5: SIMULADOR PATRIMONIAL (5-8 AÑOS) + CASCADA IRPF + DEPRECIACIÓN
+   ========================================================================== */
+function renderPatrimonialModule() {
+  const car = VEHICLES.find((v) => v.id === state.simCarId) || VEHICLES[0];
+
+  const chkCambia = document.getElementById('chk-cambia360');
+  const chkScrap = document.getElementById('chk-achatarra');
+  const chkIrpfCar = document.getElementById('chk-irpf-car');
+  const warningBanner = document.getElementById('sim-occasion-warning');
+
+  if (!car.eligibleNewAid) {
+    if (warningBanner) warningBanner.style.display = 'block';
+    [chkCambia, chkScrap, chkIrpfCar].forEach((el) => {
+      if (el) {
+        el.checked = false;
+        el.disabled = true;
+      }
+    });
+  } else {
+    if (warningBanner) warningBanner.style.display = 'none';
+    [chkCambia, chkScrap, chkIrpfCar].forEach((el) => {
+      if (el) el.disabled = false;
+    });
+    if (chkCambia) chkCambia.checked = state.simUseCambia360;
+    if (chkScrap) chkScrap.checked = state.simUseScrappage;
+    if (chkIrpfCar) chkIrpfCar.checked = state.simUseIrpfCar;
+  }
+
+  const priceLabel = document.getElementById('sim-price-label');
+  const wbLabel = document.getElementById('sim-wallbox-label');
+  if (priceLabel) priceLabel.textContent = fmtEur(state.simCustomPrice);
+  if (wbLabel) wbLabel.textContent = fmtEur(state.simWallboxCost);
+
+  const sim = computePatrimonialSimulation({
+    carId: state.simCarId,
+    customPrice: state.simCustomPrice,
+    useCambia360: state.simUseCambia360,
+    useScrappage: state.simUseScrappage,
+    useIrpfCar: state.simUseIrpfCar,
+    wallboxCost: state.simWallboxCost,
+    useWallboxAid: state.simUseWallboxAid,
+    marginalIrpfRate: state.simIrpfBracket,
+    horizonYears: state.simHorizonYears
+  });
+
+  const endIdx = sim.yearlyCurve.years.length - 1;
+  const endResidual = sim.yearlyCurve.selectedResidual[endIdx];
+  const endNetTco = sim.yearlyCurve.selectedNetCost[endIdx];
+
+  SpringAnimator.animateNumber(document.getElementById('res-gross'), sim.grossTotal, fmtEur);
+  SpringAnimator.animateNumber(document.getElementById('res-aids-nominal'), -sim.totalAidsNominal, fmtSignedEur);
+  SpringAnimator.animateNumber(document.getElementById('res-tax-bite'), sim.taxBiteIrpf, fmtSignedEur);
+  SpringAnimator.animateNumber(document.getElementById('res-net-initial'), sim.netInitialOutlayAfterTax, fmtEur);
+  SpringAnimator.animateNumber(document.getElementById('res-residual-val'), endResidual, fmtEur);
+  SpringAnimator.animateNumber(document.getElementById('res-tco-net'), endNetTco, fmtEur);
+
+  const breakdownEl = document.getElementById('sim-breakdown-text');
+  if (breakdownEl) {
+    const m3EndCost = sim.yearlyCurve.model3UsedNetCost[endIdx];
+    const iceEndCost = sim.yearlyCurve.iceNetCost[endIdx];
+    breakdownEl.innerHTML = `
+      <strong>Auditoría Fiscal y Patrimonial a ${state.simHorizonYears} años (${sim.car.shortName}):</strong>
+      Subvenciones directas sujetas a IRPF: <strong class="tabular">${fmtEur(sim.taxableSubsidies)}</strong>
+      (Coche: ${fmtEur(sim.directCarSub)} + Wallbox Cambia 360: ${fmtEur(sim.wallboxCambia)}) →
+      Retención en Renta al ${state.simIrpfBracket}%: <strong class="tabular" style="color:var(--accent-secondary);">+${fmtEur(sim.taxBiteIrpf)}</strong>.
+      Deducciones estatales exentas (15% IRPF): <strong class="tabular" style="color:var(--accent-primary);">-${fmtEur(sim.irpfCarDed + sim.wallboxIrpf)}</strong>.
+      <div style="margin-top:0.35rem; color:var(--ink-secondary);">
+        Al cabo de <strong>${state.simHorizonYears} años</strong>, tu coste patrimonial neto acumulado (compra neta + energía/taller − valor residual de reventa de ${fmtEur(endResidual)}) es de
+        <strong class="tabular">${fmtEur(endNetTco)}</strong>, frente a <strong class="tabular">${fmtEur(m3EndCost)}</strong> en un Tesla Model 3 RWD Ocasión y
+        <strong class="tabular">${fmtEur(iceEndCost)}</strong> en un gasolina equivalente.
+      </div>
+    `;
+  }
+
+  renderWaterfallCanvas(sim);
+  renderDepreciationCanvas(sim);
+}
+
+function renderWaterfallCanvas(sim) {
+  const canvas = document.getElementById('patrimonial-waterfall-canvas');
+  const setup = setupHiDPICanvas(canvas, 660, 260);
+  if (!setup) return;
+  const { ctx, width, height } = setup;
+
+  const pad = { top: 34, right: 20, bottom: 52, left: 68 };
+  const plotW = width - pad.left - pad.right;
+  const plotH = height - pad.top - pad.bottom;
+
+  const steps = [
+    { lines: ['Factura', 'Bruta'], val: sim.grossTotal, color: '#475569' },
+    { lines: ['Ayudas', 'Coche+WB'], val: -sim.taxableSubsidies, color: PALETTE.sage },
+    { lines: ['Deducción', '15% IRPF'], val: -(sim.irpfCarDed + sim.wallboxIrpf), color: PALETTE.sageMid },
+    { lines: ['Mordisco', 'IRPF'], val: sim.taxBiteIrpf, color: PALETTE.copper },
+    { lines: ['Desembolso', 'Neto Final'], val: sim.netInitialOutlayAfterTax, color: PALETTE.inkPrimary }
+  ];
+
+  const maxVal = niceMax(Math.max(sim.grossTotal, sim.netInitialOutlayAfterTax, 10000) * 1.15, 4000);
+
+  // Grid
+  ctx.strokeStyle = PALETTE.borderSubtle;
+  ctx.lineWidth = 1;
+  ctx.font = '500 10.5px "JetBrains Mono", monospace';
+  ctx.fillStyle = PALETTE.inkMuted;
+  ctx.textAlign = 'right';
+
+  for (let i = 0; i <= 4; i++) {
+    const v = Math.round((maxVal / 4) * i);
+    const y = pad.top + plotH - (v / maxVal) * plotH;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(width - pad.right, y);
+    ctx.stroke();
+    ctx.fillText(fmtEur(v), pad.left - 8, y + 3.5);
+  }
+
+  const colW = plotW / steps.length;
+  const barW = Math.min(64, colW * 0.55);
+
+  steps.forEach((st, idx) => {
+    const absVal = Math.abs(st.val);
+    const barH = Math.max(6, (absVal / maxVal) * plotH);
+    const centerX = pad.left + colW * idx + colW / 2;
+    const x = centerX - barW / 2;
+    const y = pad.top + plotH - barH;
+
+    ctx.fillStyle = st.color;
+    drawRoundedRect(ctx, x, y, barW, barH, 5);
+    ctx.fill();
+
+    ctx.fillStyle = st.color;
+    ctx.font = '700 11px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    const txt = idx === 0 || idx === 4 ? fmtEur(st.val) : fmtSignedEur(st.val);
+    ctx.fillText(txt, centerX, y - 8);
+
+    // 2-line stacked X-axis labels so adjacent columns never collide
+    ctx.fillStyle = PALETTE.inkSecondary;
+    ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText(st.lines[0], centerX, pad.top + plotH + 18);
+    ctx.fillText(st.lines[1], centerX, pad.top + plotH + 32);
+  });
+}
+
+function renderDepreciationCanvas(sim) {
+  const canvas = document.getElementById('depreciation-curve-canvas');
+  const setup = setupHiDPICanvas(canvas, 660, 295);
+  if (!setup) return;
+  const { ctx, width, height } = setup;
+
+  const { years, selectedResidual, selectedNetCost, model3UsedNetCost, iceNetCost } = sim.yearlyCurve;
+  const pad = { top: 56, right: 24, bottom: 42, left: 68 };
+  const plotW = width - pad.left - pad.right;
+  const plotH = height - pad.top - pad.bottom;
+
+  const allVals = [...selectedResidual, ...selectedNetCost, ...model3UsedNetCost, ...iceNetCost];
+  const maxVal = niceMax(Math.max(...allVals, 20000) * 1.12, 4000);
+
+  // 2x2 Grid Legend at top (zero right-edge clipping)
+  ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'left';
+  const legends = [
+    { label: `Coste Neto ${sim.car.shortName}`, color: PALETTE.sage },
+    { label: 'Coste Neto Model 3 Ocasión', color: PALETTE.copper },
+    { label: 'Coste Neto Gasolina', color: PALETTE.danger },
+    { label: 'Valor Residual Reventa', color: '#64748B' }
+  ];
+  const colStep = Math.floor(plotW * 0.5);
+  legends.forEach((lg, i) => {
+    const col = i % 2;
+    const row = Math.floor(i / 2);
+    const lx = pad.left + col * colStep;
+    const ly = 10 + row * 19;
+    ctx.fillStyle = lg.color;
+    ctx.fillRect(lx, ly, 10, 10);
+    ctx.fillStyle = PALETTE.inkPrimary;
+    ctx.fillText(lg.label, lx + 15, ly + 9);
+  });
+
+  // Gridlines
+  ctx.strokeStyle = PALETTE.borderSubtle;
+  ctx.lineWidth = 1;
+  ctx.font = '500 10.5px "JetBrains Mono", monospace';
+  ctx.fillStyle = PALETTE.inkMuted;
+  ctx.textAlign = 'right';
+
+  for (let i = 0; i <= 4; i++) {
+    const v = Math.round((maxVal / 4) * i);
+    const y = pad.top + plotH - (v / maxVal) * plotH;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(width - pad.right, y);
+    ctx.stroke();
+    ctx.fillText(fmtEur(v), pad.left - 8, y + 3.5);
+  }
+
+  const maxYr = years[years.length - 1] || 6;
+  ctx.textAlign = 'center';
+  years.forEach((yr) => {
+    const x = pad.left + (yr / maxYr) * plotW;
+    ctx.fillText(`Año ${yr}`, x, height - 14);
+  });
+
+  const drawSeries = (arr, color, dashed = false) => {
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    if (dashed) ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    arr.forEach((v, idx) => {
+      const x = pad.left + (idx / maxYr) * plotW;
+      const y = pad.top + plotH - (Math.max(0, v) / maxVal) * plotH;
+      if (idx === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    ctx.restore();
+  };
+
+  drawSeries(selectedResidual, '#64748B', true);
+  drawSeries(selectedNetCost, PALETTE.sage, false);
+  drawSeries(model3UsedNetCost, PALETTE.copper, false);
+  drawSeries(iceNetCost, PALETTE.danger, true);
+}
+
+/* ==========================================================================
+   MODULE 6: SIMULADOR VIAJE 300 KM + GENERADOR LEGAL ART. 17.5 LPH
+   ========================================================================== */
+function renderTripModule() {
+  const speedLabel = document.getElementById('trip-speed-val');
+  if (speedLabel) speedLabel.textContent = `${state.tripSpeed} km/h`;
+
+  const trip = computeHighwayTrip300km({
+    carId: state.tripCarId,
+    speedKmh: state.tripSpeed,
+    weather: state.tripWeather
+  });
+
+  const panel = document.getElementById('trip-results-panel');
+  if (panel) {
+    const stopBadge = trip.needsStop
+      ? `<span class="tag nmc">Parada breve necesaria: ${trip.stopMinutes} min (+${trip.energyToChargeKwh} kWh en DC)</span>`
+      : `<span class="tag lfp">Directo sin parar · Llegas con ${trip.arrivalSocNoStop}% de batería</span>`;
+
+    panel.innerHTML = `
+      <div class="badge-row" style="margin-bottom: 0.65rem;">
+        ${stopBadge}
+        <span class="tag tabular">${trip.consumptionKwh100} kWh/100 km</span>
+      </div>
+      <div class="spec-grid-mini" style="margin-bottom: 0.9rem;">
+        <div><span style="color:var(--ink-muted);">Energía Ruta 300 km:</span> <strong class="tabular">${trip.tripEnergyKwh} kWh</strong></div>
+        <div><span style="color:var(--ink-muted);">Batería Útil (96%):</span> <strong class="tabular">${trip.usableBatteryKwh} kWh</strong></div>
+        <div><span style="color:var(--ink-muted);">SoC Llegada sin parar:</span> <strong class="tabular" style="color:${trip.needsStop ? 'var(--accent-secondary)' : 'var(--accent-primary)'};">${trip.arrivalSocNoStop}%</strong></div>
+        <div><span style="color:var(--ink-muted);">Tiempo Carga DC:</span> <strong class="tabular">${trip.needsStop ? `${trip.stopMinutes} min` : '0 min (En destino)'}</strong></div>
+      </div>
+
+      <div style="background: var(--bg-canvas); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 0.8rem; font-size: 0.84rem;">
+        <div style="font-weight: 700; margin-bottom: 0.35rem; color: var(--ink-primary);">
+          Comparativa Tarifaria Anual (Garaje Madrid) y Recarga en Ruta (300 km):
+        </div>
+        <ul style="margin: 0; padding-left: 1.15rem; color: var(--ink-secondary); display: grid; gap: 0.25rem;">
+          <li><strong>Garaje 5.000 km/año (Valle EV):</strong> <strong class="tabular" style="color:var(--accent-primary);">~${trip.annualHomeCostEur} €/año</strong> con Octopus Intelligent Go (0,068 €/kWh) o ~60 €/año con Iberdrola Plan Vehículo Eléctrico (0,08 €/kWh).</li>
+          <li><strong>Coste energético puntual de los 300 km en cargador público DC:</strong> Tesla Supercharger: <strong class="tabular">${trip.tripCostByNetwork.tesla.toFixed(2).replace('.', ',')} €</strong> (0,42 €/kWh) · Zunder / Wenea: <strong class="tabular">${trip.tripCostByNetwork.zunder.toFixed(2).replace('.', ',')} €</strong> (0,50 €/kWh) · Ionity Libre: <strong class="tabular">${trip.tripCostByNetwork.ionity.toFixed(2).replace('.', ',')} €</strong> (0,65 €/kWh).</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  renderTripCanvas(trip);
+}
+
+function renderTripCanvas(trip) {
+  const canvas = document.getElementById('trip-canvas');
+  const setup = setupHiDPICanvas(canvas, 600, 310);
+  if (!setup) return;
+  const { ctx, width } = setup;
+
+  const pad = { top: 24, right: 20, bottom: 24, left: 20 };
+  const innerW = width - pad.left - pad.right;
+
+  ctx.fillStyle = PALETTE.inkPrimary;
+  ctx.font = '700 11.5px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(`Balance Energético en Autovía (300 km a ${trip.speedKmh} km/h): ${trip.car.shortName}`, pad.left, 20);
+
+  // Consumption text drawn in high-contrast dark ink above the gauge bar (never white-on-cream)
+  const usedRatio = Math.min(1, trip.tripEnergyKwh / trip.usableBatteryKwh);
+  const usedPct = Math.round((trip.tripEnergyKwh / trip.usableBatteryKwh) * 100);
+  ctx.fillStyle = PALETTE.inkSecondary;
+  ctx.font = '600 10.5px "JetBrains Mono", monospace';
+  ctx.fillText(
+    `Consumido en 300 km: ${trip.tripEnergyKwh} kWh de ${trip.usableBatteryKwh} kWh útiles (${usedPct}% SoC requerido)`,
+    pad.left,
+    37
+  );
+
+  // Horizontal battery gauge bar
+  const barY = 44;
+  const barH = 24;
+  ctx.fillStyle = PALETTE.bgSurface;
+  drawRoundedRect(ctx, pad.left, barY, innerW, barH, 7);
+  ctx.fill();
+
+  const usedW = Math.max(12, usedRatio * innerW);
+  ctx.fillStyle = trip.needsStop ? PALETTE.copper : PALETTE.sage;
+  drawRoundedRect(ctx, pad.left, barY, usedW, barH, 7);
+  ctx.fill();
+
+  // Compare all 4 protagonists on this same 300 km route
+  const compareCars = VEHICLES.filter((v) => v.isProtagonist);
+  ctx.fillStyle = PALETTE.inkSecondary;
+  ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('Comparativa de llegada en los 4 protagonistas a esta misma velocidad y clima:', pad.left, 90);
+
+  compareCars.forEach((c, idx) => {
+    const t = computeHighwayTrip300km({ carId: c.id, speedKmh: state.tripSpeed, weather: state.tripWeather });
+    const rowY = 102 + idx * 28;
+    const labelW = 138;
+    const trackW = innerW - labelW - 110;
+    const remPct = Math.max(0, t.arrivalSocNoStop);
+
+    ctx.fillStyle = PALETTE.inkPrimary;
+    ctx.font = '600 10.5px "Plus Jakarta Sans", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(c.shortName, pad.left, rowY + 12);
+
+    ctx.fillStyle = PALETTE.bgSurface;
+    drawRoundedRect(ctx, pad.left + labelW, rowY, trackW, 15, 5);
+    ctx.fill();
+
+    const fillW = Math.max(6, (Math.min(100, remPct) / 100) * trackW);
+    ctx.fillStyle = t.needsStop ? PALETTE.copper : PALETTE.sage;
+    drawRoundedRect(ctx, pad.left + labelW, rowY, fillW, 15, 5);
+    ctx.fill();
+
+    ctx.fillStyle = t.needsStop ? PALETTE.copper : PALETTE.sage;
+    ctx.font = '700 10px "JetBrains Mono", monospace';
+    ctx.textAlign = 'right';
+    const statusTxt = t.needsStop ? `Parar ${t.stopMinutes} min` : `Llega con ${t.arrivalSocNoStop}%`;
+    ctx.fillText(statusTxt, width - pad.right, rowY + 12);
+  });
+}
+
+function renderLphDocument() {
+  const sheet = document.getElementById('lph-print-sheet');
+  if (!sheet) return;
+
+  const docText = generateLph175Document({
+    ownerName: document.getElementById('lph-owner-name')?.value || 'Nombre y Apellidos del Propietario',
+    ownerDni: document.getElementById('lph-owner-dni')?.value || '00000000X',
+    communityAddress: document.getElementById('lph-address')?.value || 'Dirección de la Comunidad, Madrid',
+    parkingSpot: document.getElementById('lph-spot')?.value || 'Plaza de garaje nº __',
+    recipientRole: document.getElementById('lph-recipient')?.value || 'Sr./Sra. Presidente/a de la Comunidad',
+    wallboxPowerKw: document.getElementById('lph-power')?.value || '7,4 kW (Monofásico 32 A)',
+    installerName: document.getElementById('lph-installer')?.value || 'Empresa Instaladora Autorizada',
+    plannedDate: document.getElementById('lph-date')?.value || '2026-12-15'
+  });
+
+  sheet.textContent = docText;
+}
+
+/* ==========================================================================
+   SIDEBAR SCROLL-SPY & EVENT BINDINGS
+   ========================================================================== */
+function initSidebarScrollSpy() {
+  const navLinks = Array.from(document.querySelectorAll('.side-nav-link'));
+  if (!navLinks.length) return;
+
+  const sectionIds = [
+    'hero',
+    'mod-termodinamica',
+    'mod-quimica',
+    'mod-catalogo',
+    'mod-dimensiones',
+    'mod-patrimonio',
+    'mod-logistica'
+  ];
+
+  const setActiveLink = (sectionId) => {
+    navLinks.forEach((link) => {
+      const isMatch = link.getAttribute('data-section') === sectionId || link.getAttribute('href') === `#${sectionId}`;
+      link.classList.toggle('is-active', isMatch);
+    });
+  };
+
+  const updateActiveOnScroll = () => {
+    let activeId = sectionIds[0];
+    const triggerLine = 220;
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= triggerLine) {
+        activeId = id;
+      }
+    }
+    setActiveLink(activeId);
+  };
+
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      const targetId = link.getAttribute('data-section');
+      if (targetId) setActiveLink(targetId);
+    });
+  });
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('scroll', updateActiveOnScroll, { passive: true });
+    updateActiveOnScroll();
+  }
+}
+
+function copyTextWithFallback(text) {
+  if (typeof document === 'undefined') return false;
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.top = '-9999px';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  let ok = false;
+  try {
+    ok = document.execCommand('copy');
+  } catch {
+    ok = false;
+  }
+  document.body.removeChild(textarea);
+  return ok;
+}
+
+function bindAllEvents() {
+  SpringAnimator.bindTactilePress(document);
+  initSidebarScrollSpy();
+
+  // Module 1
+  document.getElementById('tab-bev')?.addEventListener('click', () => {
+    state.techTab = 'bev';
+    updateTechDetailPanel();
+  });
+  document.getElementById('tab-phev')?.addEventListener('click', () => {
+    state.techTab = 'phev';
+    updateTechDetailPanel();
+  });
+  document.getElementById('tco-mode-select')?.addEventListener('change', (e) => {
+    state.tcoMode = e.target.value;
+    renderTcoCanvas();
+  });
+
+  // Module 2
+  document.getElementById('chem-soc-slider')?.addEventListener('input', (e) => {
+    state.chemSoc = Number(e.target.value);
+    renderElectrochemistryModule();
+  });
+  document.getElementById('chem-temp-select')?.addEventListener('change', (e) => {
+    state.chemTemp = Number(e.target.value);
+    renderElectrochemistryModule();
+  });
+
+  const selectChemCard = (chem) => {
+    state.selectedChemFocus = chem;
+    renderElectrochemistryModule();
+  };
+
+  const cardLfp = document.getElementById('card-lfp');
+  const cardNmc = document.getElementById('card-nmc');
+  cardLfp?.addEventListener('click', () => selectChemCard('LFP'));
+  cardLfp?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      selectChemCard('LFP');
+    }
+  });
+  cardNmc?.addEventListener('click', () => selectChemCard('NMC'));
+  cardNmc?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      selectChemCard('NMC');
+    }
+  });
+
+  // Module 3 Filters & Versus
+  ['ALL', 'LFP', 'NMC'].forEach((chem) => {
+    document.getElementById(`filter-chem-${chem}`)?.addEventListener('click', (e) => {
+      state.catalogChem = chem;
+      document.querySelectorAll('.filter-pill').forEach((btn) => btn.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      renderCatalogGrid();
+    });
+  });
+
+  document.getElementById('filter-condition')?.addEventListener('change', (e) => {
+    state.catalogCondition = e.target.value;
+    renderCatalogGrid();
+  });
+
+  document.getElementById('filter-budget')?.addEventListener('input', (e) => {
+    state.catalogBudget = Number(e.target.value);
+    renderCatalogGrid();
+  });
+
+  document.getElementById('versus-car-a')?.addEventListener('change', (e) => {
+    state.versusCarA = e.target.value;
+    renderVersusComparison();
+  });
+  document.getElementById('versus-car-b')?.addEventListener('change', (e) => {
+    state.versusCarB = e.target.value;
+    renderVersusComparison();
+  });
+
+  const setVersusPreset = (a, b) => {
+    state.versusCarA = a;
+    state.versusCarB = b;
+    const selA = document.getElementById('versus-car-a');
+    const selB = document.getElementById('versus-car-b');
+    if (selA) selA.value = a;
+    if (selB) selB.value = b;
+    renderVersusComparison();
+  };
+
+  document.getElementById('vs-preset-r5-surf')?.addEventListener('click', () =>
+    setVersusPreset('renault-5-techno', 'byd-dolphin-surf')
+  );
+  document.getElementById('vs-preset-mg4-m3')?.addEventListener('click', () =>
+    setVersusPreset('mg4-electric', 'tesla-model3-rwd')
+  );
+  document.getElementById('vs-preset-r5-m3')?.addEventListener('click', () =>
+    setVersusPreset('renault-5-techno', 'tesla-model3-rwd')
+  );
+
+  // Delegated clicks on Protagonist & Catalog cards
+  document.addEventListener('click', (e) => {
+    const simBtn = e.target.closest?.('.js-load-sim');
+    if (simBtn) {
+      const carId = simBtn.dataset.carId;
+      const car = VEHICLES.find((v) => v.id === carId);
+      if (car) {
+        state.simCarId = car.id;
+        state.simCustomPrice = car.priceAvg;
+        const simSel = document.getElementById('sim-car-select');
+        const priceSlider = document.getElementById('sim-custom-price');
+        if (simSel) simSel.value = car.id;
+        if (priceSlider) priceSlider.value = String(car.priceAvg);
+        renderPatrimonialModule();
+        document.getElementById('mod-patrimonio')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    const dimBtn = e.target.closest?.('.js-load-dim');
+    if (dimBtn) {
+      const carId = dimBtn.dataset.carId;
+      state.dimCarId = carId;
+      const dimSel = document.getElementById('dim-car-select');
+      if (dimSel) dimSel.value = carId;
+      renderDimensionsModule();
+      document.getElementById('mod-dimensiones')?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    const vsBtn = e.target.closest?.('.js-load-vs');
+    if (vsBtn) {
+      const carId = vsBtn.dataset.carId;
+      state.versusCarB = carId;
+      const selB = document.getElementById('versus-car-b');
+      if (selB) selB.value = carId;
+      renderVersusComparison();
+      document.getElementById('versus-car-a')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  // Module 4
+  document.getElementById('dim-car-select')?.addEventListener('change', (e) => {
+    state.dimCarId = e.target.value;
+    renderDimensionsModule();
+  });
+  document.getElementById('dim-astra-select')?.addEventListener('change', (e) => {
+    state.dimAstraKey = e.target.value;
+    renderDimensionsModule();
+  });
+
+  // Module 5
+  document.getElementById('sim-car-select')?.addEventListener('change', (e) => {
+    state.simCarId = e.target.value;
+    const car = VEHICLES.find((v) => v.id === state.simCarId);
+    if (car) {
+      state.simCustomPrice = car.priceAvg;
+      const slider = document.getElementById('sim-custom-price');
+      if (slider) slider.value = String(car.priceAvg);
+    }
+    renderPatrimonialModule();
+  });
+
+  document.getElementById('sim-custom-price')?.addEventListener('input', (e) => {
+    state.simCustomPrice = Number(e.target.value);
+    renderPatrimonialModule();
+  });
+
+  document.getElementById('chk-cambia360')?.addEventListener('change', (e) => {
+    state.simUseCambia360 = e.target.checked;
+    renderPatrimonialModule();
+  });
+  document.getElementById('chk-achatarra')?.addEventListener('change', (e) => {
+    state.simUseScrappage = e.target.checked;
+    renderPatrimonialModule();
+  });
+  document.getElementById('chk-irpf-car')?.addEventListener('change', (e) => {
+    state.simUseIrpfCar = e.target.checked;
+    renderPatrimonialModule();
+  });
+  document.getElementById('sim-wallbox-cost')?.addEventListener('input', (e) => {
+    state.simWallboxCost = Number(e.target.value);
+    renderPatrimonialModule();
+  });
+  document.getElementById('chk-wallbox-aid')?.addEventListener('change', (e) => {
+    state.simUseWallboxAid = e.target.checked;
+    renderPatrimonialModule();
+  });
+  document.getElementById('sim-irpf-bracket')?.addEventListener('change', (e) => {
+    state.simIrpfBracket = Number(e.target.value);
+    renderPatrimonialModule();
+  });
+  document.getElementById('sim-horizon-years')?.addEventListener('change', (e) => {
+    state.simHorizonYears = Number(e.target.value);
+    renderPatrimonialModule();
+  });
+
+  // Module 6
+  document.getElementById('trip-car-select')?.addEventListener('change', (e) => {
+    state.tripCarId = e.target.value;
+    renderTripModule();
+  });
+  document.getElementById('trip-speed-slider')?.addEventListener('input', (e) => {
+    state.tripSpeed = Number(e.target.value);
+    renderTripModule();
+  });
+  document.getElementById('trip-weather-select')?.addEventListener('change', (e) => {
+    state.tripWeather = e.target.value;
+    renderTripModule();
+  });
+
+  [
+    'lph-owner-name',
+    'lph-owner-dni',
+    'lph-address',
+    'lph-spot',
+    'lph-recipient',
+    'lph-power',
+    'lph-installer',
+    'lph-date'
+  ].forEach((id) => {
+    document.getElementById(id)?.addEventListener('input', renderLphDocument);
+    document.getElementById(id)?.addEventListener('change', renderLphDocument);
+  });
+
+  document.getElementById('btn-print-lph')?.addEventListener('click', () => {
+    if (typeof window !== 'undefined' && typeof window.print === 'function') {
+      window.print();
+    }
+  });
+
+  document.getElementById('btn-copy-lph')?.addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    const text = document.getElementById('lph-print-sheet')?.textContent || '';
+    const prev = 'Copiar Escrito';
+    let copied = false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        copied = true;
+      }
+    } catch {
+      copied = false;
+    }
+    if (!copied) {
+      copied = copyTextWithFallback(text);
+    }
+    btn.textContent = copied ? '✓ Escrito Copiado' : 'Selecciona e imprime en A4';
+    setTimeout(() => { btn.textContent = prev; }, 2000);
+  });
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('resize', () => {
+      renderTcoCanvas();
+      renderElectrochemistryModule();
+      renderDimensionsModule();
+      renderPatrimonialModule();
+      renderTripModule();
+    });
+  }
+}
+function initApp() {
+  if (typeof document === 'undefined') return;
+  populateVehicleSelects();
+  updateTechDetailPanel();
+  renderTcoCanvas();
+  renderElectrochemistryModule();
+  renderProtagonistGrid();
+  renderCatalogGrid();
+  renderVersusComparison();
+  renderDimensionsModule();
+  renderPatrimonialModule();
+  renderTripModule();
+  renderLphDocument();
+  bindAllEvents();
+}
+
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
+  }
+}
+
+})();
+  </script>
+</body>
+</html>
